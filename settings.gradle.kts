@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "CommonsAndroidNative"
 include(":app")
 include(":maps")
+include(":message")
