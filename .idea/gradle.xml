@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/maps" />
             <option value="$PROJECT_DIR$/message" />
+            <option value="$PROJECT_DIR$/payment" />
           </set>
         </option>
       </GradleProjectSettings>
