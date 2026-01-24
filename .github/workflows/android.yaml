@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           lfs: true
@@ -37,7 +37,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -50,22 +50,24 @@ jobs:
         run: ./gradlew build
 
       - name: ⬆️ Upload Debugs AARs as Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: debugs-aars
           path: |
             ./maps/build/outputs/aar/maps-debug.aar
             ./message/build/outputs/aar/message-debug.aar
             ./payment/build/outputs/aar/payment-debug.aar
+            ./payment/build/outputs/aar/authentication-debug.aar
 
       - name: ⬆️ Upload Release AARs as Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: release-aars
           path: |
             ./maps/build/outputs/aar/maps-release.aar
             ./message/build/outputs/aar/message-release.aar
             ./payment/build/outputs/aar/payment-release.aar
+            ./payment/build/outputs/aar/authentication-debug.aar
 
       - name: 📦 Publish maps if changed
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && contains(steps.changed_modules.outputs.all_changed_files, 'maps/')
@@ -84,6 +86,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew :payment:publish
+
+      - name: 📦 Publish authentication if changed
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && contains(steps.changed_modules.outputs.all_changed_files, 'authentication/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew :authentication:publish
 
       - name: Configure GitHub Access
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
@@ -113,4 +121,5 @@ jobs:
             --notes "Release automático. Mudanças detectadas em: ${{ steps.changed_modules.outputs.all_changed_files }}." \
             ./maps/build/outputs/aar/maps-release.aar \
             ./message/build/outputs/aar/message-release.aar \
-            ./payment/build/outputs/aar/payment-release.aar
+            ./payment/build/outputs/aar/payment-release.aar \
+            ./payment/build/outputs/aar/authentication-release.aar
