@@ -20,8 +20,8 @@ dependencyResolutionManagement {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/CommonsAndroidNative")
             credentials {
-                username = providers.gradleProperty("gpr.user").orNull ?: providers.environmentVariable("GITHUB_ACTOR").orNull
-                password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GITHUB_TOKEN").orNull
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
