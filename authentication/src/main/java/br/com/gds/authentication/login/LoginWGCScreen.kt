@@ -7,8 +7,6 @@ import br.com.wgc.ds_templates.screens.login.screen.LoginScreenTemplate
 
 @Composable
 fun LoginWGCScreen(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     viewModel: LoginWGCViewModel = hiltViewModel()
-) {
-    LoginScreenTemplate(modifier = modifier, viewModel = viewModel)
-}
+) = LoginScreenTemplate(modifier = modifier, viewModel = viewModel)
