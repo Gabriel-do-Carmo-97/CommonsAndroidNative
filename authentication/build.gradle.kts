@@ -45,7 +45,6 @@ dependencies {
     implementation(libs.ds.templates)
     implementation(libs.myAndroidCore)
     implementation(libs.myFirebaseSdk)
-
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
