@@ -38,8 +38,9 @@ android {
         singleVariant("release")
     }
 }
-
 dependencies {
+
+
     implementation(libs.design.system)
     implementation(libs.ds.templates)
     implementation(libs.myAndroidCore)
