@@ -130,4 +130,4 @@ jobs:
             ./maps/build/outputs/aar/maps-release.aar \
             ./message/build/outputs/aar/message-release.aar \
             ./payment/build/outputs/aar/payment-release.aar \
-            ./payment/build/outputs/aar/authentication-release.aar
+            ./authentication/build/outputs/aar/authentication-release.aar
