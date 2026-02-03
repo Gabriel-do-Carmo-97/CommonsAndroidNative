@@ -27,8 +27,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+        }
     }
     publishing {
         singleVariant("release")
@@ -62,8 +64,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/CommonsAndroidNative")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = System.getenv("GPR_USER") ?: findProperty("gpr.user") as? String
+                password = System.getenv("GPR_KEY") ?: findProperty("gpr.key") as? String
             }
         }
     }

@@ -47,6 +47,10 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Build with Gradle
+        # Passa os secrets do GitHub como variáveis de ambiente para o comando
+        env:
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
         run: ./gradlew build
 
       - name: ⬆️ Upload Debugs AARs as Artifacts
