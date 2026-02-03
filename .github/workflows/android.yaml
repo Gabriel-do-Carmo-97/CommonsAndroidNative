@@ -8,38 +8,36 @@ on:
 
 jobs:
   build_Test_and_Publish:
+
     name: Build, Test and Publish
     runs-on: ubuntu-latest
 
-    # Permissões para que a Action possa escrever pacotes no GitHub Packages e criar tags/releases
     permissions:
       contents: write
       packages: write
 
     steps:
-      - name: ⬇️ Checkout repository
-        uses: actions/checkout@v4 # Versão atualizada
+      - name: Checkout repository
+        uses: actions/checkout@v6
         with:
-          # fetch-depth: 0 é necessário para que a action de detecção de mudanças possa comparar o histórico completo
           fetch-depth: 0
           lfs: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🔎 Detect changed modules
+      - name: Detect changed modules
         id: changed_modules
-        uses: tj-actions/changed-files@v44 # Versão atualizada
+        uses: tj-actions/changed-files@v47
         with:
-          # Adicione todos os módulos que podem ser publicados
           files: |
             maps/**
             message/**
             payment/**
-            authentication/**
 
-      - name:  granting permission to gradlew
+      - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: ☕️ Set up JDK 17
-        uses: actions/setup-java@v4 # Versão atualizada
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -48,88 +46,91 @@ jobs:
       - name: 🤖 Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # =================================================================
-      # PASSO ÚNICO E CORRIGIDO PARA BUILD E PUBLISH
-      # Aqui, definimos as credenciais uma vez e executamos todos os comandos Gradle.
-      # =================================================================
-      - name: 🚀 Build and Publish changed modules
-        # Fornece as credenciais corretas para TODAS as tarefas Gradle abaixo
+      - name: Build with Gradle
+        # Passa os secrets do GitHub como variáveis de ambiente para o comando
         env:
           GPR_USER: ${{ secrets.GPR_USER }}
           GPR_KEY: ${{ secrets.GPR_KEY }}
-        run: |
-          # 1. Build do projeto inteiro (lê dependências e compila)
-          echo "Building the entire project..."
-          ./gradlew build
+        run: ./gradlew build
 
-          # 2. Publica somente os módulos que mudaram, apenas em push na branch master
-          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/master" ]]; then
-            echo "Starting publication process for changed modules..."
-          
-            # Condições para publicar cada módulo
-            if [[ "${{ steps.changed_modules.outputs.maps_any_changed }}" == "true" ]]; then
-              echo "Publishing 'maps' module..."
-              ./gradlew :maps:publish
-            fi
+      - name: ⬆️ Upload Debugs AARs as Artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: debugs-aars
+          path: |
+            ./maps/build/outputs/aar/maps-debug.aar
+            ./message/build/outputs/aar/message-debug.aar
+            ./payment/build/outputs/aar/payment-debug.aar
+            ./payment/build/outputs/aar/authentication-debug.aar
 
-            if [[ "${{ steps.changed_modules.outputs.message_any_changed }}" == "true" ]]; then
-              echo "Publishing 'message' module..."
-              ./gradlew :message:publish
-            fi
-
-            if [[ "${{ steps.changed_modules.outputs.payment_any_changed }}" == "true" ]]; then
-              echo "Publishing 'payment' module..."
-              ./gradlew :payment:publish
-            fi
-
-            if [[ "${{ steps.changed_modules.outputs.authentication_any_changed }}" == "true" ]]; then
-              echo "Publishing 'authentication' module..."
-              ./gradlew :authentication:publish
-            fi
-          else
-            echo "Skipping publication: not a push to master branch."
-          fi
-
-      - name: ⬆️ Upload AARs as Artifacts
-        # Condição para rodar somente se alguma mudança foi detectada, evitando uploads desnecessários
-        if: steps.changed_modules.outputs.any_changed == 'true'
-        uses: actions/upload-artifact@v4 # Versão atualizada
+      - name: ⬆️ Upload Release AARs as Artifacts
+        uses: actions/upload-artifact@v6
         with:
           name: release-aars
           path: |
             ./maps/build/outputs/aar/maps-release.aar
             ./message/build/outputs/aar/message-release.aar
             ./payment/build/outputs/aar/payment-release.aar
-            ./authentication/build/outputs/aar/authentication-release.aar
+            ./payment/build/outputs/aar/authentication-debug.aar
 
-      # =================================================================
-      # PASSOS PARA TAG E RELEASE (EXECUTADOS APENAS SE HOUVER MUDANÇAS)
-      # =================================================================
-      - name: ✍️ Create Git Tag and Release
-        # Condição complexa para garantir que só rode em push na master e se houver mudanças
+      - name: 📦 Publish maps if changed
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && contains(steps.changed_modules.outputs.all_changed_files, 'maps/')
+        env:
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
+        run: ./gradlew :maps:publish
+
+      - name: 📦 Publish message if changed
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && contains(steps.changed_modules.outputs.all_changed_files, 'message/')
+        env:
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
+        run: ./gradlew :message:publish
+
+      - name: 📦 Publish payment if changed
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && contains(steps.changed_modules.outputs.all_changed_files, 'payment/')
+        env:
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
+        run: ./gradlew :payment:publish
+
+      - name: 📦 Publish authentication if changed
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && contains(steps.changed_modules.outputs.all_changed_files, 'authentication/')
+        env:
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
+        run: ./gradlew :authentication:publish
+
+      - name: Configure GitHub Access
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
         env:
-          # O comando 'gh release create' usa a variável GH_TOKEN por padrão
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
         run: |
-          # Configura o Git com um usuário bot
           git config user.name "GitHub Actions Bot"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Define o nome da tag usando o número da execução do workflow
+          git config user.email "actions@github.com"
+
+      - name: Create Git Tag
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
+        env:
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
+        run: |
           TAG_NAME="v0.0.${{ github.run_number }}"
-          
-          # Cria e empurra a tag para o repositório
-          echo "Creating and pushing tag: $TAG_NAME"
           git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
           git push origin "$TAG_NAME"
-          
-          # Cria o Release no GitHub usando a CLI 'gh'
-          echo "Creating GitHub Release..."
+
+      - name: Create Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
+        env:
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_KEY: ${{ secrets.GPR_KEY }}
+        run: |
+          TAG_NAME="v0.0.${{ github.run_number }}"
           gh release create "$TAG_NAME" \
             --title "Release $TAG_NAME" \
             --notes "Release automático. Mudanças detectadas em: ${{ steps.changed_modules.outputs.all_changed_files }}." \
             ./maps/build/outputs/aar/maps-release.aar \
             ./message/build/outputs/aar/message-release.aar \
             ./payment/build/outputs/aar/payment-release.aar \
-            ./authentication/build/outputs/aar/authentication-release.aar
+            ./payment/build/outputs/aar/authentication-release.aar
