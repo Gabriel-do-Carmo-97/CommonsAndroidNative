@@ -1,4 +1,4 @@
-name: Android Publish Lib Design System
+name: Android Publish Commons Libraries
 
 on:
   push:
@@ -48,13 +48,13 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Build with Gradle
-        # Passa os secrets do GitHub como variáveis de ambiente para o comando
         env:
           GPR_USER: ${{ secrets.GPR_USER }}
           GPR_KEY: ${{ secrets.GPR_KEY }}
         run: ./gradlew build
 
       - name: ⬆️ Upload Debugs AARs as Artifacts
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: debugs-aars
@@ -62,9 +62,11 @@ jobs:
             ./maps/build/outputs/aar/maps-debug.aar
             ./message/build/outputs/aar/message-debug.aar
             ./payment/build/outputs/aar/payment-debug.aar
-            ./payment/build/outputs/aar/authentication-debug.aar
+            ./authentication/build/outputs/aar/authentication-debug.aar
+          if-no-files-found: ignore
 
       - name: ⬆️ Upload Release AARs as Artifacts
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: release-aars
@@ -72,7 +74,8 @@ jobs:
             ./maps/build/outputs/aar/maps-release.aar
             ./message/build/outputs/aar/message-release.aar
             ./payment/build/outputs/aar/payment-release.aar
-            ./payment/build/outputs/aar/authentication-debug.aar
+            ./authentication/build/outputs/aar/authentication-release.aar
+          if-no-files-found: ignore
 
       - name: 📦 Publish maps if changed
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && contains(steps.changed_modules.outputs.all_changed_files, 'maps/')
@@ -125,10 +128,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG_NAME="v0.0.${{ github.run_number }}"
+          AAR_FILES=$(find . -path '*/build/outputs/aar/*-release.aar' | tr '\n' ' ')
           gh release create "$TAG_NAME" \
             --title "Release $TAG_NAME" \
             --notes "Release automático. Mudanças detectadas em: ${{ steps.changed_modules.outputs.all_changed_files }}." \
-            ./maps/build/outputs/aar/maps-release.aar \
-            ./message/build/outputs/aar/message-release.aar \
-            ./payment/build/outputs/aar/payment-release.aar \
-            ./authentication/build/outputs/aar/authentication-release.aar
+            $AAR_FILES

@@ -6,7 +6,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import br.com.gds.authentication.forgotPassword.ForgotPasswordScreen
 import br.com.gds.authentication.forgotPassword.ForgotPasswordViewModel
@@ -38,10 +37,9 @@ fun AuthNavigation(
                         is AuthNavDestinations.LoginScreen.ForgotPassword -> navController.navigate(
                             AuthNavDestinationsKey.FORGOT_PASSWORD
                         )
-                        is AuthNavDestinations.LoginScreen.RegisterUser ->  navController.navigate(
+                        is AuthNavDestinations.LoginScreen.RegisterUser -> navController.navigate(
                             AuthNavDestinationsKey.REGISTER_USER
                         )
-
                         is AuthNavDestinations.LoginScreen.LoginSuccess -> authSuccess()
                     }
                 }
@@ -50,9 +48,9 @@ fun AuthNavigation(
         }
         composable(AuthNavDestinationsKey.FORGOT_PASSWORD) {
             val forgotPasswordViewModel = hiltViewModel<ForgotPasswordViewModel>()
-            LaunchedEffect(Unit){
+            LaunchedEffect(Unit) {
                 forgotPasswordViewModel.navigationEvent.collect { event ->
-                    when(event){
+                    when (event) {
                         AuthNavDestinations.ForgotPasswordScreen.Login -> navController.popBackStack()
                     }
                 }
@@ -61,15 +59,16 @@ fun AuthNavigation(
         }
         composable(AuthNavDestinationsKey.REGISTER_USER) {
             val registerUserViewModel = hiltViewModel<RegisterUserViewModel>()
-            LaunchedEffect(Unit){
+            LaunchedEffect(Unit) {
                 registerUserViewModel.navigationEvent.collect { event ->
-                    when(event){
+                    when (event) {
                         AuthNavDestinations.RegisterUserScreen.RegisterAddress -> navController.navigate(
                             AuthNavDestinationsKey.REGISTER_ADDRESS
                         )
                         AuthNavDestinations.RegisterUserScreen.RegisterCar -> navController.navigate(
                             AuthNavDestinationsKey.REGISTER_CAR
                         )
+                        AuthNavDestinations.RegisterUserScreen.Login -> navController.popBackStack()
                     }
                 }
             }
@@ -77,7 +76,7 @@ fun AuthNavigation(
         }
         composable(AuthNavDestinationsKey.REGISTER_ADDRESS) {
             val registerAddressViewModel = hiltViewModel<RegisterAddressViewModel>()
-            LaunchedEffect(Unit){
+            LaunchedEffect(Unit) {
                 registerAddressViewModel.navigationEvent.collect { event ->
                     when (event) {
                         AuthNavDestinations.RegisterAddress.RegisterUser -> navController.popBackStack()
@@ -88,7 +87,7 @@ fun AuthNavigation(
         }
         composable(AuthNavDestinationsKey.REGISTER_CAR) {
             val registerCarViewModel = hiltViewModel<RegisterCarViewModel>()
-            LaunchedEffect(Unit){
+            LaunchedEffect(Unit) {
                 registerCarViewModel.navigationEvent.collect { event ->
                     when (event) {
                         AuthNavDestinations.RegisterCar.RegisterAddress -> navController.popBackStack()

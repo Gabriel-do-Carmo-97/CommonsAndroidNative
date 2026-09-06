@@ -3,21 +3,22 @@ package br.com.gds.authentication.navigation
 sealed interface AuthNavDestinations {
     sealed class LoginScreen : AuthNavDestinations {
         data class LoginSuccess(val email: String) : LoginScreen()
-        object ForgotPassword : LoginScreen()
-        object RegisterUser : LoginScreen()
+        data object ForgotPassword : LoginScreen()
+        data object RegisterUser : LoginScreen()
     }
     sealed class RegisterUserScreen : AuthNavDestinations {
-        object RegisterAddress : RegisterUserScreen()
-        object RegisterCar : RegisterUserScreen()
+        data object RegisterAddress : RegisterUserScreen()
+        data object RegisterCar : RegisterUserScreen()
+        data object Login : RegisterUserScreen()
     }
     sealed class ForgotPasswordScreen : AuthNavDestinations {
-        object Login : ForgotPasswordScreen()
+        data object Login : ForgotPasswordScreen()
     }
     sealed class RegisterAddress : AuthNavDestinations {
-        object RegisterUser : RegisterAddress()
+        data object RegisterUser : RegisterAddress()
     }
     sealed class RegisterCar : AuthNavDestinations {
-        object RegisterUser : RegisterCar()
-        object RegisterAddress : RegisterCar()
+        data object RegisterUser : RegisterCar()
+        data object RegisterAddress : RegisterCar()
     }
 }

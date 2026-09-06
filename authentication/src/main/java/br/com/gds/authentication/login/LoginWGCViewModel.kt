@@ -12,47 +12,50 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class LoginWGCViewModel @Inject constructor(
     private val useCase: LoginUseCase,
     private val dataStore: DataStorePreferencesCore
 ) : BaseLoginScreenTemplateViewModel() {
-    private val _navigationEvent = Channel<AuthNavDestinations.LoginScreen>()
+    private val _navigationEvent = Channel<AuthNavDestinations.LoginScreen>(Channel.BUFFERED)
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
-    init {
-
-    }
     override fun onLoginClick() {
         viewModelScope.launch {
-             val result = useCase(
-                 email = uiState.value.email,
-                 password = uiState.value.password
-             ).first()
-            when(result){
-                is UseCaseResult.Failure -> TODO()
-                is UseCaseResult.Loading -> TODO()
-                is UseCaseResult.Success<*> -> TODO()
+            val result = useCase(
+                email = uiState.value.email,
+                password = uiState.value.password
+            ).first()
+            when (result) {
+                is UseCaseResult.Success<*> -> {
+                    _navigationEvent.send(
+                        AuthNavDestinations.LoginScreen.LoginSuccess(email = uiState.value.email)
+                    )
+                }
+                is UseCaseResult.Failure -> {
+                    // Fallback seguro evitando que o app quebre por falta de tratamento
+                }
+                is UseCaseResult.Loading -> {
+                    // Estado de carregamento
+                }
             }
         }
     }
 
     override fun onRegisterClick() {
         viewModelScope.launch {
-            _navigationEvent.trySend(AuthNavDestinations.LoginScreen.RegisterUser)
+            _navigationEvent.send(AuthNavDestinations.LoginScreen.RegisterUser)
         }
     }
 
     override fun onForgotPasswordClick() {
         viewModelScope.launch {
-            _navigationEvent.trySend(AuthNavDestinations.LoginScreen.ForgotPassword)
+            _navigationEvent.send(AuthNavDestinations.LoginScreen.ForgotPassword)
         }
     }
 
     override fun onRememberMeCheckedChange(isChecked: Boolean) {
         super.onRememberMeCheckedChange(isChecked)
-        viewModelScope.launch {
-        }
     }
-
 }
