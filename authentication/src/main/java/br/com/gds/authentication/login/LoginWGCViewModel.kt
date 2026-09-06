@@ -4,18 +4,17 @@ import androidx.lifecycle.viewModelScope
 import br.com.gds.authentication.navigation.AuthNavDestinations
 import br.com.wgc.core.dataStorePreferences.DataStorePreferencesCore
 import br.com.wgc.ds_templates.screens.login.viewmodel.BaseLoginScreenTemplateViewModel
-import br.com.wgc.firebase_sdk.domain.usecase.LoginUseCase
-import br.com.wgc.firebase_sdk.utils.UseCaseResult
+import br.wgc.omnibackend.core.repository.AuthRepository
+import br.wgc.omnibackend.core.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginWGCViewModel @Inject constructor(
-    private val useCase: LoginUseCase,
+    private val authRepository: AuthRepository,
     private val dataStore: DataStorePreferencesCore
 ) : BaseLoginScreenTemplateViewModel() {
     private val _navigationEvent = Channel<AuthNavDestinations.LoginScreen>(Channel.BUFFERED)
@@ -23,21 +22,18 @@ class LoginWGCViewModel @Inject constructor(
 
     override fun onLoginClick() {
         viewModelScope.launch {
-            val result = useCase(
+            val result = authRepository.login(
                 email = uiState.value.email,
-                password = uiState.value.password
-            ).first()
+                pass = uiState.value.password
+            )
             when (result) {
-                is UseCaseResult.Success<*> -> {
+                is DataResult.Success -> {
                     _navigationEvent.send(
                         AuthNavDestinations.LoginScreen.LoginSuccess(email = uiState.value.email)
                     )
                 }
-                is UseCaseResult.Failure -> {
+                is DataResult.Failure -> {
                     // Fallback seguro evitando que o app quebre por falta de tratamento
-                }
-                is UseCaseResult.Loading -> {
-                    // Estado de carregamento
                 }
             }
         }
