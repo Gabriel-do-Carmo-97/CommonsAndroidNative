@@ -30,7 +30,7 @@ coroutinesTest = "1.11.0"
 detekt = "1.23.8"
 dokka = "2.0.0"
 
-googleGmsGoogleServices = "4.4.4"
+googleGmsGoogleServices = "4.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
