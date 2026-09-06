@@ -25,6 +25,30 @@ dependencyResolutionManagement {
                 password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GPR_KEY").orNull
             }
         }
+        maven {
+            name = "GitHubPackagesCore"
+            url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/CoreAndroidNative")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull ?: providers.environmentVariable("GPR_USER").orNull
+                password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GPR_KEY").orNull
+            }
+        }
+        maven {
+            name = "GitHubPackagesDS"
+            url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/DesignSystemAndroid")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull ?: providers.environmentVariable("GPR_USER").orNull
+                password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GPR_KEY").orNull
+            }
+        }
+        maven {
+            name = "GitHubPackagesOmniBackend"
+            url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/OmniBackendAndroid")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull ?: providers.environmentVariable("GPR_USER").orNull
+                password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GPR_KEY").orNull
+            }
+        }
     }
 }
 

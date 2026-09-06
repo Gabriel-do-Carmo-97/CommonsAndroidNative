@@ -15,14 +15,20 @@ material = "1.13.0"
 
 designSystemVersion = "0.0.59"
 dsTemplateVersion = "0.0.59"
-coreVersion = "0.0.9"
-firebaseSdkVersion = "0.0.18"
+coreVersion = "0.0.10"
+omniBackendVersion = "1.0.0"
 
 hiltNavigationCompose = "1.3.0"
 hiltAndroid = "2.57.2"
 activity = "1.12.2"
 constraintlayout = "2.1.4"
 ksp = "2.2.20-2.0.4"
+
+turbine = "1.2.1"
+mockk = "1.14.11"
+coroutinesTest = "1.11.0"
+detekt = "1.23.8"
+dokka = "2.0.0"
 
 googleGmsGoogleServices = "4.4.4"
 
@@ -46,8 +52,25 @@ material = { group = "com.google.android.material", name = "material", version.r
 
 design-system = { group = "br.com.wgc", name = "design-system", version.ref = "designSystemVersion" }
 ds-templates = { group = "br.com.wgc", name = "ds-templates", version.ref = "dsTemplateVersion" }
+core-ds = { group = "br.com.wgc", name = "core-ds", version.ref = "designSystemVersion" }
 myAndroidCore = { group = "br.com.wgc", name = "core-android-native", version.ref = "coreVersion" }
-myFirebaseSdk = { group = "br.com.wgc", name = "firebase-sdk", version.ref = "firebaseSdkVersion" }
+core-common = { group = "br.com.wgc", name = "core-common", version.ref = "coreVersion" }
+core-location = { group = "br.com.wgc", name = "core-location", version.ref = "coreVersion" }
+core-storage = { group = "br.com.wgc", name = "core-storage", version.ref = "coreVersion" }
+core-network = { group = "br.com.wgc", name = "core-network", version.ref = "coreVersion" }
+core-ui = { group = "br.com.wgc", name = "core-ui", version.ref = "coreVersion" }
+core-device = { group = "br.com.wgc", name = "core-device", version.ref = "coreVersion" }
+core-camera = { group = "br.com.wgc", name = "core-camera", version.ref = "coreVersion" }
+core-analytics = { group = "br.com.wgc", name = "core-analytics", version.ref = "coreVersion" }
+omni-backend-core = { group = "br.wgc.omnibackend", name = "core", version.ref = "omniBackendVersion" }
+omni-backend-firebase = { group = "br.wgc.omnibackend", name = "backend-firebase", version.ref = "omniBackendVersion" }
+omni-backend-supabase = { group = "br.wgc.omnibackend", name = "backend-supabase", version.ref = "omniBackendVersion" }
+omni-backend-appwrite = { group = "br.wgc.omnibackend", name = "backend-appwrite", version.ref = "omniBackendVersion" }
+omni-backend-back4app = { group = "br.wgc.omnibackend", name = "backend-back4app", version.ref = "omniBackendVersion" }
+omni-backend-amplify = { group = "br.wgc.omnibackend", name = "backend-amplify", version.ref = "omniBackendVersion" }
+omni-backend-pocketbase = { group = "br.wgc.omnibackend", name = "backend-pocketbase", version.ref = "omniBackendVersion" }
+omni-backend-rest = { group = "br.wgc.omnibackend", name = "backend-rest", version.ref = "omniBackendVersion" }
+omni-backend-cloudflare = { group = "br.wgc.omnibackend", name = "backend-cloudflare", version.ref = "omniBackendVersion" }
 
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
@@ -55,12 +78,19 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
+# Testing & Quality
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesTest" }
+
 # Build-logic plugin dependencies
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hiltAndroid" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+dokka-gradlePlugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -70,3 +100,5 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
