@@ -16,6 +16,15 @@ android {
 
 dependencies {
     implementation(project(":authentication"))
+    implementation(project(":maps"))
+    implementation(project(":message"))
+    implementation(project(":payment"))
+
+    implementation(libs.design.system)
+    implementation(libs.ds.templates)
+    implementation(libs.myAndroidCore)
+    implementation(libs.omni.backend.core)
+    implementation(libs.omni.backend.firebase)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
