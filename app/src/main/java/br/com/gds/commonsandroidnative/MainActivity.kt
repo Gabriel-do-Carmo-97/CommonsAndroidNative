@@ -82,6 +82,16 @@ import br.com.gds.search.screen.SearchScreen
 import br.com.gds.settings.screen.SettingsScreen
 import br.com.gds.stores.screen.StoresScreen
 import br.com.gds.whatsapp_direct.screen.WhatsappDirectScreen
+import br.com.gds.commonsandroidnative.flows.FoodDeliveryFlowCoordinator
+import br.com.gds.commonsandroidnative.flows.RetailEcommerceFlowCoordinator
+import br.com.gds.commonsandroidnative.flows.ServiceBookingFlowCoordinator
+import br.com.gds.commonsandroidnative.debug.DeveloperSandboxSheet
+import br.com.gds.commonsandroidnative.debug.BackendProvider
+import br.com.gds.commonsandroidnative.debug.BrandTheme
+import br.com.gds.commonsandroidnative.debug.NetworkCondition
+import br.com.gds.commonsandroidnative.debug.MockUserProfile
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material3.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -155,6 +165,18 @@ fun MainAppShowcaseScreen(
                     .padding(innerPadding)
             ) {
                 when (currentDestination) {
+                    is ShowcaseDestination.FoodDeliveryFlow -> FoodDeliveryFlowCoordinator(
+                        onFinishFlow = { selectedDestinationRoute = null },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    is ShowcaseDestination.RetailEcommerceFlow -> RetailEcommerceFlowCoordinator(
+                        onFinishFlow = { selectedDestinationRoute = null },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    is ShowcaseDestination.ServiceBookingFlow -> ServiceBookingFlowCoordinator(
+                        onFinishFlow = { selectedDestinationRoute = null },
+                        modifier = Modifier.fillMaxSize()
+                    )
                     is ShowcaseDestination.Catalog -> CatalogScreen(modifier = Modifier.fillMaxSize())
                     is ShowcaseDestination.Cart -> CartScreen(modifier = Modifier.fillMaxSize())
                     is ShowcaseDestination.Search -> SearchScreen(modifier = Modifier.fillMaxSize())
@@ -216,6 +238,7 @@ fun MainAppShowcaseScreen(
     }
 }
 
+
 @Composable
 private fun ShowcaseHubHome(
     sessionState: AuthSessionState,
@@ -224,6 +247,11 @@ private fun ShowcaseHubHome(
 ) {
     var searchQuery by rememberSaveable { mutableStateOf("") }
     var selectedCategory by rememberSaveable { mutableStateOf<ShowcaseCategory?>(null) }
+    var showSandboxSheet by rememberSaveable { mutableStateOf(false) }
+    var currentProvider by rememberSaveable { mutableStateOf(BackendProvider.MOCK_IN_MEMORY) }
+    var currentTheme by rememberSaveable { mutableStateOf(BrandTheme.WGC_DEFAULT) }
+    var currentNetwork by rememberSaveable { mutableStateOf(NetworkCondition.ONLINE) }
+    var currentUser by rememberSaveable { mutableStateOf(MockUserProfile.CLIENT) }
 
     val filteredDestinations = ShowcaseDestination.allDestinations.filter { dest ->
         val matchesCategory = selectedCategory == null || dest.category == selectedCategory
@@ -234,7 +262,17 @@ private fun ShowcaseHubHome(
         matchesCategory && matchesSearch
     }
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { showSandboxSheet = true },
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            ) {
+                Icon(Icons.Default.Build, contentDescription = "Developer Sandbox")
+            }
+        }
+    ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -374,6 +412,20 @@ private fun ShowcaseHubHome(
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
+    }
+
+    if (showSandboxSheet) {
+        DeveloperSandboxSheet(
+            onDismissRequest = { showSandboxSheet = false },
+            currentProvider = currentProvider,
+            onSelectProvider = { currentProvider = it },
+            currentTheme = currentTheme,
+            onSelectTheme = { currentTheme = it },
+            currentNetwork = currentNetwork,
+            onSelectNetwork = { currentNetwork = it },
+            currentUser = currentUser,
+            onSelectUser = { currentUser = it }
+        )
     }
 }
 

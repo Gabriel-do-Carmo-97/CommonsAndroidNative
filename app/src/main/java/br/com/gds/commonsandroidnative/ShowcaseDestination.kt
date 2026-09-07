@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class ShowcaseCategory(val title: String) {
+    ARCHETYPES("🚀 Fluxos Ponta-a-Ponta"),
     ECOMMERCE("E-Commerce & Vendas"),
     SERVICES("Operações & Serviços"),
     ENGAGEMENT("Engajamento & Fidelidade"),
@@ -212,8 +213,34 @@ sealed class ShowcaseDestination(
         icon = Icons.Default.Info
     )
 
+    // Archetype Flow Coordinators
+    data object FoodDeliveryFlow : ShowcaseDestination(
+        route = "flow_food_delivery",
+        title = "Fluxo: Food Delivery Completo",
+        description = "Catálogo iFood ➔ Carrinho ➔ Pix ➔ Live Tracking ➔ Avaliação",
+        category = ShowcaseCategory.ARCHETYPES,
+        icon = Icons.Default.ShoppingCart
+    )
+
+    data object RetailEcommerceFlow : ShowcaseDestination(
+        route = "flow_retail_ecommerce",
+        title = "Fluxo: Varejo / Mercado Livre",
+        description = "Busca ➔ Grade Mercado Livre ➔ Carrinho ➔ Pagamento ➔ Rastreio",
+        category = ShowcaseCategory.ARCHETYPES,
+        icon = Icons.Default.Search
+    )
+
+    data object ServiceBookingFlow : ShowcaseDestination(
+        route = "flow_service_booking",
+        title = "Fluxo: Agendamento & Serviços",
+        description = "Lojas ➔ Data/Hora ➔ Orçamento ➔ Confirmação no WhatsApp",
+        category = ShowcaseCategory.ARCHETYPES,
+        icon = Icons.Default.DateRange
+    )
+
     companion object {
         val allDestinations: List<ShowcaseDestination> = listOf(
+            FoodDeliveryFlow, RetailEcommerceFlow, ServiceBookingFlow,
             Catalog, Cart, Search, Promotions, Payment, Stores,
             Scheduling, Quotation, OrderTracking, Maps,
             Loyalty, Feedback, ReviewsStore, WhatsappDirect, Chat,
@@ -221,3 +248,4 @@ sealed class ShowcaseDestination(
         )
     }
 }
+

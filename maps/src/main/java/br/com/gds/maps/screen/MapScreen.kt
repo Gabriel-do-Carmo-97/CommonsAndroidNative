@@ -1,39 +1,28 @@
 package br.com.gds.maps.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import br.com.gds.maps.tracking.WgcLiveTrackingScreen
 
+/**
+ * High-level Maps Screen providing live vehicle and order tracking.
+ * Delegates directly to [WgcLiveTrackingScreen] connected with OmniBackend and DS Templates.
+ */
 @Composable
 fun MapScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Mapas e Geolocalização"
+    entityId: String = "driver_demo_01",
+    entityType: String = "drivers",
+    driverName: String = "Motorista Parceiro",
+    destinationAddress: String = "Destino Selecionado",
+    onContactDriver: () -> Unit = {}
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Geolocalização, rotas e busca de endereços integrados com core-location",
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
+    WgcLiveTrackingScreen(
+        entityId = entityId,
+        modifier = modifier,
+        entityType = entityType,
+        driverName = driverName,
+        destinationAddress = destinationAddress,
+        onContactDriver = onContactDriver
+    )
 }
