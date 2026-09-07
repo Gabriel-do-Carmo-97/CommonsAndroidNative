@@ -13,8 +13,8 @@ appcompat = "1.8.0"
 lifecycleViewmodelKtx = "2.10.0"
 material = "1.13.0"
 
-designSystemVersion = "0.1.0"
-dsTemplateVersion = "0.1.0"
+designSystemVersion = "0.0.140"
+dsTemplateVersion = "0.0.140"
 coreVersion = "0.0.51"
 omniBackendVersion = "0.0.21"
 
