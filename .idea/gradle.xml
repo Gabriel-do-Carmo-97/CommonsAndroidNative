@@ -24,11 +24,29 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/authentication" />
+            <option value="$PROJECT_DIR$/biometric" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
+            <option value="$PROJECT_DIR$/cart" />
+            <option value="$PROJECT_DIR$/catalog" />
+            <option value="$PROJECT_DIR$/feedback" />
+            <option value="$PROJECT_DIR$/force-update" />
+            <option value="$PROJECT_DIR$/loyalty" />
             <option value="$PROJECT_DIR$/maps" />
+            <option value="$PROJECT_DIR$/media-picker" />
             <option value="$PROJECT_DIR$/message" />
+            <option value="$PROJECT_DIR$/onboarding" />
+            <option value="$PROJECT_DIR$/order-tracking" />
             <option value="$PROJECT_DIR$/payment" />
+            <option value="$PROJECT_DIR$/profile" />
+            <option value="$PROJECT_DIR$/promotions" />
+            <option value="$PROJECT_DIR$/quotation" />
+            <option value="$PROJECT_DIR$/reviews-store" />
+            <option value="$PROJECT_DIR$/scheduling" />
+            <option value="$PROJECT_DIR$/search" />
+            <option value="$PROJECT_DIR$/settings" />
+            <option value="$PROJECT_DIR$/stores" />
+            <option value="$PROJECT_DIR$/whatsapp-direct" />
           </set>
         </option>
       </GradleProjectSettings>
