@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun CartScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Carrinho e Taxas de Entrega"
+    title: String = "Módulo de Carrinho e Taxas de Entrega WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun CartScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Carrinho persistente, taxa de frete por bairro/KM e validação aberto/fechado", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Carrinho persistente, taxa de frete por bairro/KM e validação aberto/fechado WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun QuotationScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Orçamentos e Serviços"
+    title: String = "Módulo de Orçamentos e Serviços WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun QuotationScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Solicitação de orçamento com anexo de foto e aprovação no app", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Solicitação de orçamento com anexo de foto e aprovação no app WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

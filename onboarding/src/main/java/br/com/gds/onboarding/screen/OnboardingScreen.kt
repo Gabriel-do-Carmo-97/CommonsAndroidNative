@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Onboarding e Permissões"
+    title: String = "Módulo de Onboarding e Permissões WGC"
 ) {
     Column(
         modifier = modifier
@@ -32,7 +33,7 @@ fun OnboardingScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Apresentação inicial e pedidos amigáveis de permissão (Soft Prompts)",
+            text = "Apresentação inicial e pedidos amigáveis de permissão via WGC Design System",
             style = MaterialTheme.typography.bodyMedium
         )
     }

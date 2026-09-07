@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun MediaPickerScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Captura de Mídia e QR Code"
+    title: String = "Módulo de Captura de Mídia e QR Code WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun MediaPickerScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Seletor de fotos/vídeos, Câmera e Leitor ML Kit QR Code/Barra", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Seletor de fotos/vídeos, Câmera WGC e Leitor ML Kit QR Code/Barra", style = MaterialTheme.typography.bodyMedium)
     }
 }

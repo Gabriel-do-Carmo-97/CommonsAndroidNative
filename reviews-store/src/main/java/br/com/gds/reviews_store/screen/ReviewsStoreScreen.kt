@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun ReviewsStoreScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Avaliação da Loja e Pedidos"
+    title: String = "Módulo de Avaliação da Loja e Pedidos WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun ReviewsStoreScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Avaliação por estrelas (1-5) e feedback direto para o comerciante", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Avaliação por estrelas (1-5) e feedback direto para o comerciante WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun CatalogScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Catálogo e Cardápio Digital"
+    title: String = "Módulo de Catálogo e Cardápio Digital WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun CatalogScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Cardápio digital, seleção de produtos, tamanhos P/M/G e adicionais", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Cardápio digital, seleção de produtos, tamanhos P/M/G e adicionais WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

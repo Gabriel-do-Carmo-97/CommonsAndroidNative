@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun WhatsappDirectScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Envio Direto para WhatsApp"
+    title: String = "Módulo de Envio Direto para WhatsApp WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun WhatsappDirectScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Disparo de pedidos formatados e suporte direto no WhatsApp Business", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Disparo de pedidos formatados e suporte direto no WhatsApp Business WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

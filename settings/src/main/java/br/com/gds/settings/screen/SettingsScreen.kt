@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Configurações e Temas"
+    title: String = "Módulo de Configurações e Temas WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun SettingsScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Configuração de aparência, temas, idioma e In-App Updates", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Configuração de aparência, temas WGC, idioma e In-App Updates", style = MaterialTheme.typography.bodyMedium)
     }
 }

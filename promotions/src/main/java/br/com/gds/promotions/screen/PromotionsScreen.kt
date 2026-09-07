@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun PromotionsScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Promocões e Cupons"
+    title: String = "Módulo de Promocões e Cupons WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun PromotionsScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Validador de cupons, banners promocionais e ofertas relâmpago", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Validador de cupons, banners promocionais e ofertas relâmpago WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

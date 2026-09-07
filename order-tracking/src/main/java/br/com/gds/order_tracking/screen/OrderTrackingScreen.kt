@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun OrderTrackingScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Acompanhamento de Pedido"
+    title: String = "Módulo de Acompanhamento de Pedido WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun OrderTrackingScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Stepper de status em tempo real, cronômetro ETA e contato rápido", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Stepper de status em tempo real, cronômetro ETA e contato rápido WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

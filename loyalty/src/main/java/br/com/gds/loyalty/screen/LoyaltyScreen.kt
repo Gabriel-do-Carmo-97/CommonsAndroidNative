@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun LoyaltyScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Cartão Fidelidade e Cashback"
+    title: String = "Módulo de Cartão Fidelidade e Cashback WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun LoyaltyScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Cartão carimbo digital, programa de pontos e acúmulo de cashback", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Cartão carimbo digital, programa de pontos e acúmulo de cashback WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

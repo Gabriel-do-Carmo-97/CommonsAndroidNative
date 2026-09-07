@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Busca Reativa e Filtros"
+    title: String = "Módulo de Busca Reativa e Filtros WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun SearchScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Barra de busca com debounce, histórico salvo e filtros dinâmicos", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Barra de busca com debounce, histórico salvo e filtros dinâmicos WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

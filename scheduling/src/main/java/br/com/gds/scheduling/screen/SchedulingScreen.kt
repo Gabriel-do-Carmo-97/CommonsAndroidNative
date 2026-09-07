@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.components.*
 
 @Composable
 fun SchedulingScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Agendamento de Serviços"
+    title: String = "Módulo de Agendamento de Serviços WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -25,6 +26,6 @@ fun SchedulingScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Calendário de slots em tempo real, escolha de profissional e reagendamento", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Calendário de slots em tempo real, escolha de profissional e reagendamento WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }
