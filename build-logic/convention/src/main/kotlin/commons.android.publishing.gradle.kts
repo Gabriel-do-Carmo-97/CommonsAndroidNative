@@ -7,7 +7,9 @@ plugins {
 pluginManager.withPlugin("com.android.library") {
     extensions.configure<LibraryExtension> {
         publishing {
-            singleVariant("release")
+            singleVariant("release") {
+                withSourcesJar()
+            }
         }
     }
 }
@@ -31,8 +33,12 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/CommonsAndroidNative")
             credentials {
-                username = System.getenv("GPR_USER") ?: findProperty("gpr.user") as? String
-                password = System.getenv("GPR_KEY") ?: findProperty("gpr.key") as? String
+                username = System.getenv("GPR_USER")
+                    ?: findProperty("gpr.user") as? String
+                    ?: System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GPR_KEY")
+                    ?: findProperty("gpr.key") as? String
+                    ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }

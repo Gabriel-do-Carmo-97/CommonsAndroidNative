@@ -1,18 +1,63 @@
 # CommonsAndroidNative
 
-Monorepo de bibliotecas e SDKs Android reutilizáveis da organização **WGC**, publicados e distribuídos via **GitHub Packages** (`br.com.wgc:*`).
+Monorepo de bibliotecas e SDKs Android reutilizáveis da organização **WGC**, para construção acelerada de aplicativos comerciais, e-commerce, delivery, serviços e soluções white-label.
+
+Todos os módulos são publicados e distribuídos individualmente via **GitHub Packages** (`br.com.wgc:*`).
 
 ---
 
-## 📦 Estrutura de Módulos
+## 📦 Estrutura Completa de Módulos (23 Módulos)
 
+### 🚀 Aplicação & Demonstration
 | Módulo | Tipo | Descrição |
 | :--- | :--- | :--- |
-| [`:app`](./app) | Aplicação (Sample) | Aplicativo de testes e demonstração para validar os componentes da biblioteca localmente. |
-| [`:authentication`](./authentication) | Biblioteca Android | Fluxo completo de autenticação e cadastro (Login, Esqueci Minha Senha, Cadastro de Usuário, Endereço e Veículo) integrado com `ds-templates` e Hilt. |
-| [`:maps`](./maps) | Biblioteca Android | Módulo commons para serviços de mapas e geolocalização. |
-| [`:message`](./message) | Biblioteca Android | Módulo commons para mensageria, chat e notificações. |
-| [`:payment`](./payment) | Biblioteca Android | Módulo commons para integrações de fluxo de pagamento. |
+| [`:app`](./app) | Aplicação | Showcase interativo com BottomBar e navegação para testar todos os módulos. |
+
+---
+
+### 🔐 Autenticação, Perfil & Segurança
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:authentication`](./authentication) | Biblioteca | Fluxos de Login, Cadastro, Recuperação de Senha integrados com `OmniBackend`. |
+| [`:profile`](./profile) | Biblioteca | Gestão de Perfil, Foto, Endereço e Conformidade LGPD (Exclusão de Conta). |
+| [`:settings`](./settings) | Biblioteca | Configurações do App, Troca de Tema (Claro/Escuro), Idiomas e In-App Updates. |
+| [`:biometric`](./biometric) | Biblioteca | Biometria (Digital/FaceID), Teclado de PIN Numérico e Bloqueio de Tela (App Lock). |
+| [`:onboarding`](./onboarding) | Biblioteca | Pagers de Boas-Vindas e Pedido Explicação de Permissões (Soft Prompts). |
+| [`:force-update`](./force-update) | Biblioteca | Bloqueio de versão obsoleta (Force Update) e Tela de Manutenção Remota. |
+| [`:feedback`](./feedback) | Biblioteca | Avaliação via Google In-App Review, Pesquisa NPS e Shake-to-Report. |
+
+---
+
+### 🛒 E-Commerce, Delivery & Alimentação
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:catalog`](./catalog) | Biblioteca | Cardápio Digital, Catálogo de Produtos e Montador de Adicionais/Opções. |
+| [`:cart`](./cart) | Biblioteca | Carrinho Persistente, Cálculo de Taxas/Frete e Validação Aberto/Fechado. |
+| [`:order-tracking`](./order-tracking) | Biblioteca | Acompanhamento do Pedido em Tempo Real com Status e Cronômetro. |
+| [`:promotions`](./promotions) | Biblioteca | Cupons de Desconto, Carrossel de Banners e Ofertas Relâmpago. |
+| [`:whatsapp-direct`](./whatsapp-direct) | Biblioteca | Disparo Direto de Pedidos Formatados e Suporte para o WhatsApp da Loja. |
+
+---
+
+### 📅 Serviços, Agendamento & Fidelização
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:scheduling`](./scheduling) | Biblioteca | Calendário de Agendamento de Horários, Profissionais e Reagendamento. |
+| [`:quotation`](./quotation) | Biblioteca | Solicitação de Orçamentos com Anexo de Fotos e Aprovação no App. |
+| [`:loyalty`](./loyalty) | Biblioteca | Cartão Carimbo Digital, Clube de Pontos e Acúmulo de Cashback. |
+| [`:stores`](./stores) | Biblioteca | Multi-Lojas, Seletor de Filial mais Próxima via GPS e Rota no Mapa. |
+| [`:reviews-store`](./reviews-store) | Biblioteca | Avaliação por Estrelas (1-5) e Feedback Direto do Atendimento do Comércio. |
+
+---
+
+### 📷 Mídia, Busca & Plataforma
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:media-picker`](./media-picker) | Biblioteca | PhotoPicker, Câmera via CameraX, Compressão de Fotos e Leitor de QR Code/Barra MLKit. |
+| [`:search`](./search) | Biblioteca | Barra de Busca Reativa com Debounce, Histórico Persistente e Filtros Dinâmicos. |
+| [`:maps`](./maps) | Biblioteca | Geolocalização, Rastreamento GPS e Seletor de Endereço via `core-location`. |
+| [`:message`](./message) | Biblioteca | Chat em Tempo Real, Push Notifications (FCM) e In-App Messaging. |
+| [`:payment`](./payment) | Biblioteca | Checkout Seguro, Integração PIX, Cartão de Crédito e Histórico de Transações. |
 
 ---
 
@@ -23,8 +68,8 @@ Monorepo de bibliotecas e SDKs Android reutilizáveis da organização **WGC**, 
 - **Injeção de Dependência**: Dagger Hilt com KSP
 - **Arquitetura**: MVVM com Unidirectional Data Flow (UDF), Coroutines e Kotlin Flows
 - **Build System**: Gradle 8.x com Version Catalogs (`gradle/libs.versions.toml`)
-- **CI/CD**: GitHub Actions com publicação automática de AARs e GitHub Releases
-- **Segurança e Manutenção**: Dependabot para atualização semanal de dependências
+- **Qualidade & Análise Estática**: Detekt e Dokka (Documentação KDoc)
+- **CI/CD**: GitHub Actions com execução de testes unitários e publicação automática de AARs
 
 ---
 
@@ -40,7 +85,6 @@ export GPR_KEY="seu-personal-access-token" # token com permissão read:packages 
 *(No Windows PowerShell: `$env:GPR_USER="seu-usuario"` e `$env:GPR_KEY="seu-token"`)*
 
 ### Opção 2: No arquivo `local.properties` (não commitado)
-Adicione as seguintes linhas ao seu arquivo `local.properties`:
 ```properties
 gpr.user=seu-usuario-github
 gpr.key=seu-personal-access-token
@@ -55,25 +99,12 @@ gpr.key=seu-personal-access-token
 ./gradlew build
 ```
 
-### 2. Executar o aplicativo de teste (`:app`)
-Instale e execute a aplicação de demonstração diretamente no emulador ou dispositivo conectado:
+### 2. Executar os Testes Unitários
+```bash
+./gradlew test
+```
+
+### 3. Executar a Aplicação Showcase (`:app`)
 ```bash
 ./gradlew :app:installDebug
 ```
-
-### 3. Publicar módulos localmente
-Para publicar um módulo no repositório Maven local (`~/.m2/repository`):
-```bash
-./gradlew :authentication:publishToMavenLocal
-```
-
----
-
-## 🤖 Integração Contínua (CI/CD)
-
-O workflow em [`.github/workflows/android.yaml`](./.github/workflows/android.yaml) é disparado a cada `push` e `pull_request` na branch `master`:
-1. **Detecção de Mudanças**: Identifica quais módulos foram modificados (`maps`, `message`, `payment` ou `authentication`).
-2. **Compilação e Testes**: Executa `./gradlew build`.
-3. **Upload de Artefatos**: Salva os AARs de debug e release nos artefatos da execução.
-4. **Publicação Seletiva**: Executa `./gradlew :<modulo>:publish` apenas nos módulos alterados.
-5. **Release e Tagging**: Cria automaticamente a tag `v0.0.<run_number>` e a Release no GitHub com os arquivos `.aar` gerados.

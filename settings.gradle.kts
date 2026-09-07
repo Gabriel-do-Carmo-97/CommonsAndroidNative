@@ -15,38 +15,34 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/CommonsAndroidNative")
-            credentials {
-                username = providers.gradleProperty("gpr.user").orNull ?: providers.environmentVariable("GPR_USER").orNull
-                password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GPR_KEY").orNull
-            }
-        }
-        maven {
-            name = "GitHubPackagesCore"
-            url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/CoreAndroidNative")
-            credentials {
-                username = providers.gradleProperty("gpr.user").orNull ?: providers.environmentVariable("GPR_USER").orNull
-                password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GPR_KEY").orNull
-            }
-        }
-        maven {
-            name = "GitHubPackagesDS"
-            url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/DesignSystemAndroid")
-            credentials {
-                username = providers.gradleProperty("gpr.user").orNull ?: providers.environmentVariable("GPR_USER").orNull
-                password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GPR_KEY").orNull
-            }
-        }
-        maven {
-            name = "GitHubPackagesOmniBackend"
-            url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/OmniBackendAndroid")
-            credentials {
-                username = providers.gradleProperty("gpr.user").orNull ?: providers.environmentVariable("GPR_USER").orNull
-                password = providers.gradleProperty("gpr.key").orNull ?: providers.environmentVariable("GPR_KEY").orNull
+
+        val gprUser = providers.gradleProperty("gpr.user").orNull
+            ?: providers.environmentVariable("GPR_USER").orNull
+            ?: providers.environmentVariable("GITHUB_ACTOR").orNull
+        val gprKey = providers.gradleProperty("gpr.key").orNull
+            ?: providers.environmentVariable("GPR_KEY").orNull
+            ?: providers.environmentVariable("GITHUB_TOKEN").orNull
+
+        val githubRepos = listOf(
+            "CommonsAndroidNative",
+            "CoreAndroidNative",
+            "DesignSystemAndroid",
+            "OmniBackendAndroid"
+        )
+
+        githubRepos.forEach { repoName ->
+            maven {
+                name = "GitHubPackages-$repoName"
+                url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/$repoName")
+                if (!gprUser.isNullOrBlank() && !gprKey.isNullOrBlank()) {
+                    credentials {
+                        username = gprUser
+                        password = gprKey
+                    }
+                }
             }
         }
     }
@@ -58,3 +54,23 @@ include(":maps")
 include(":message")
 include(":payment")
 include(":authentication")
+
+// 🚀 Novos Módulos Reutilizáveis para E-commerce, Serviços e Delivery
+include(":onboarding")
+include(":profile")
+include(":settings")
+include(":biometric")
+include(":media-picker")
+include(":feedback")
+include(":search")
+include(":force-update")
+include(":catalog")
+include(":cart")
+include(":order-tracking")
+include(":promotions")
+include(":scheduling")
+include(":quotation")
+include(":loyalty")
+include(":stores")
+include(":whatsapp-direct")
+include(":reviews-store")
