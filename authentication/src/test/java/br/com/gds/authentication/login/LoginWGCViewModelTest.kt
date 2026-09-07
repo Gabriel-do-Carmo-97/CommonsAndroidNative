@@ -3,14 +3,15 @@ package br.com.gds.authentication.login
 import app.cash.turbine.test
 import br.com.gds.authentication.navigation.AuthNavDestinations
 import br.com.wgc.core.dataStorePreferences.DataStorePreferencesCore
-import br.wgc.omnibackend.core.model.OmniUser
-import br.wgc.omnibackend.core.repository.AuthRepository
+import br.com.wgc.core.security.biometric.BiometricAuthHelper
 import br.wgc.omnibackend.core.utils.AppError
-import br.wgc.omnibackend.core.utils.DataResult
+import br.wgc.omnibackend.firebase.domain.usecase.LoginUseCase
+import br.wgc.omnibackend.firebase.utils.UseCaseResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -24,8 +25,9 @@ import org.junit.Test
 class LoginWGCViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
-    private val authRepository = mockk<AuthRepository>()
+    private val useCase = mockk<LoginUseCase>()
     private val dataStore = mockk<DataStorePreferencesCore>(relaxed = true)
+    private val biometricAuthHelper = mockk<BiometricAuthHelper>(relaxed = true)
 
     @Before
     fun setUp() {
@@ -38,17 +40,13 @@ class LoginWGCViewModelTest {
     }
 
     @Test
-    fun `when onLoginClick is triggered and auth succeeds, navigationEvent should emit LoginSuccess`() = runTest {
+    fun `when onLoginClick is triggered and login succeeds, navigationEvent should emit LoginSuccess`() = runTest {
         val email = "user@wgc.com"
         val password = "password123"
 
-        coEvery { authRepository.login(email, password) } returns DataResult.Success(
-            OmniUser(id = "user123", email = email, displayName = "Test User")
-        )
+        coEvery { useCase(any(), any(), any()) } returns flowOf(UseCaseResult.Success("user123"))
 
-        val viewModel = LoginWGCViewModel(authRepository, dataStore)
-        viewModel.onEmailChange(email)
-        viewModel.onPasswordChange(password)
+        val viewModel = LoginWGCViewModel(useCase, dataStore, biometricAuthHelper)
 
         viewModel.navigationEvent.test {
             viewModel.onLoginClick()
@@ -62,13 +60,9 @@ class LoginWGCViewModelTest {
         val email = "user@wgc.com"
         val password = "wrong_password"
 
-        coEvery { authRepository.login(email, password) } returns DataResult.Failure(
-            AppError.Auth.InvalidCredentials
-        )
+        coEvery { useCase(any(), any(), any()) } returns flowOf(UseCaseResult.Failure(AppError.Auth.InvalidCredentials))
 
-        val viewModel = LoginWGCViewModel(authRepository, dataStore)
-        viewModel.onEmailChange(email)
-        viewModel.onPasswordChange(password)
+        val viewModel = LoginWGCViewModel(useCase, dataStore, biometricAuthHelper)
 
         viewModel.navigationEvent.test {
             viewModel.onLoginClick()

@@ -12,6 +12,8 @@ android {
 dependencies {
     implementation(libs.design.system)
     implementation(libs.myAndroidCore)
+    implementation(libs.omni.backend.core)
+    implementation(libs.omni.backend.firebase)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)

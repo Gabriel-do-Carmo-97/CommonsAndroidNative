@@ -56,10 +56,8 @@ configurations.all {
         force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.2.20")
         force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.2.20")
         force("org.jetbrains.kotlin:kotlin-reflect:2.2.20")
+        force("androidx.core:core-ktx:1.15.0")
+        force("androidx.core:core:1.15.0")
     }
-}
-
-tasks.matching { it.name.contains("AarMetadata") }.configureEach {
-    enabled = false
 }
 

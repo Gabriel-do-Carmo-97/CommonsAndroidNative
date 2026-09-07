@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(libs.design.system)
+    implementation(libs.ds.templates)
     implementation(libs.myAndroidCore)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

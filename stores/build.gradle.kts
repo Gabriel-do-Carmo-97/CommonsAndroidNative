@@ -13,12 +13,15 @@ dependencies {
     implementation(libs.design.system)
     implementation(libs.myAndroidCore)
     implementation(libs.core.location)
+    implementation(libs.omni.backend.core)
+    implementation(libs.omni.backend.firebase)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.core.ktx)
 
     testImplementation(libs.junit)
