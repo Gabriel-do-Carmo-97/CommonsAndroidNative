@@ -5,28 +5,15 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Chat
-import androidx.compose.material.icons.filled.CreditCard
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -42,16 +29,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import br.com.gds.authentication.config.AuthConfig
 import br.com.gds.authentication.navigation.AuthNavigation
 import br.com.gds.authentication.session.AuthSessionState
 import br.com.gds.authentication.session.WgcAuthManager
+import br.com.gds.catalog.screen.CatalogScreen
 import br.com.gds.commonsandroidnative.ui.theme.CommonsAndroidNativeTheme
-import br.com.gds.maps.tracking.WgcLiveTrackingScreen
 import br.com.gds.message.chat.WgcChatScreen
-import br.com.gds.payment.screen.PaymentScreen
+import br.com.gds.scheduling.screen.SchedulingScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -69,8 +55,8 @@ class MainActivity : ComponentActivity() {
             CommonsAndroidNativeTheme {
                 MainAppShowcaseScreen(
                     authManager = authManager,
-                    onAuthSuccess = {
-                        Toast.makeText(this, "Autenticação realizada com sucesso!", Toast.LENGTH_SHORT).show()
+                    onAuthSuccess = { email ->
+                        Toast.makeText(this, "Autenticado com sucesso: $email", Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -78,23 +64,23 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-sealed class ShowcaseTab(val title: String, val icon: ImageVector) {
-    data object Auth : ShowcaseTab("Auth", Icons.Default.Lock)
-    data object Maps : ShowcaseTab("Rastreio", Icons.Default.LocationOn)
-    data object Chat : ShowcaseTab("Chat", Icons.Default.Chat)
-    data object Payment : ShowcaseTab("Pagamento", Icons.Default.CreditCard)
+sealed class ShowcaseTab(val title: String) {
+    data object Auth : ShowcaseTab("Auth & Core")
+    data object Catalog : ShowcaseTab("Catálogo/Cart")
+    data object Services : ShowcaseTab("Agendamentos")
+    data object Chat : ShowcaseTab("Chat/Rastreio")
 }
 
 @Composable
 fun MainAppShowcaseScreen(
     authManager: WgcAuthManager,
-    onAuthSuccess: () -> Unit
+    onAuthSuccess: (String) -> Unit
 ) {
     val tabs = listOf(
         ShowcaseTab.Auth,
-        ShowcaseTab.Maps,
-        ShowcaseTab.Chat,
-        ShowcaseTab.Payment
+        ShowcaseTab.Catalog,
+        ShowcaseTab.Services,
+        ShowcaseTab.Chat
     )
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
     val sessionState by authManager.sessionState.collectAsState()
@@ -108,7 +94,7 @@ fun MainAppShowcaseScreen(
                         selected = selectedTabIndex == index,
                         onClick = { selectedTabIndex = index },
                         label = { Text(tab.title) },
-                        icon = { Icon(imageVector = tab.icon, contentDescription = tab.title) }
+                        icon = { Text(tab.title.take(1)) }
                     )
                 }
             }
@@ -141,7 +127,7 @@ fun MainAppShowcaseScreen(
                                 ) {
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(
-                                            text = "Sessão Ativa",
+                                            text = "Sessão Ativa WGC",
                                             style = MaterialTheme.typography.titleMedium,
                                             color = MaterialTheme.colorScheme.onPrimaryContainer
                                         )
@@ -158,17 +144,13 @@ fun MainAppShowcaseScreen(
                                             }
                                         }
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Logout,
-                                            contentDescription = "Desconectar",
-                                            tint = MaterialTheme.colorScheme.error
-                                        )
+                                        Text("Sair", color = MaterialTheme.colorScheme.error)
                                     }
                                 }
                             }
                         }
                         else -> {
-                            // Usuário não autenticado: exibe o fluxo completo de autenticação
+                            // Exibe fluxo completo de autenticação
                         }
                     }
 
@@ -176,34 +158,28 @@ fun MainAppShowcaseScreen(
                         modifier = Modifier.fillMaxSize(),
                         config = AuthConfig(
                             enableBiometrics = true,
-                            enableSocialLogin = true,
                             enableAddressRegistration = true,
                             enableCarRegistration = true,
-                            enableForgotPassword = true
+                            isClient = true
                         ),
                         authSuccess = onAuthSuccess
                     )
                 }
             }
-            is ShowcaseTab.Maps -> {
-                WgcLiveTrackingScreen(
-                    entityId = "parceiro_demo_001",
-                    driverName = "Carlos Silva - Parceiro Omni",
-                    destinationAddress = "Av. Paulista, 1000 - Bela Vista, SP",
-                    modifier = modifier
-                )
+            is ShowcaseTab.Catalog -> {
+                CatalogScreen(modifier = modifier)
+            }
+            is ShowcaseTab.Services -> {
+                SchedulingScreen(modifier = modifier)
             }
             is ShowcaseTab.Chat -> {
                 val currentUserId = authManager.currentUser?.uid ?: "demo_user"
                 WgcChatScreen(
                     conversationId = "suporte_geral_001",
                     currentUserId = currentUserId,
-                    recipientName = "Atendimento ao Cliente Omni",
+                    recipientName = "Atendimento ao Cliente Omni/WGC",
                     modifier = modifier
                 )
-            }
-            is ShowcaseTab.Payment -> {
-                PaymentScreen(modifier = modifier)
             }
         }
     }

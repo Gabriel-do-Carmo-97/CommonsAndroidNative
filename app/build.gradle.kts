@@ -15,10 +15,29 @@ android {
 }
 
 dependencies {
+    // Módulos do Monorepo CommonsAndroidNative
     implementation(project(":authentication"))
     implementation(project(":maps"))
     implementation(project(":message"))
     implementation(project(":payment"))
+    implementation(project(":onboarding"))
+    implementation(project(":profile"))
+    implementation(project(":settings"))
+    implementation(project(":biometric"))
+    implementation(project(":media-picker"))
+    implementation(project(":feedback"))
+    implementation(project(":search"))
+    implementation(project(":force-update"))
+    implementation(project(":catalog"))
+    implementation(project(":cart"))
+    implementation(project(":order-tracking"))
+    implementation(project(":promotions"))
+    implementation(project(":scheduling"))
+    implementation(project(":quotation"))
+    implementation(project(":loyalty"))
+    implementation(project(":stores"))
+    implementation(project(":whatsapp-direct"))
+    implementation(project(":reviews-store"))
 
     implementation(libs.design.system)
     implementation(libs.ds.templates)
