@@ -1,4 +1,4 @@
-# 🤖 Sistema de Agentes IA & Orquestrador WGC
+# 🤖 Sistema de Agentes IA & Orquestrador WGC (23 Especialistas)
 
 Este diretório contém o **Sistema de Agentes de Inteligência Artificial** para operação e automação da Fábrica de Software **WGC**.
 
@@ -8,16 +8,40 @@ Este diretório contém o **Sistema de Agentes de Inteligência Artificial** par
 
 | Arquivo | Papel | Descrição |
 | :--- | :--- | :--- |
-| [`00_orchestrator_agent.md`](./00_orchestrator_agent.md) | **Agente Orquestrador Master** | Recebe o briefing do cliente/nicho de mercado e define os módulos necessários do monorepo. |
-| [`01_specialist_core_platform_agent.md`](./01_specialist_core_platform_agent.md) | **Especialista em Plataforma & Core** | Especializado em `:authentication`, `:profile`, `:settings`, `:biometric`, `:onboarding`, `:force-update`, `:feedback`. |
-| [`02_specialist_ecommerce_delivery_agent.md`](./02_specialist_ecommerce_delivery_agent.md) | **Especialista em E-Commerce & Delivery** | Especializado em `:catalog`, `:cart`, `:order-tracking`, `:promotions`, `:whatsapp-direct`. |
-| [`03_specialist_services_loyalty_agent.md`](./03_specialist_services_loyalty_agent.md) | **Especialista em Serviços & Fidelização** | Especializado em `:scheduling`, `:quotation`, `:loyalty`, `:stores`, `:reviews-store`. |
-| [`04_specialist_media_platform_agent.md`](./04_specialist_media_platform_agent.md) | **Especialista em Mídia & Integrações** | Especializado em `:media-picker`, `:search`, `:maps`, `:message`, `:payment`. |
+| [`00_orchestrator_agent.md`](./00_orchestrator_agent.md) | **Agente Orquestrador Master** | Recebe o briefing do cliente/nicho e define a arquitetura e agentes designados. |
+| [`specialists/`](./specialists/) | **23 Agentes Especialistas Dedicados** | Pasta contendo 1 agente altamente especializado por módulo individual. |
+
+---
+
+## 📋 Lista dos 23 Agentes Especialistas em `specialists/`
+
+1. 🔐 `agent_authentication.md` (`:authentication`)
+2. 👤 `agent_profile.md` (`:profile`)
+3. ⚙️ `agent_settings.md` (`:settings`)
+4. 🛡️ `agent_biometric.md` (`:biometric`)
+5. 🚀 `agent_onboarding.md` (`:onboarding`)
+6. 🚫 `agent_force_update.md` (`:force-update`)
+7. ⭐ `agent_feedback.md` (`:feedback`)
+8. 🍕 `agent_catalog.md` (`:catalog`)
+9. 🛒 `agent_cart.md` (`:cart`)
+10. 🚴 `agent_order_tracking.md` (`:order-tracking`)
+11. 🏷️ `agent_promotions.md` (`:promotions`)
+12. 💬 `agent_whatsapp_direct.md` (`:whatsapp-direct`)
+13. 📅 `agent_scheduling.md` (`:scheduling`)
+14. 📋 `agent_quotation.md` (`:quotation`)
+15. 🎁 `agent_loyalty.md` (`:loyalty`)
+16. 🏬 `agent_stores.md` (`:stores`)
+17. 🌟 `agent_reviews_store.md` (`:reviews-store`)
+18. 📷 `agent_media_picker.md` (`:media-picker`)
+19. 🔍 `agent_search.md` (`:search`)
+20. 🗺️ `agent_maps.md` (`:maps`)
+21. 💬 `agent_message.md` (`:message`)
+22. 💳 `agent_payment.md` (`:payment`)
 
 ---
 
 ## 🚀 Como Utilizar o Sistema de Agentes
 
-1. **Início da Demanda**: Abra o prompt do [`00_orchestrator_agent.md`](./00_orchestrator_agent.md) e passe o briefing do novo aplicativo que sua fábrica de software precisa criar (ex: *"Preciso criar um app para uma Pizzaria com entrega e programa de fidelidade"*).
-2. **Definição do Blueprint**: O Orquestrador retornará a lista exata dos módulos do `CommonsAndroidNative` que devem ser conectados no `:app`.
-3. **Execução Especializada**: Chame o agente especialista responsável pelo grupo de módulos para implementar as regras de negócio e telas específicas.
+1. **Início da Demanda**: Abra o prompt do [`00_orchestrator_agent.md`](./00_orchestrator_agent.md) e passe o briefing do novo aplicativo da sua fábrica de software.
+2. **Definição do Blueprint**: O Orquestrador designará os agentes especialistas exatos em `agents/specialists/`.
+3. **Execução Cirúrgica**: Cada agente especialista implementará com máxima precisão o seu respectivo módulo.
