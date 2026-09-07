@@ -67,14 +67,14 @@ jobs:
 
       - name: 🧪 Run Unit Tests
         env:
-          GPR_USER: ${{ secrets.GPR_USER }}
-          GPR_KEY: ${{ secrets.GPR_KEY }}
+          GPR_USER: ${{ secrets.GPR_USER || github.actor }}
+          GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
         run: ./gradlew testDebugUnitTest
 
       - name: Build with Gradle
         env:
-          GPR_USER: ${{ secrets.GPR_USER }}
-          GPR_KEY: ${{ secrets.GPR_KEY }}
+          GPR_USER: ${{ secrets.GPR_USER || github.actor }}
+          GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
         run: ./gradlew assembleRelease
 
       - name: ⬆️ Upload Release AARs as Artifacts
@@ -88,8 +88,8 @@ jobs:
       - name: 📦 Publish Changed Libraries to GitHub Packages
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
         env:
-          GPR_USER: ${{ secrets.GPR_USER }}
-          GPR_KEY: ${{ secrets.GPR_KEY }}
+          GPR_USER: ${{ secrets.GPR_USER || github.actor }}
+          GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
         run: |
           for module in authentication biometric cart catalog feedback force-update loyalty maps media-picker message onboarding order-tracking payment profile promotions quotation reviews-store scheduling search settings stores whatsapp-direct; do
             if echo "${{ steps.changed_modules.outputs.all_changed_files }}" | grep -q "$module/"; then
