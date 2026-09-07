@@ -15,7 +15,6 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        mavenLocal()
         google()
         mavenCentral()
 
@@ -50,40 +49,61 @@ dependencyResolutionManagement {
 
 rootProject.name = "CommonsAndroidNative"
 include(":app")
-include(":maps")
-include(":message")
-include(":payment")
-include(":authentication")
 
-// 🚀 Novos Módulos Reutilizáveis para E-commerce, Serviços e Delivery
-include(":onboarding")
-include(":profile")
-include(":settings")
-include(":biometric")
-include(":media-picker")
-include(":feedback")
-include(":search")
-include(":force-update")
-include(":catalog")
-include(":cart")
-include(":order-tracking")
-include(":promotions")
-include(":scheduling")
-include(":quotation")
-include(":loyalty")
-include(":stores")
-include(":whatsapp-direct")
-include(":reviews-store")
+fun registerFeature(name: String, theme: String) {
+    include(":$name")
+    project(":$name").projectDir = file("features/$theme/$name")
+}
 
-// 🚀 Módulos Avançados de Expansão (Enterprise & Logística em Tempo Real)
-include(":analytics")
-include(":subscriptions")
-include(":driver-app")
-include(":multi-language")
-include(":ai-assistant")
-include(":offline-sync")
-include(":telemetry")
-include(":geofencing")
-include(":dispatch")
-include(":emergency")
-include(":offline-maps")
+// 🔐 Auth & Segurança
+registerFeature("authentication", "auth")
+registerFeature("biometric", "auth")
+
+// 👤 Conta & Usuário
+registerFeature("onboarding", "account")
+registerFeature("profile", "account")
+registerFeature("settings", "account")
+
+// 🏪 Vitrine & Descoberta
+registerFeature("catalog", "storefront")
+registerFeature("search", "storefront")
+registerFeature("promotions", "storefront")
+registerFeature("stores", "storefront")
+
+// 💳 Checkout & Compra
+registerFeature("cart", "checkout")
+registerFeature("payment", "checkout")
+registerFeature("quotation", "checkout")
+
+// 🚚 Entrega & Logística
+registerFeature("order-tracking", "delivery")
+registerFeature("maps", "delivery")
+registerFeature("driver-app", "delivery")
+registerFeature("dispatch", "delivery")
+registerFeature("geofencing", "delivery")
+registerFeature("offline-maps", "delivery")
+
+// 💬 Comunicação
+registerFeature("message", "communication")
+registerFeature("whatsapp-direct", "communication")
+
+// ⭐ Fidelidade & Satisfação
+registerFeature("feedback", "customer")
+registerFeature("loyalty", "customer")
+registerFeature("reviews-store", "customer")
+
+// 📅 Serviços & Assinaturas
+registerFeature("scheduling", "services")
+registerFeature("subscriptions", "services")
+
+// ⚙️ Sistema & Dispositivo
+registerFeature("force-update", "system")
+registerFeature("media-picker", "system")
+registerFeature("multi-language", "system")
+
+// 🧠 Plataforma & Infraestrutura
+registerFeature("ai-assistant", "platform")
+registerFeature("analytics", "platform")
+registerFeature("emergency", "platform")
+registerFeature("offline-sync", "platform")
+registerFeature("telemetry", "platform")

@@ -6,58 +6,107 @@ Todos os módulos são publicados e distribuídos individualmente via **GitHub P
 
 ---
 
-## 📦 Estrutura Completa de Módulos (23 Módulos)
+## 📦 Estrutura Completa de Módulos (33 Módulos Organizados por Domínio)
 
-### 🚀 Aplicação & Demonstration
-| Módulo | Tipo | Descrição |
-| :--- | :--- | :--- |
-| [`:app`](./app) | Aplicação | Showcase interativo com BottomBar e navegação para testar todos os módulos. |
+Os módulos estão agrupados na pasta `features/` por domínios de negócio coesos e balanceados, mantendo publicação direta em primeiro nível (`br.com.wgc:<module>`).
 
----
-
-### 🔐 Autenticação, Perfil & Segurança
-| Módulo | Tipo | Descrição |
-| :--- | :--- | :--- |
-| [`:authentication`](./authentication) | Biblioteca | Fluxos de Login, Cadastro, Recuperação de Senha integrados com `OmniBackend`. |
-| [`:profile`](./profile) | Biblioteca | Gestão de Perfil, Foto, Endereço e Conformidade LGPD (Exclusão de Conta). |
-| [`:settings`](./settings) | Biblioteca | Configurações do App, Troca de Tema (Claro/Escuro), Idiomas e In-App Updates. |
-| [`:biometric`](./biometric) | Biblioteca | Biometria (Digital/FaceID), Teclado de PIN Numérico e Bloqueio de Tela (App Lock). |
-| [`:onboarding`](./onboarding) | Biblioteca | Pagers de Boas-Vindas e Pedido Explicação de Permissões (Soft Prompts). |
-| [`:force-update`](./force-update) | Biblioteca | Bloqueio de versão obsoleta (Force Update) e Tela de Manutenção Remota. |
-| [`:feedback`](./feedback) | Biblioteca | Avaliação via Google In-App Review, Pesquisa NPS e Shake-to-Report. |
+### 🚀 Aplicação & Showcase
+| Módulo | Tipo | Caminho | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:app`](./app) | Aplicação | `app/` | Showcase interativo com BottomBar e navegação para testar todos os módulos. |
 
 ---
 
-### 🛒 E-Commerce, Delivery & Alimentação
+### 🔐 1. Auth & Segurança (`features/auth/`)
 | Módulo | Tipo | Descrição |
 | :--- | :--- | :--- |
-| [`:catalog`](./catalog) | Biblioteca | Cardápio Digital, Catálogo de Produtos e Montador de Adicionais/Opções. |
-| [`:cart`](./cart) | Biblioteca | Carrinho Persistente, Cálculo de Taxas/Frete e Validação Aberto/Fechado. |
-| [`:order-tracking`](./order-tracking) | Biblioteca | Acompanhamento do Pedido em Tempo Real com Status e Cronômetro. |
-| [`:promotions`](./promotions) | Biblioteca | Cupons de Desconto, Carrossel de Banners e Ofertas Relâmpago. |
-| [`:whatsapp-direct`](./whatsapp-direct) | Biblioteca | Disparo Direto de Pedidos Formatados e Suporte para o WhatsApp da Loja. |
+| [`:authentication`](./features/auth/authentication) | Biblioteca | Fluxos de Login, Cadastro e Recuperação integrados ao `OmniBackend`. |
+| [`:biometric`](./features/auth/biometric) | Biblioteca | Autenticação Biométrica (Fingerprint/FaceID), App Lock e PIN de segurança. |
 
 ---
 
-### 📅 Serviços, Agendamento & Fidelização
+### 👤 2. Conta & Usuário (`features/account/`)
 | Módulo | Tipo | Descrição |
 | :--- | :--- | :--- |
-| [`:scheduling`](./scheduling) | Biblioteca | Calendário de Agendamento de Horários, Profissionais e Reagendamento. |
-| [`:quotation`](./quotation) | Biblioteca | Solicitação de Orçamentos com Anexo de Fotos e Aprovação no App. |
-| [`:loyalty`](./loyalty) | Biblioteca | Cartão Carimbo Digital, Clube de Pontos e Acúmulo de Cashback. |
-| [`:stores`](./stores) | Biblioteca | Multi-Lojas, Seletor de Filial mais Próxima via GPS e Rota no Mapa. |
-| [`:reviews-store`](./reviews-store) | Biblioteca | Avaliação por Estrelas (1-5) e Feedback Direto do Atendimento do Comércio. |
+| [`:onboarding`](./features/account/onboarding) | Biblioteca | Pagers de boas-vindas, tour do app e solicitação contextual de permissões. |
+| [`:profile`](./features/account/profile) | Biblioteca | Perfil do usuário, avatar, gestão de endereços e conformidade LGPD. |
+| [`:settings`](./features/account/settings) | Biblioteca | Preferências do aplicativo, tema dinâmico e configurações de notificações. |
 
 ---
 
-### 📷 Mídia, Busca & Plataforma
+### 🏪 3. Vitrine & Descoberta (`features/storefront/`)
 | Módulo | Tipo | Descrição |
 | :--- | :--- | :--- |
-| [`:media-picker`](./media-picker) | Biblioteca | PhotoPicker, Câmera via CameraX, Compressão de Fotos e Leitor de QR Code/Barra MLKit. |
-| [`:search`](./search) | Biblioteca | Barra de Busca Reativa com Debounce, Histórico Persistente e Filtros Dinâmicos. |
-| [`:maps`](./maps) | Biblioteca | Geolocalização, Rastreamento GPS e Seletor de Endereço via `core-location`. |
-| [`:message`](./message) | Biblioteca | Chat em Tempo Real, Push Notifications (FCM) e In-App Messaging. |
-| [`:payment`](./payment) | Biblioteca | Checkout Seguro, Integração PIX, Cartão de Crédito e Histórico de Transações. |
+| [`:catalog`](./features/storefront/catalog) | Biblioteca | Cardápio/Catálogo digital, categorização, opções e customização de itens. |
+| [`:search`](./features/storefront/search) | Biblioteca | Busca reativa com debounce, histórico de pesquisas e filtros avançados. |
+| [`:promotions`](./features/storefront/promotions) | Biblioteca | Banners promocionais, carrossel de ofertas e cupons de desconto. |
+| [`:stores`](./features/storefront/stores) | Biblioteca | Localização de filiais, seletor de lojas físicas e raio de proximidade via GPS. |
+
+---
+
+### 💳 4. Checkout & Compra (`features/checkout/`)
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:cart`](./features/checkout/cart) | Biblioteca | Carrinho persistente, cálculo de frete/taxas e validação de disponibilidade. |
+| [`:payment`](./features/checkout/payment) | Biblioteca | Gateway de pagamento, PIX com QRCode copia-e-cola, cartão de crédito e histórico. |
+| [`:quotation`](./features/checkout/quotation) | Biblioteca | Solicitação e negociação de orçamentos personalizados com anexo de mídias. |
+
+---
+
+### 🚚 5. Entrega & Logística (`features/delivery/`)
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:order-tracking`](./features/delivery/order-tracking) | Biblioteca | Rastreio em tempo real com timeline de status e tempo estimado de entrega. |
+| [`:maps`](./features/delivery/maps) | Biblioteca | Exibição de mapas, rotas, geolocalização e pin de destinos. |
+| [`:driver-app`](./features/delivery/driver-app) | Biblioteca | Interface e fluxo operacional para motoristas e entregadores parceiros. |
+| [`:dispatch`](./features/delivery/dispatch) | Biblioteca | Gestão de expedição, despacho de encomendas e distribuição de rotas. |
+| [`:geofencing`](./features/delivery/geofencing) | Biblioteca | Cercas virtuais com alertas de entrada/saída de perímetro operacional. |
+| [`:offline-maps`](./features/delivery/offline-maps) | Biblioteca | Armazenamento e renderização de mapas em cache para operação offline. |
+
+---
+
+### 💬 6. Comunicação (`features/communication/`)
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:message`](./features/communication/message) | Biblioteca | Chat em tempo real, suporte ao cliente, FCM push e mensagens in-app. |
+| [`:whatsapp-direct`](./features/communication/whatsapp-direct) | Biblioteca | Transbordo direto de pedidos e atendimento formatado via API WhatsApp. |
+
+---
+
+### ⭐ 7. Fidelidade & Satisfação (`features/customer/`)
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:feedback`](./features/customer/feedback) | Biblioteca | In-App Reviews do Google Play, pesquisa NPS e Shake-to-Report de bugs. |
+| [`:loyalty`](./features/customer/loyalty) | Biblioteca | Cartão fidelidade digital, clube de pontos e acúmulo de cashback. |
+| [`:reviews-store`](./features/customer/reviews-store) | Biblioteca | Avaliações por estrelas (1-5) e comentários diretos da loja/estabelecimento. |
+
+---
+
+### 📅 8. Serviços & Assinaturas (`features/services/`)
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:scheduling`](./features/services/scheduling) | Biblioteca | Agenda de horários, seleção de profissionais e reagendamento de serviços. |
+| [`:subscriptions`](./features/services/subscriptions) | Biblioteca | Planos recorrentes, assinaturas periódicas e gestão de benefícios ativos. |
+
+---
+
+### ⚙️ 9. Sistema & Dispositivo (`features/system/`)
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:force-update`](./features/system/force-update) | Biblioteca | Bloqueio de versão obsoleta (Force Update) e tela de manutenção remota. |
+| [`:media-picker`](./features/system/media-picker) | Biblioteca | PhotoPicker, integração com câmera, compressão e scanner MLKit. |
+| [`:multi-language`](./features/system/multi-language) | Biblioteca | Internacionalização dinâmica e alternância de idiomas em tempo de execução. |
+
+---
+
+### 🧠 10. Plataforma & Infraestrutura (`features/platform/`)
+| Módulo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| [`:ai-assistant`](./features/platform/ai-assistant) | Biblioteca | Assistente conversacional inteligente com suporte a recomendações. |
+| [`:analytics`](./features/platform/analytics) | Biblioteca | Telemetria comportamental, rastreio de eventos e métricas de conversão. |
+| [`:emergency`](./features/platform/emergency) | Biblioteca | Botão de pânico, contatos de emergência e transmissão rápida de localização. |
+| [`:offline-sync`](./features/platform/offline-sync) | Biblioteca | Fila de sincronização resiliente com reconexão automática e retry. |
+| [`:telemetry`](./features/platform/telemetry) | Biblioteca | Monitoramento de performance, logs de diagnósticos e integridade do app. |
 
 ---
 
