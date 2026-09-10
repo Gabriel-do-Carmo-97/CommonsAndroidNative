@@ -2,35 +2,82 @@ build:
   maxIssues: 0
   excludeCorrectable: false
 
+config:
+  validation: true
+  warningsAsErrors: false
+
 complexity:
-  active: true
-  TooManyFunctions:
-    active: true
-    thresholdInFiles: 20
-  LargeClass:
-    active: true
-    threshold: 300
   LongMethod:
-    active: true
     threshold: 60
+  ComplexCondition:
+    threshold: 4
+  LongParameterList:
+    functionThreshold: 10
+    constructorThreshold: 10
+    ignoreDefaultParameters: true
+  TooManyFunctions:
+    thresholdInFiles: 35
+    thresholdInClasses: 35
+    thresholdInInterfaces: 30
+    thresholdInObjects: 30
+    thresholdInEnums: 30
   CyclomaticComplexMethod:
-    active: true
     threshold: 15
 
 naming:
-  active: true
-  ClassNaming:
-    active: true
-    classPattern: '[A-Z][a-zA-Z0-9]*'
   FunctionNaming:
-    active: true
-    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    functionPattern: '^[a-zA-Z][a-zA-Z0-9]*$'
     excludeClassPattern: '$^'
+    ignoreAnnotated: ['Composable']
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][A-Z0-9_]*'
+    propertyPattern: '[a-zA-Z][A-Za-z0-9]*'
 
 style:
-  active: true
-  UnusedImports:
+  NewLineAtEndOfFile:
+    active: false
+  MaxLineLength:
+    maxLineLength: 140
+    excludePackageStatements: true
+    excludeImportStatements: true
+    excludeCommentStatements: false
+  ReturnCount:
+    max: 4
+    excludedFunctions: ['equals']
+  MagicNumber:
     active: true
+    ignoreNumbers: ['-1', '0', '1', '2', '0f', '1f', '0L', '1L', '600L']
+    ignoreHashCodeFunction: true
+    ignorePropertyDeclaration: true
+    ignoreLocalVariableDeclaration: true
+    ignoreConstantDeclaration: true
+    ignoreCompanionObjectPropertyDeclaration: true
+    ignoreAnnotation: true
+    ignoreNamedArgument: true
+    ignoreEnums: true
   WildcardImport:
     active: true
-    excludeImports: ['java.util.*', 'kotlinx.coroutines.*']
+    excludeImports:
+      - 'java.util.*'
+      - 'kotlinx.android.synthetic.*'
+  UnusedPrivateMember:
+    active: true
+    allowedNames: '(_|ignored|expected)'
+    ignoreAnnotated: ['Preview']
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: true
+    allowedExceptionNameRegex: '^(ignore|expected).*'
+  SwallowedException:
+    active: false
+
+coroutines:
+  GlobalCoroutineUsage:
+    active: true
+
+comments:
+  CommentOverPrivateProperty:
+    active: false
+  DeprecatedBlockTag:
+    active: true

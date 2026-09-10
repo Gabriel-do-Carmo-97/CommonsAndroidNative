@@ -45,6 +45,9 @@ jobs:
       - name: 🤖 Setup Android SDK
         uses: android-actions/setup-android@v4
 
+      - name: 🔍 Run Detekt Static Analysis
+        run: ./gradlew detekt --continue
+
       - name: 🧪 Run Unit Tests
         env:
           GPR_USER: ${{ secrets.GPR_USER || github.actor }}

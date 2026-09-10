@@ -1,55 +1,28 @@
-# 🤖 Sistema de Agentes IA & Orquestrador WGC (23 Especialistas)
+# 🤖 Agentes Especialistas — CommonsAndroidNative
 
-Este diretório contém o **Sistema de Agentes de Inteligência Artificial** para operação e automação da Fábrica de Software **WGC**.
-
----
-
-## 🚨 REGRA DE OURO DA WGC (Strict Governance Rule)
-**MANDATÓRIO E EXTREMAMENTE RIGÍDO**:
-1. **Design System & Templates**: NUNCA crie componentes visuais, cores ou layouts do zero. É OBRIGATÓRIO consumir e estender os componentes do **Design System WGC** (`br.com.wgc:design-system`), **DS Templates** (`br.com.wgc:ds-templates`) e **Core DS** (`br.com.wgc:core-ds`).
-2. **Core & Backend**: É OBRIGATÓRIO utilizar as abstrações e repositórios do **Core WGC** (`br.com.wgc:core-android-native` / `core-*`) e do **OmniBackend** (`br.wgc.omnibackend:*`).
-3. Proibido criar soluções proprietárias ou duplicadas quando a funcionalidade já é oferecida pelas bibliotecas do ecossistema WGC.
+Esta pasta contém as especificações, responsabilidades e diretrizes operacionais de cada Agente Especialista que atua no monorepo `CommonsAndroidNative`.
 
 ---
 
-## 🏛️ Estrutura do Sistema de Agentes
+## 🏛️ Estrutura da Equipe
 
-| Arquivo | Papel | Descrição |
-| :--- | :--- | :--- |
-| [`00_orchestrator_agent.md`](./00_orchestrator_agent.md) | **Agente Orquestrador Master** | Recebe o briefing do cliente/nicho e define a arquitetura e agentes designados. |
-| [`specialists/`](./specialists/) | **23 Agentes Especialistas Dedicados** | Pasta contendo 1 agente altamente especializado por módulo individual. |
-
----
-
-## 📋 Lista dos 23 Agentes Especialistas em `specialists/`
-
-1. 🔐 `agent_authentication.md` (`:authentication`)
-2. 👤 `agent_profile.md` (`:profile`)
-3. ⚙️ `agent_settings.md` (`:settings`)
-4. 🛡️ `agent_biometric.md` (`:biometric`)
-5. 🚀 `agent_onboarding.md` (`:onboarding`)
-6. 🚫 `agent_force_update.md` (`:force-update`)
-7. ⭐ `agent_feedback.md` (`:feedback`)
-8. 🍕 `agent_catalog.md` (`:catalog`)
-9. 🛒 `agent_cart.md` (`:cart`)
-10. 🚴 `agent_order_tracking.md` (`:order-tracking`)
-11. 🏷️ `agent_promotions.md` (`:promotions`)
-12. 💬 `agent_whatsapp_direct.md` (`:whatsapp-direct`)
-13. 📅 `agent_scheduling.md` (`:scheduling`)
-14. 📋 `agent_quotation.md` (`:quotation`)
-15. 🎁 `agent_loyalty.md` (`:loyalty`)
-16. 🏬 `agent_stores.md` (`:stores`)
-17. 🌟 `agent_reviews_store.md` (`:reviews-store`)
-18. 📷 `agent_media_picker.md` (`:media-picker`)
-19. 🔍 `agent_search.md` (`:search`)
-20. 🗺️ `agent_maps.md` (`:maps`)
-21. 💬 `agent_message.md` (`:message`)
-22. 💳 `agent_payment.md` (`:payment`)
+| Arquivo | Agente | Escopo Principal |
+|---|---|---|
+| [`orchestrator.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/orchestrator.md) | **Orquestrador Central** | Triagem, planejamento, delegação de tarefas e validação final |
+| [`ecommerce-specialist.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/ecommerce-specialist.md) | **E-commerce & Varejo** | Catálogo, carrinho, checkout, pagamentos, cupons e fidelidade |
+| [`logistics-specialist.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/logistics-specialist.md) | **Logística & Delivery** | Rastreamento em tempo real, mapas, geofencing, app do entregador |
+| [`identity-specialist.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/identity-specialist.md) | **Identidade & Segurança** | Autenticação OmniBackend, biometria, perfil, LGPD, force update |
+| [`communication-specialist.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/communication-specialist.md) | **Comunicação & Suporte** | Mensagens/chat em tempo real, WhatsApp Direct, avaliações e NPS |
+| [`services-specialist.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/services-specialist.md) | **Serviços & Assinaturas** | Agendamentos, planos de assinatura, cotação e cobranças recorrentes |
+| [`platform-specialist.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/platform-specialist.md) | **Plataforma & Transversais** | IA assistente, telemetria, offline-sync, mídia e internacionalização |
+| [`build-master.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/build-master.md) | **Build & CI/CD Master** | Gradle, build-logic, GitHub Packages (`br.com.wgc:*`), Proguard, CI/CD |
+| [`qa-specialist.md`](file:///c:/Users/gcarm/Documents/GitHub/CommonsAndroidNative/agents/qa-specialist.md) | **QA & Automação de Testes** | Testes unitários (JUnit4/MockK/Turbine), testes instrumentados e Compose |
 
 ---
 
-## 🚀 Como Utilizar o Sistema de Agentes
+## 📜 Regras Fundamentais da Equipe
 
-1. **Início da Demanda**: Abra o prompt do [`00_orchestrator_agent.md`](./00_orchestrator_agent.md) e passe o briefing do novo aplicativo da sua fábrica de software.
-2. **Definição do Blueprint**: O Orquestrador designará os agentes especialistas exatos em `agents/specialists/`.
-3. **Execução Cirúrgica**: Cada agente especialista implementará com máxima precisão o seu respectivo módulo.
+1. **Documentação KDoc Obrigatória**: 100% de classes, interfaces, funções e propriedades públicas ou internas expostas DEVEM possuir documentação KDoc completa (`@param`, `@return`, `@throws`).
+2. **Nomenclatura Padrão**: Publicação exclusiva sob namespace `br.com.wgc:*` e pacotes `br.com.wgc.commons.*`.
+3. **Padrão de Bundles**: Todo bundle possui singleton (`*Bundle.kt`) com inicialização segura (`initialize()`) e contrato de validação.
+4. **Qualidade Contínua**: Todo código novo deve passar por validação estática via **Detekt** e testes automatizados (unitários e instrumentados) antes do merge.

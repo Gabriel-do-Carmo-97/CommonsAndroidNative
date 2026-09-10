@@ -153,3 +153,42 @@ Ao receber uma demanda do usuário:
 2. **Delegação Especializada**: Invoca o especialista correto com instruções específicas de escopo.
 3. **Validação de Testes & Build**: Aciona o `qa-specialist` e o `build-master` antes de aprovar a entrega.
 4. **Consolidação**: Verifica a integridade do monorepo e apresenta a solução final ao usuário.
+
+---
+
+## 📐 Diretrizes Técnicas e Regras Invioláveis ("Pro Standard")
+
+Para assegurar paridade e excelência com o `CoreAndroidNative` e `DesignSystemAndroid`, todas as implementações no `CommonsAndroidNative` devem seguir estritamente as regras abaixo:
+
+### 1. 📚 Documentação KDoc Obrigatória
+- **100% de cobertura KDoc**: Toda classe, interface, enum, função e propriedade pública ou interna criada DEVE conter KDoc detalhado.
+- Tags mandatórias:
+  - `@param` para todos os parâmetros de funções e construtores.
+  - `@return` para funções que retornam valores não-Unit.
+  - `@throws` para exceções intencionais conhecidas.
+- O KDoc deve explicar o propósito de negócio ou técnico do componente, não apenas parafrasear o nome da função.
+
+### 2. 🏛️ Arquitetura e Design Patterns
+- **Clean Architecture estrita**:
+  - `domain`: Modelos puros, Use Cases/Interactors puros, interfaces de Repository. Sem dependência do framework Android.
+  - `data`: Implementações de Repository, DataSources locais (Room/DataStore) e remotos (OmniBackend/Retrofit), mappers (Data Transfer Object -> Domain Model).
+  - `presentation`: ViewModels (`StateFlow`, `asStateFlow`), UI em Jetpack Compose com State Hoisting estrito.
+- **Injeção de Dependências**: Hilt em todas as camadas (`@HiltViewModel`, `@Inject constructor`, `@Module`, `@InstallIn(SingletonComponent::class)`).
+- **Design System Tokens**: UIs devem consumir exclusivamente temas e componentes do `DesignSystemAndroid` (`core-ds`). Nenhuma cor ou dimensão arbitrária (hexadecimal, `.dp`, `.sp` hardcoded) é permitida.
+
+### 3. 🧪 Qualidade de Testes e Pirâmide de Automação
+- Nenhum bundle ou feature nova é entregue sem testes automatizados correspondentes:
+  - **Unit Tests (`src/test`)**: JUnit 4 + MockK + Turbine para testar ViewModels e Use Cases isoladamente.
+  - **Instrumented Tests (`src/androidTest`)**: Teste de contexto e lifecycle de bundles e UI Compose (`createComposeRule`).
+- Não são permitidos testes flaky ou que utilizem delays arbitrários (`Thread.sleep`). Utilize `TestDispatcher` das Coroutines.
+
+### 4. 📦 Versionamento e Publicação no GitHub Packages
+- Publicação centralizada com groupId `br.com.wgc`.
+- Artefato nomeado como `bundle-<dominio>-<tier>` (ex: `br.com.wgc:bundle-ecommerce-basic`).
+- Gerenciamento de dependências 100% centralizado no `gradle/libs.versions.toml`. Nenhuma dependência com versão hardcoded nos arquivos `build.gradle.kts`.
+
+### 5. 🔍 Análise Estática (Detekt) & Documentação da API (Dokka)
+- O monorepo possui verificação automática via **Detekt** com regras em `config/detekt/detekt.yml`.
+- A geração de documentação das APIs é suportada via **Dokka**.
+- Todo código deve passar no pipeline de CI sem violações de estilo, complexidade excessiva ou más práticas.
+
