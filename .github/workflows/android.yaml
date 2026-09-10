@@ -1,23 +1,31 @@
-name: Android CI/CD Pipeline (Enterprise Pro)
+﻿name: Android CI/CD Pipeline (Hyper-Granular Pro)
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "feat/**" ]
   pull_request:
     branches: [ "master" ]
 
-permissions:
-  contents: write
-  packages: write
-  pages: write
-  pull-requests: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GPR_USER: ${{ secrets.GPR_USER || github.actor }}
+  GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
 
 jobs:
-  # --- 1. VALIDAR TÍTULO DO PR (CONVENTIONAL COMMITS) ---
+  # =============================================================================
+  # PR VALIDATION: CONVENTIONAL COMMITS
+  # =============================================================================
+
   semantic-pull-request:
-    name: 🏷️ Validate PR Title
+    name: "PR: Validate Conventional Title"
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
     steps:
       - uses: amannn/action-semantic-pull-request@v5
         env:
@@ -30,13 +38,702 @@ jobs:
             docs
             test
             chore
+            ci
+            perf
+            build
           requireScope: false
 
-  # --- 2. BUILD, TESTES E PUBLICAÇÃO ---
-  build_Test_and_Publish:
-    name: 🚀 Build, Test, Dokka & Publish
-    runs-on: ubuntu-latest
+  # =============================================================================
+  # NIVEL 1: FUNDACAO & IDENTIDADE
+  # =============================================================================
 
+  feature-auth:
+    name: "feature: auth"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:auth:authentication:detekt \
+            :feature:auth:authentication:lintDebug \
+            :feature:auth:authentication:testDebugUnitTest \
+            :feature:auth:authentication:assembleRelease \
+            :feature:auth:authentication:assembleDebug \
+            :feature:auth:biometric:detekt \
+            :feature:auth:biometric:lintDebug \
+            :feature:auth:biometric:testDebugUnitTest \
+            :feature:auth:biometric:assembleRelease \
+            :feature:auth:biometric:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-auth
+          path: |
+            feature/auth/**/build/reports/tests/
+            feature/auth/**/build/reports/detekt/
+            feature/auth/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-auth
+          path: feature/auth/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-auth
+          path: feature/auth/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  feature-account:
+    name: "feature: account"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:account:onboarding:detekt \
+            :feature:account:onboarding:lintDebug \
+            :feature:account:onboarding:testDebugUnitTest \
+            :feature:account:onboarding:assembleRelease \
+            :feature:account:onboarding:assembleDebug \
+            :feature:account:profile:detekt \
+            :feature:account:profile:lintDebug \
+            :feature:account:profile:testDebugUnitTest \
+            :feature:account:profile:assembleRelease \
+            :feature:account:profile:assembleDebug \
+            :feature:account:settings:detekt \
+            :feature:account:settings:lintDebug \
+            :feature:account:settings:testDebugUnitTest \
+            :feature:account:settings:assembleRelease \
+            :feature:account:settings:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-account
+          path: |
+            feature/account/**/build/reports/tests/
+            feature/account/**/build/reports/detekt/
+            feature/account/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-account
+          path: feature/account/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-account
+          path: feature/account/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  feature-system:
+    name: "feature: system"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:system:force-update:detekt \
+            :feature:system:force-update:lintDebug \
+            :feature:system:force-update:testDebugUnitTest \
+            :feature:system:force-update:assembleRelease \
+            :feature:system:force-update:assembleDebug \
+            :feature:system:media-picker:detekt \
+            :feature:system:media-picker:lintDebug \
+            :feature:system:media-picker:testDebugUnitTest \
+            :feature:system:media-picker:assembleRelease \
+            :feature:system:media-picker:assembleDebug \
+            :feature:system:multi-language:detekt \
+            :feature:system:multi-language:lintDebug \
+            :feature:system:multi-language:testDebugUnitTest \
+            :feature:system:multi-language:assembleRelease \
+            :feature:system:multi-language:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-system
+          path: |
+            feature/system/**/build/reports/tests/
+            feature/system/**/build/reports/detekt/
+            feature/system/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-system
+          path: feature/system/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-system
+          path: feature/system/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  # =============================================================================
+  # NIVEL 2: PLATAFORMA & TELEMETRIA TRANSVERSAL
+  # =============================================================================
+
+  feature-platform:
+    name: "feature: platform"
+    needs: [feature-auth, feature-account, feature-system]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:platform:ai-assistant:detekt \
+            :feature:platform:ai-assistant:lintDebug \
+            :feature:platform:ai-assistant:testDebugUnitTest \
+            :feature:platform:ai-assistant:assembleRelease \
+            :feature:platform:ai-assistant:assembleDebug \
+            :feature:platform:analytics:detekt \
+            :feature:platform:analytics:lintDebug \
+            :feature:platform:analytics:testDebugUnitTest \
+            :feature:platform:analytics:assembleRelease \
+            :feature:platform:analytics:assembleDebug \
+            :feature:platform:emergency:detekt \
+            :feature:platform:emergency:lintDebug \
+            :feature:platform:emergency:testDebugUnitTest \
+            :feature:platform:emergency:assembleRelease \
+            :feature:platform:emergency:assembleDebug \
+            :feature:platform:offline-sync:detekt \
+            :feature:platform:offline-sync:lintDebug \
+            :feature:platform:offline-sync:testDebugUnitTest \
+            :feature:platform:offline-sync:assembleRelease \
+            :feature:platform:offline-sync:assembleDebug \
+            :feature:platform:telemetry:detekt \
+            :feature:platform:telemetry:lintDebug \
+            :feature:platform:telemetry:testDebugUnitTest \
+            :feature:platform:telemetry:assembleRelease \
+            :feature:platform:telemetry:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-platform
+          path: |
+            feature/platform/**/build/reports/tests/
+            feature/platform/**/build/reports/detekt/
+            feature/platform/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-platform
+          path: feature/platform/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-platform
+          path: feature/platform/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  # =============================================================================
+  # NIVEL 3: VITRINE & COMMERCE & FIDELIDADE
+  # =============================================================================
+
+  feature-storefront:
+    name: "feature: storefront"
+    needs: [feature-platform]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:storefront:catalog:detekt \
+            :feature:storefront:catalog:lintDebug \
+            :feature:storefront:catalog:testDebugUnitTest \
+            :feature:storefront:catalog:assembleRelease \
+            :feature:storefront:catalog:assembleDebug \
+            :feature:storefront:search:detekt \
+            :feature:storefront:search:lintDebug \
+            :feature:storefront:search:testDebugUnitTest \
+            :feature:storefront:search:assembleRelease \
+            :feature:storefront:search:assembleDebug \
+            :feature:storefront:promotions:detekt \
+            :feature:storefront:promotions:lintDebug \
+            :feature:storefront:promotions:testDebugUnitTest \
+            :feature:storefront:promotions:assembleRelease \
+            :feature:storefront:promotions:assembleDebug \
+            :feature:storefront:stores:detekt \
+            :feature:storefront:stores:lintDebug \
+            :feature:storefront:stores:testDebugUnitTest \
+            :feature:storefront:stores:assembleRelease \
+            :feature:storefront:stores:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-storefront
+          path: |
+            feature/storefront/**/build/reports/tests/
+            feature/storefront/**/build/reports/detekt/
+            feature/storefront/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-storefront
+          path: feature/storefront/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-storefront
+          path: feature/storefront/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  feature-checkout:
+    name: "feature: checkout"
+    needs: [feature-platform]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:checkout:cart:detekt \
+            :feature:checkout:cart:lintDebug \
+            :feature:checkout:cart:testDebugUnitTest \
+            :feature:checkout:cart:assembleRelease \
+            :feature:checkout:cart:assembleDebug \
+            :feature:checkout:payment:detekt \
+            :feature:checkout:payment:lintDebug \
+            :feature:checkout:payment:testDebugUnitTest \
+            :feature:checkout:payment:assembleRelease \
+            :feature:checkout:payment:assembleDebug \
+            :feature:checkout:quotation:detekt \
+            :feature:checkout:quotation:lintDebug \
+            :feature:checkout:quotation:testDebugUnitTest \
+            :feature:checkout:quotation:assembleRelease \
+            :feature:checkout:quotation:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-checkout
+          path: |
+            feature/checkout/**/build/reports/tests/
+            feature/checkout/**/build/reports/detekt/
+            feature/checkout/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-checkout
+          path: feature/checkout/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-checkout
+          path: feature/checkout/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  feature-customer:
+    name: "feature: customer"
+    needs: [feature-platform]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:customer:feedback:detekt \
+            :feature:customer:feedback:lintDebug \
+            :feature:customer:feedback:testDebugUnitTest \
+            :feature:customer:feedback:assembleRelease \
+            :feature:customer:feedback:assembleDebug \
+            :feature:customer:loyalty:detekt \
+            :feature:customer:loyalty:lintDebug \
+            :feature:customer:loyalty:testDebugUnitTest \
+            :feature:customer:loyalty:assembleRelease \
+            :feature:customer:loyalty:assembleDebug \
+            :feature:customer:reviews-store:detekt \
+            :feature:customer:reviews-store:lintDebug \
+            :feature:customer:reviews-store:testDebugUnitTest \
+            :feature:customer:reviews-store:assembleRelease \
+            :feature:customer:reviews-store:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-customer
+          path: |
+            feature/customer/**/build/reports/tests/
+            feature/customer/**/build/reports/detekt/
+            feature/customer/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-customer
+          path: feature/customer/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-customer
+          path: feature/customer/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  # =============================================================================
+  # NIVEL 4: LOGISTICA, COMUNICACAO & SERVICOS
+  # =============================================================================
+
+  feature-delivery:
+    name: "feature: delivery"
+    needs: [feature-platform]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:delivery:order-tracking:detekt \
+            :feature:delivery:order-tracking:lintDebug \
+            :feature:delivery:order-tracking:testDebugUnitTest \
+            :feature:delivery:order-tracking:assembleRelease \
+            :feature:delivery:order-tracking:assembleDebug \
+            :feature:delivery:maps:detekt \
+            :feature:delivery:maps:lintDebug \
+            :feature:delivery:maps:testDebugUnitTest \
+            :feature:delivery:maps:assembleRelease \
+            :feature:delivery:maps:assembleDebug \
+            :feature:delivery:driver-app:detekt \
+            :feature:delivery:driver-app:lintDebug \
+            :feature:delivery:driver-app:testDebugUnitTest \
+            :feature:delivery:driver-app:assembleRelease \
+            :feature:delivery:driver-app:assembleDebug \
+            :feature:delivery:dispatch:detekt \
+            :feature:delivery:dispatch:lintDebug \
+            :feature:delivery:dispatch:testDebugUnitTest \
+            :feature:delivery:dispatch:assembleRelease \
+            :feature:delivery:dispatch:assembleDebug \
+            :feature:delivery:geofencing:detekt \
+            :feature:delivery:geofencing:lintDebug \
+            :feature:delivery:geofencing:testDebugUnitTest \
+            :feature:delivery:geofencing:assembleRelease \
+            :feature:delivery:geofencing:assembleDebug \
+            :feature:delivery:offline-maps:detekt \
+            :feature:delivery:offline-maps:lintDebug \
+            :feature:delivery:offline-maps:testDebugUnitTest \
+            :feature:delivery:offline-maps:assembleRelease \
+            :feature:delivery:offline-maps:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-delivery
+          path: |
+            feature/delivery/**/build/reports/tests/
+            feature/delivery/**/build/reports/detekt/
+            feature/delivery/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-delivery
+          path: feature/delivery/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-delivery
+          path: feature/delivery/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  feature-communication:
+    name: "feature: communication"
+    needs: [feature-platform]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:communication:message:detekt \
+            :feature:communication:message:lintDebug \
+            :feature:communication:message:testDebugUnitTest \
+            :feature:communication:message:assembleRelease \
+            :feature:communication:message:assembleDebug \
+            :feature:communication:whatsapp-direct:detekt \
+            :feature:communication:whatsapp-direct:lintDebug \
+            :feature:communication:whatsapp-direct:testDebugUnitTest \
+            :feature:communication:whatsapp-direct:assembleRelease \
+            :feature:communication:whatsapp-direct:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-communication
+          path: |
+            feature/communication/**/build/reports/tests/
+            feature/communication/**/build/reports/detekt/
+            feature/communication/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-communication
+          path: feature/communication/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-communication
+          path: feature/communication/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  feature-services:
+    name: "feature: services"
+    needs: [feature-platform, feature-checkout]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build
+        run: |
+          ./gradlew \
+            :feature:services:scheduling:detekt \
+            :feature:services:scheduling:lintDebug \
+            :feature:services:scheduling:testDebugUnitTest \
+            :feature:services:scheduling:assembleRelease \
+            :feature:services:scheduling:assembleDebug \
+            :feature:services:subscriptions:detekt \
+            :feature:services:subscriptions:lintDebug \
+            :feature:services:subscriptions:testDebugUnitTest \
+            :feature:services:subscriptions:assembleRelease \
+            :feature:services:subscriptions:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-feature-services
+          path: |
+            feature/services/**/build/reports/tests/
+            feature/services/**/build/reports/detekt/
+            feature/services/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-feature-services
+          path: feature/services/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-feature-services
+          path: feature/services/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  # =============================================================================
+  # NIVEL 5: COMMERCIAL BUNDLES (MATRIZ PARALELA POR DOMINIO)
+  # =============================================================================
+
+  bundles:
+    name: "bundle: ${{ matrix.domain }}"
+    needs:
+      - feature-auth
+      - feature-account
+      - feature-system
+      - feature-platform
+      - feature-storefront
+      - feature-checkout
+      - feature-customer
+      - feature-delivery
+      - feature-communication
+      - feature-services
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        domain:
+          - identity
+          - foundation
+          - ecommerce
+          - delivery
+          - services
+          - communication
+          - subscriptions
+          - social
+          - education
+          - health
+          - finance
+          - events
+          - real-estate
+          - emergency
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (${{ matrix.domain }})
+        run: |
+          ./gradlew \
+            :bundles:${{ matrix.domain }}:basic:detekt \
+            :bundles:${{ matrix.domain }}:basic:lintDebug \
+            :bundles:${{ matrix.domain }}:basic:testDebugUnitTest \
+            :bundles:${{ matrix.domain }}:basic:assembleRelease \
+            :bundles:${{ matrix.domain }}:basic:assembleDebug \
+            :bundles:${{ matrix.domain }}:standard:detekt \
+            :bundles:${{ matrix.domain }}:standard:lintDebug \
+            :bundles:${{ matrix.domain }}:standard:testDebugUnitTest \
+            :bundles:${{ matrix.domain }}:standard:assembleRelease \
+            :bundles:${{ matrix.domain }}:standard:assembleDebug \
+            :bundles:${{ matrix.domain }}:pro:detekt \
+            :bundles:${{ matrix.domain }}:pro:lintDebug \
+            :bundles:${{ matrix.domain }}:pro:testDebugUnitTest \
+            :bundles:${{ matrix.domain }}:pro:assembleRelease \
+            :bundles:${{ matrix.domain }}:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-${{ matrix.domain }}
+          path: |
+            bundles/${{ matrix.domain }}/**/build/reports/tests/
+            bundles/${{ matrix.domain }}/**/build/reports/detekt/
+            bundles/${{ matrix.domain }}/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-${{ matrix.domain }}
+          path: bundles/${{ matrix.domain }}/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-${{ matrix.domain }}
+          path: bundles/${{ matrix.domain }}/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  # =============================================================================
+  # NIVEL 6: SAMPLE APP (Validacao de Integracao Completa Showcase)
+  # =============================================================================
+
+  sample-app:
+    name: "app: sample-app"
+    needs: [bundles]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Lint, Testes e Build do App Showcase
+        run: ./gradlew :app:lintDebug :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-sample-app
+          path: |
+            app/build/reports/tests/
+            app/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: ignore
+
+  # =============================================================================
+  # NIVEL 7: PUBLICACAO E RELEASE (Apenas em Push para Master)
+  # =============================================================================
+
+  publish-and-release:
+    name: "ðŸš€ Publish & Release"
+    needs:
+      - bundles
+      - sample-app
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,7 +742,7 @@ jobs:
           lfs: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🔢 Calculate Semantic Version
+      - name: Calculate Semantic Version
         id: semver
         uses: PaulHatch/semantic-version@v5.4.0
         with:
@@ -55,71 +752,38 @@ jobs:
           bump_each_commit_patch_pattern: "fix|refactor"
           version_format: "${major}.${minor}.${patch}"
 
-      - name: Detect changed modules
+      - name: Detect changed library modules
         id: changed_modules
         uses: tj-actions/changed-files@v47
         with:
           files: |
             feature/**
             bundles/**
+            build-logic/**
+            gradle/libs.versions.toml
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Setup Android & Java Environment
+        if: steps.changed_modules.outputs.any_changed == 'true'
+        uses: ./.github/actions/setup-android-env
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: 🤖 Setup Android SDK
-        uses: android-actions/setup-android@v4
-
-      - name: 🔍 Run Detekt Static Analysis
-        run: ./gradlew detekt --continue
-
-      - name: 🧪 Run Unit Tests
+      - name: Publish all modules to GitHub Packages
+        if: steps.changed_modules.outputs.any_changed == 'true'
         env:
-          GPR_USER: ${{ secrets.GPR_USER || github.actor }}
-          GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
-        run: ./gradlew testDebugUnitTest
-
-      - name: 📦 Assemble Release AARs
-        env:
-          GPR_USER: ${{ secrets.GPR_USER || github.actor }}
-          GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
-        run: ./gradlew assembleRelease
-
-      - name: ⬆️ Upload Release AARs as Artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-aars
-          path: ./**/build/outputs/aar/*-release.aar
-          if-no-files-found: ignore
-
-      - name: 📚 Generate Dokka API Docs
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: ./gradlew dokkaHtml --continue || true
-
-      - name: 🌐 Deploy Dokka to GitHub Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: peaceiris/actions-gh-pages@v4
-        continue-on-error: true
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/dokka/html
-
-      - name: 📦 Publish Changed Libraries to GitHub Packages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
-        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPR_USER: ${{ secrets.GPR_USER || github.actor }}
           GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
         run: ./gradlew publish -PVERSION_NAME=${{ steps.semver.outputs.version }} --no-daemon
 
+      - name: Download All Release AARs
+        if: steps.changed_modules.outputs.any_changed == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: release-aar-*
+          merge-multiple: true
+          path: ./all-release-aars
+
       - name: Configure GitHub Access
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
+        if: steps.changed_modules.outputs.any_changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -127,7 +791,7 @@ jobs:
           git config user.email "actions@github.com"
 
       - name: Create Git Tag
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
+        if: steps.changed_modules.outputs.any_changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -136,13 +800,58 @@ jobs:
           git push origin "$TAG_NAME" || true
 
       - name: Create Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
+        if: steps.changed_modules.outputs.any_changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG_NAME="v${{ steps.semver.outputs.version }}"
-          AAR_FILES=$(find . -path '*/build/outputs/aar/*-release.aar' | tr '\n' ' ')
-          gh release create "$TAG_NAME" \
-            --title "Release $TAG_NAME" \
-            --generate-notes \
-            $AAR_FILES
+          mapfile -t AAR_FILES < <(find ./all-release-aars -type f -name "*-release.aar" 2>/dev/null || true)
+          if [ ${#AAR_FILES[@]} -gt 0 ]; then
+            gh release create "$TAG_NAME" \
+              --title "Release $TAG_NAME" \
+              --generate-notes \
+              "${AAR_FILES[@]}"
+          else
+            gh release create "$TAG_NAME" \
+              --title "Release $TAG_NAME" \
+              --generate-notes
+          fi
+
+  # =============================================================================
+  # NIVEL 8: DEPLOY DE DOCUMENTACAO DOKKA NO GITHUB PAGES
+  # =============================================================================
+
+  deploy-docs:
+    name: "Deploy Dokka Docs to GitHub Pages"
+    needs: [publish-and-release]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Generate Dokka HTML
+        run: ./gradlew dokkaHtml --continue || true
+      - name: Consolidate Documentation Pages
+        run: |
+          mkdir -p ./site-docs
+          find . -type d -path "*/build/dokka/html" -exec cp -r {}/* ./site-docs/ \; 2>/dev/null || true
+          if [ ! -f ./site-docs/index.html ]; then
+            echo "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>CommonsAndroidNative API Documentation</title></head><body><h1>CommonsAndroidNative API Documentation</h1><p>API documentation generated via Dokka for enterprise bundles and domain features.</p></body></html>" > ./site-docs/index.html
+          fi
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './site-docs'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
