@@ -18,10 +18,18 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 
-        val gprUser = providers.gradleProperty("gpr.user").orNull
+        val localProperties = java.util.Properties().apply {
+            val localFile = rootDir.resolve("local.properties")
+            if (localFile.exists()) {
+                localFile.inputStream().use { load(it) }
+            }
+        }
+        val gprUser = localProperties.getProperty("gpr.user")
+            ?: providers.gradleProperty("gpr.user").orNull
             ?: providers.environmentVariable("GPR_USER").orNull
             ?: providers.environmentVariable("GITHUB_ACTOR").orNull
-        val gprKey = providers.gradleProperty("gpr.key").orNull
+        val gprKey = localProperties.getProperty("gpr.key")
+            ?: providers.gradleProperty("gpr.key").orNull
             ?: providers.environmentVariable("GPR_KEY").orNull
             ?: providers.environmentVariable("GITHUB_TOKEN").orNull
 
