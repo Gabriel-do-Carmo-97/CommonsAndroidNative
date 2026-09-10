@@ -39,6 +39,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+/**
+ * Tela do Localizador de Lojas e Filiais FÃ­sicas (Store Locator).
+ *
+ * Permite busca por endereÃ§o, filtros de horÃ¡rio de funcionamento e seleÃ§Ã£o de filial para retirada.
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param viewModel ViewModel de consulta e gerenciamento das filiais.
+ */
 @Composable
 fun StoresScreen(
     modifier: Modifier = Modifier,
@@ -59,12 +67,11 @@ fun StoresScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Search Bar
         OutlinedTextField(
             value = uiState.searchQuery,
             onValueChange = viewModel::onSearchQueryChanged,
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Buscar filial ou endereço...") },
+            placeholder = { Text("Buscar filial ou endereÃ§o...") },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Buscar") },
             singleLine = true,
             shape = RoundedCornerShape(12.dp)
@@ -72,7 +79,6 @@ fun StoresScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Filter chips
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -89,7 +95,6 @@ fun StoresScreen(
             )
         }
 
-        // Selected Store Banner
         uiState.selectedStore?.let { selected ->
             Spacer(modifier = Modifier.height(8.dp))
             Surface(
@@ -206,7 +211,7 @@ private fun StoreCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "${branch.address} • ${branch.distanceKm} km",
+                    text = "${branch.address} â€¢ ${branch.distanceKm} km",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

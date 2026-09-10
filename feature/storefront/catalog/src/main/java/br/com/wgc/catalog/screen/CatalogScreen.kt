@@ -37,12 +37,32 @@ import br.com.wgc.ds_templates.screens.ifood.IFoodHomeScreenTemplate
 import br.com.wgc.ds_templates.screens.mercadolivre.FakeMercadoLivreHomeViewModel
 import br.com.wgc.ds_templates.screens.mercadolivre.MercadoLivreHomeScreenTemplate
 
+/**
+ * Modos de exibiÃ§Ã£o e layouts comerciais suportados pelo catÃ¡logo de produtos.
+ *
+ * @property title RÃ³tulo descritivo do template comercial.
+ */
 enum class CommercialTemplateMode(val title: String) {
-    ECOMMERCE_STANDARD("E-Commerce Padrão"),
+    /** Layout padrÃ£o de e-commerce com grid e carrossÃ©is horizontais. */
+    ECOMMERCE_STANDARD("E-Commerce PadrÃ£o"),
+
+    /** Layout estilo app de delivery (iFood) com foco em restaurantes e pratos. */
     IFOOD_DELIVERY("iFood / Delivery"),
+
+    /** Layout estilo marketplace (Mercado Livre) com banners e ofertas do dia. */
     MERCADO_LIVRE("Mercado Livre")
 }
 
+/**
+ * Tela principal do CatÃ¡logo de Produtos e Vitrines Comerciais.
+ *
+ * Permite alternÃ¢ncia dinÃ¢mica em tempo de execuÃ§Ã£o entre diferentes templates
+ * visuais corporativos mantidos pelo Design System.
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param initialMode Modo de layout comercial inicial a ser renderizado.
+ * @param viewModel ViewModel de controle do catÃ¡logo e produtos.
+ */
 @Composable
 fun CatalogScreen(
     modifier: Modifier = Modifier,
@@ -55,7 +75,6 @@ fun CatalogScreen(
     val mlViewModel = remember { FakeMercadoLivreHomeViewModel() }
 
     Column(modifier = modifier.fillMaxSize()) {
-        // Multi-Template Switcher Bar
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)

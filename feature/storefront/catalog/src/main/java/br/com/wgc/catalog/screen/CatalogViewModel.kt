@@ -12,17 +12,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel que gerencia a vitrine de produtos, categorias ativas e busca de catÃ¡logo.
+ *
+ * @param firestoreRepository RepositÃ³rio do OmniBackend Firestore para recuperaÃ§Ã£o do catÃ¡logo remoto.
+ */
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
     private val firestoreRepository: FirestoreRepository
 ) : BaseEcommerceHomeViewModel() {
 
-    private val sampleCategories = listOf("Todos", "Destaques", "Promoções", "Bebidas", "Combos")
+    private val sampleCategories = listOf("Todos", "Destaques", "PromoÃ§Ãµes", "Bebidas", "Combos")
 
     private val sampleProducts = listOf(
         "Pizza Pepperoni Especial - R$ 59,90",
         "Burger Artesanal Costela - R$ 38,00",
-        "Combo Família 2 Pizzas + Refri - R$ 99,00",
+        "Combo FamÃ­lia 2 Pizzas + Refri - R$ 99,00",
         "Refrigerante Lata 350ml - R$ 6,50",
         "Sobremesa Petit Gateau - R$ 22,00"
     )
@@ -46,17 +51,22 @@ class CatalogViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 // Tenta carregar os produtos remotos do OmniBackend Firestore
-                // Quando offline ou não inicializado, mantém os produtos padrão
             } catch (_: Exception) {
-                // Mantém produtos padrão
+                // MantÃ©m produtos padrÃ£o
             }
         }
     }
 
+    /** Trata o clique no Ã­cone do carrinho de compras. */
     override fun onCartClick() {
-        // Ação de abertura do carrinho disparada pelo template
+        // AÃ§Ã£o de abertura do carrinho disparada pelo template
     }
 
+    /**
+     * Atualiza a categoria de produtos atualmente selecionada no filtro da vitrine.
+     *
+     * @param category Nome da categoria selecionada.
+     */
     fun selectCategory(category: String) {
         _uiState.update { it.copy(selectedCategory = category) }
     }
