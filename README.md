@@ -243,6 +243,8 @@ gpr.key=seu-personal-access-token-com-read-packages
 
 ## 📚 Guias e Governança
 
+- [🚀 Guia de Contribuição](./CONTRIBUTING.md)
+- [🔒 Política de Segurança](./SECURITY.md)
 - [🛡️ Proteção de Branches e Status Checks](./docs/BRANCH_PROTECTION.md)
 - [📖 Documentação de API com Dokka](./docs/DOKKA.md)
 - [🧪 Estratégia e Pirâmide de Testes](./docs/TESTING_STRATEGY.md)
