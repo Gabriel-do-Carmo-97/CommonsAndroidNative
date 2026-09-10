@@ -14,10 +14,18 @@ Para garantir que nenhum código quebre o monorepo **CommonsAndroidNative** ou v
      - [x] Dismiss stale pull request approvals when new commits are pushed
    - [x] **Require status checks to pass before merging**
      - [x] Require branches to be up to date before merging
-     - **Status checks obrigatórios**:
-       - `🏷️ Validate PR Title` (Semantic PR)
-       - `🧹 Detekt Static Analysis`
-       - `🧪 Unit Tests`
-       - `📦 Assemble Release AARs`
-   - [x] **Require conversation resolution before merging**
-   - [x] **Do not allow bypassing the above settings**
+      - **Status checks recomendados para merge**:
+        - `PR: Validate Conventional Title`
+        - `feature: auth`
+        - `feature: account`
+        - `feature: system`
+        - `feature: platform`
+        - `feature: storefront`
+        - `feature: checkout`
+        - `feature: customer`
+        - `feature: delivery`
+        - `feature: communication`
+        - `feature: services`
+        - `app: sample-app`
+    - [x] **Require conversation resolution before merging**
+    - [x] **Do not allow bypassing the above settings**

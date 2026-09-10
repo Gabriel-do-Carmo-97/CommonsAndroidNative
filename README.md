@@ -241,6 +241,15 @@ gpr.key=seu-personal-access-token-com-read-packages
 
 ---
 
+## 📚 Guias e Governança
+
+- [🛡️ Proteção de Branches e Status Checks](./docs/BRANCH_PROTECTION.md)
+- [📖 Documentação de API com Dokka](./docs/DOKKA.md)
+- [🧪 Estratégia e Pirâmide de Testes](./docs/TESTING_STRATEGY.md)
+- [👥 Governança de Agentes Especialistas](./AGENTS.md)
+
+---
+
 ## 📄 Licença
 
 Distribuído sob a licença **Apache 2.0**. Consulte [`LICENSE`](./LICENSE) para obter mais informações.
