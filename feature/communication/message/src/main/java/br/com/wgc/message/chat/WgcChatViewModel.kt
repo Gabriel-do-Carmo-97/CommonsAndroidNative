@@ -16,6 +16,18 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
+/**
+ * Estado imutÃ¡vel da tela de chat e troca de mensagens.
+ *
+ * @property conversationId Identificador Ãºnico da sala de conversa.
+ * @property currentUserId Identificador Ãºnico do autor das novas mensagens.
+ * @property recipientName Nome amigÃ¡vel do destinatÃ¡rio da conversa.
+ * @property messages HistÃ³rico cronolÃ³gico das mensagens trocadas.
+ * @property inputText Texto em digitaÃ§Ã£o na caixa de entrada.
+ * @property isSending Sinalizador de transmissÃ£o de mensagem em andamento.
+ * @property isLoading Sinalizador de sincronizaÃ§Ã£o inicial do histÃ³rico.
+ * @property errorMessage Mensagem de falha capturada durante a troca de mensagens.
+ */
 data class WgcChatUiState(
     val conversationId: String = "",
     val currentUserId: String = "",
@@ -27,14 +39,30 @@ data class WgcChatUiState(
     val errorMessage: String? = null
 )
 
+/**
+ * ViewModel corporativo responsÃ¡vel pela sincronizaÃ§Ã£o de mensagens em tempo real via [MessageRepository].
+ *
+ * @param messageRepository RepositÃ³rio do OmniBackend encarregado de canais de WebSocket ou streams de chat.
+ */
 @HiltViewModel
 class WgcChatViewModel @Inject constructor(
     private val messageRepository: MessageRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WgcChatUiState())
+
+    /**
+     * Fluxo de estado observÃ¡vel com as informaÃ§Ãµes completas da sessÃ£o de chat.
+     */
     val uiState: StateFlow<WgcChatUiState> = _uiState.asStateFlow()
 
+    /**
+     * Inicializa a escuta reativa da conversa especificada e carrega o histÃ³rico de mensagens.
+     *
+     * @param conversationId Identificador do canal de conversa.
+     * @param currentUserId Identificador do usuÃ¡rio conectado.
+     * @param recipientName Nome de exibiÃ§Ã£o do destinatÃ¡rio.
+     */
     fun initChat(
         conversationId: String,
         currentUserId: String,
@@ -75,10 +103,18 @@ class WgcChatViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Atualiza o valor do texto em digitaÃ§Ã£o no campo de mensagem.
+     *
+     * @param newText Novo conteÃºdo textual.
+     */
     fun onInputTextChanged(newText: String) {
         _uiState.update { it.copy(inputText = newText) }
     }
 
+    /**
+     * Empacota e envia a mensagem atual atravÃ©s do [MessageRepository].
+     */
     fun sendMessage() {
         val currentState = _uiState.value
         val text = currentState.inputText.trim()
@@ -119,6 +155,9 @@ class WgcChatViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Limpa a mensagem de erro pendente apÃ³s sua exibiÃ§Ã£o na interface.
+     */
     fun clearError() {
         _uiState.update { it.copy(errorMessage = null) }
     }
