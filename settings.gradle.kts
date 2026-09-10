@@ -12,6 +12,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -117,34 +120,81 @@ registerFeature("platform", "emergency")
 registerFeature("platform", "offline-sync")
 registerFeature("platform", "telemetry")
 
-// 📦 Commercial Bundles (14 domains x 3 tiers = 42 bundles)
-fun registerBundle(domain: String, tier: String) {
-    val path = ":bundle:$domain:$tier"
-    include(path)
-    project(path).projectDir = file("bundle/$domain/$tier")
+// Mapeamento dos Bundles como Submódulos Hierárquicos organizados por Domínio e Tier
+fun includeBundle(domain: String, tier: String) {
+    val bundlePath = ":bundles:$domain:$tier"
+    include(bundlePath)
+    project(bundlePath).projectDir = file("bundles/$domain/$tier")
 }
 
-val bundleDomains = listOf(
-    "communication",
-    "delivery",
-    "ecommerce",
-    "education",
-    "emergency",
-    "events",
-    "finance",
-    "foundation",
-    "health",
-    "identity",
-    "real-estate",
-    "services",
-    "social",
-    "subscriptions"
-)
-val bundleTiers = listOf("basic", "standard", "pro")
+// 📦 1. Identidade & Acesso
+includeBundle("identity", "basic")
+includeBundle("identity", "standard")
+includeBundle("identity", "pro")
 
-bundleDomains.forEach { domain ->
-    bundleTiers.forEach { tier ->
-        registerBundle(domain, tier)
-    }
-}
+// 📦 2. Infraestrutura de App
+includeBundle("foundation", "basic")
+includeBundle("foundation", "standard")
+includeBundle("foundation", "pro")
+
+// 📦 3. Vendas & Varejo
+includeBundle("ecommerce", "basic")
+includeBundle("ecommerce", "standard")
+includeBundle("ecommerce", "pro")
+
+// 📦 4. Logística & Tempo Real
+includeBundle("delivery", "basic")
+includeBundle("delivery", "standard")
+includeBundle("delivery", "pro")
+
+// 📦 5. Agendamentos & Orçamentos
+includeBundle("services", "basic")
+includeBundle("services", "standard")
+includeBundle("services", "pro")
+
+// 📦 6. Engajamento & Suporte
+includeBundle("communication", "basic")
+includeBundle("communication", "standard")
+includeBundle("communication", "pro")
+
+// 📦 7. Monetização & Assinaturas
+includeBundle("subscriptions", "basic")
+includeBundle("subscriptions", "standard")
+includeBundle("subscriptions", "pro")
+
+// 📦 8. Comunidade & Redes Sociais
+includeBundle("social", "basic")
+includeBundle("social", "standard")
+includeBundle("social", "pro")
+
+// 📦 9. Escolas & Cursos
+includeBundle("education", "basic")
+includeBundle("education", "standard")
+includeBundle("education", "pro")
+
+// 📦 10. Saúde & Clínicas
+includeBundle("health", "basic")
+includeBundle("health", "standard")
+includeBundle("health", "pro")
+
+// 📦 11. Carteira Digital & Finanças
+includeBundle("finance", "basic")
+includeBundle("finance", "standard")
+includeBundle("finance", "pro")
+
+// 📦 12. Shows & Eventos
+includeBundle("events", "basic")
+includeBundle("events", "standard")
+includeBundle("events", "pro")
+
+// 📦 13. Imobiliárias & Locação
+includeBundle("real-estate", "basic")
+includeBundle("real-estate", "standard")
+includeBundle("real-estate", "pro")
+
+// 📦 14. Segurança & Emergência
+includeBundle("emergency", "basic")
+includeBundle("emergency", "standard")
+includeBundle("emergency", "pro")
+
 

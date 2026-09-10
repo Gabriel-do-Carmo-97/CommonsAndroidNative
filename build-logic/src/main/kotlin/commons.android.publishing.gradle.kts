@@ -20,7 +20,7 @@ publishing {
             groupId = "br.com.wgc"
             val domain = project.parent?.name
             val tier = project.name
-            artifactId = if (project.parent?.parent?.name == "bundle") {
+            artifactId = if (project.parent?.parent?.name == "bundle" || project.parent?.parent?.name == "bundles") {
                 "bundle-$domain-$tier"
             } else {
                 project.name
