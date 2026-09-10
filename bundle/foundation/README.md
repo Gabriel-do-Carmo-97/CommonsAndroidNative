@@ -1,4 +1,4 @@
-# Bundle Domain: `foundation`
+# 🏗️ Commercial Bundle Domain: `foundation`
 
 Esta pasta agrupa os pacotes comerciais de **Fundação & Base WGC** em seus três tiers (`basic`, `standard`, `pro`).
-Estes bundles unem a arquitetura core, design system e autenticação padrão da WGC.
+Estes bundles unem a arquitetura core, design system e autenticação padrão da WGC para inicialização de qualquer projeto.
