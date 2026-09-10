@@ -11,26 +11,85 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class ServiceItem(val id: String, val name: String, val durationMin: Int, val price: String)
-data class ProviderItem(val id: String, val name: String, val role: String)
-data class TimeSlot(val time: String, val isAvailable: Boolean = true)
+/**
+ * Item representativo de um serviÃ§o disponÃ­vel para agendamento.
+ *
+ * @param id Identificador do serviÃ§o.
+ * @param name Nome comercial do serviÃ§o.
+ * @param durationMin DuraÃ§Ã£o estimada em minutos.
+ * @param price Valor monetÃ¡rio formatado.
+ * @property id Identificador do serviÃ§o.
+ * @property name Nome comercial do serviÃ§o.
+ * @property durationMin DuraÃ§Ã£o estimada em minutos.
+ * @property price Valor monetÃ¡rio formatado.
+ */
+data class ServiceItem(
+    val id: String,
+    val name: String,
+    val durationMin: Int,
+    val price: String
+)
 
+/**
+ * Profissional credenciado encarregado da execuÃ§Ã£o do atendimento.
+ *
+ * @param id Identificador do profissional.
+ * @param name Nome completo do prestador.
+ * @param role Cargo ou especialidade tÃ©cnica.
+ * @property id Identificador do profissional.
+ * @property name Nome completo do prestador.
+ * @property role Cargo ou especialidade tÃ©cnica.
+ */
+data class ProviderItem(
+    val id: String,
+    val name: String,
+    val role: String
+)
+
+/**
+ * Intervalo de horÃ¡rio (slot) da agenda de atendimento.
+ *
+ * @param time HorÃ¡rio no formato HH:mm.
+ * @param isAvailable Sinalizador indicando se o horÃ¡rio estÃ¡ livre para reserva.
+ * @property time HorÃ¡rio no formato HH:mm.
+ * @property isAvailable Sinalizador indicando se o horÃ¡rio estÃ¡ livre para reserva.
+ */
+data class TimeSlot(
+    val time: String,
+    val isAvailable: Boolean = true
+)
+
+/**
+ * Estado imutÃ¡vel do fluxo de agendamento de serviÃ§os.
+ *
+ * @property title TÃ­tulo do cabeÃ§alho da tela de agendamento.
+ * @property services CatÃ¡logo de serviÃ§os ofertados para agendamento.
+ * @property selectedService ServiÃ§o atualmente selecionado pelo cliente.
+ * @property providers Lista de profissionais habilitados.
+ * @property selectedProvider Profissional selecionado para a execuÃ§Ã£o.
+ * @property availableDates Dias do calendÃ¡rio disponÃ­veis para reserva.
+ * @property selectedDate Data escolhida.
+ * @property timeSlots Faixas de horÃ¡rios para a data selecionada.
+ * @property selectedTime HorÃ¡rio escolhido.
+ * @property isSubmitting Indicador de transaÃ§Ã£o de agendamento em andamento.
+ * @property isBookingConfirmed Indicador de agendamento validado e registrado com sucesso.
+ */
 data class SchedulingUiState(
-    val title: String = "Agendamento de Serviços",
+    val title: String = "Agendamento de ServiÃ§os",
     val services: List<ServiceItem> = listOf(
         ServiceItem("s1", "Corte de Cabelo & Barba", 45, "R$ 65,00"),
-        ServiceItem("s2", "Revisão Automotiva Preventiva", 120, "R$ 280,00"),
-        ServiceItem("s3", "Consulta Médica / Avaliação", 30, "R$ 150,00"),
-        ServiceItem("s4", "Limpeza e Higienização VIP", 60, "R$ 110,00")
+        ServiceItem("s2", "RevisÃ£o Automotiva Preventiva", 120, "R$ 280,00"),
+        ServiceItem("s3", "Consulta MÃ©dica / AvaliaÃ§Ã£o", 30, "R$ 150,00"),
+        ServiceItem("s4", "Limpeza e HigienizaÃ§Ã£o VIP", 60, "R$ 110,00")
     ),
     val selectedService: ServiceItem = ServiceItem("s1", "Corte de Cabelo & Barba", 45, "R$ 65,00"),
     val providers: List<ProviderItem> = listOf(
         ProviderItem("p1", "Carlos Andrade", "Especialista Master"),
-        ProviderItem("p2", "Fernanda Lima", "Profissional Sênior"),
-        ProviderItem("p3", "Qualquer Profissional Disponível", "Mais Rápido")
+        ProviderItem("p2", "Fernanda Lima", "Profissional SÃªnior"),
+        ProviderItem("p3", "Qualquer Profissional DisponÃ­vel", "Mais RÃ¡pido")
     ),
     val selectedProvider: ProviderItem = ProviderItem("p1", "Carlos Andrade", "Especialista Master"),
-    val availableDates: List<String> = listOf("Hoje", "Amanhã", "Quarta", "Quinta", "Sexta", "Sábado"),
+    val availableDates: List<String> = listOf("Hoje", "AmanhÃ£", "Quarta", "Quinta", "Sexta", "SÃ¡bado"),
     val selectedDate: String = "Hoje",
     val timeSlots: List<TimeSlot> = listOf(
         TimeSlot("09:00", true),
@@ -45,30 +104,62 @@ data class SchedulingUiState(
     val isBookingConfirmed: Boolean = false
 )
 
+/**
+ * ViewModel responsÃ¡vel pelo fluxo de reserva e integraÃ§Ã£o com a coleÃ§Ã£o `appointments` do Firestore.
+ *
+ * @param firestoreRepository RepositÃ³rio do OmniBackend encarregado do registro remoto do agendamento.
+ */
 @HiltViewModel
 class SchedulingViewModel @Inject constructor(
     private val firestoreRepository: FirestoreRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SchedulingUiState())
+
+    /**
+     * Fluxo observÃ¡vel contendo o estado completo da reserva.
+     */
     val uiState: StateFlow<SchedulingUiState> = _uiState.asStateFlow()
 
+    /**
+     * Seleciona o serviÃ§o a ser contratado.
+     *
+     * @param service Item de serviÃ§o escolhido.
+     */
     fun selectService(service: ServiceItem) {
         _uiState.update { it.copy(selectedService = service) }
     }
 
+    /**
+     * Define o profissional prestador escolhido para o atendimento.
+     *
+     * @param provider Objeto do profissional selecionado.
+     */
     fun selectProvider(provider: ProviderItem) {
         _uiState.update { it.copy(selectedProvider = provider) }
     }
 
+    /**
+     * Define o dia selecionado para o atendimento.
+     *
+     * @param date RÃ³tulo da data selecionada.
+     */
     fun selectDate(date: String) {
         _uiState.update { it.copy(selectedDate = date) }
     }
 
+    /**
+     * Define o horÃ¡rio especÃ­fico do atendimento.
+     *
+     * @param time HorÃ¡rio selecionado.
+     */
     fun selectTime(time: String) {
         _uiState.update { it.copy(selectedTime = time) }
     }
 
+    /**
+     * Confirma a reserva e persiste os dados na coleÃ§Ã£o `appointments` do OmniBackend.
+     */
     fun confirmBooking() {
         _uiState.update { it.copy(isSubmitting = true) }
         viewModelScope.launch {

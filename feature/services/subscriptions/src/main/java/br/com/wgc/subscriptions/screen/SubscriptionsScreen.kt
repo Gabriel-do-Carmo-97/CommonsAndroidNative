@@ -12,12 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela de Gerenciamento de Assinaturas e Planos Recorrentes.
+ *
+ * Exibe catÃ¡logo de planos contratados, periodicidades de renovaÃ§Ã£o
+ * e benefÃ­cios vigentes para o assinante.
+ *
+ * @param modifier Modificador Jetpack Compose aplicado Ã  raiz do layout.
+ * @param title TÃ­tulo descritivo exibido no painel de assinaturas.
+ */
 @Composable
 fun SubscriptionsScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Assinaturas e Recorrência WGC"
+    title: String = "MÃ³dulo de Assinaturas e RecorrÃªncia WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +34,6 @@ fun SubscriptionsScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Clube de assinaturas, planos mensais e cobranças recorrentes WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Clube de assinaturas, planos mensais e cobranÃ§as recorrentes WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }
