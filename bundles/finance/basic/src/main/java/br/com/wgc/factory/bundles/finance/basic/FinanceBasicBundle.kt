@@ -15,7 +15,9 @@ object FinanceBasicBundle {
     )
 
     /**
-     * Inicializa servicos e configuracoes necessarias para o bundle.
+     * Inicializa servicos e configuracoes necessarias para o bundle comercial.
+     *
+     * @param context Contexto de execucao do aplicativo para inicializacao de dependencias.
      */
     fun initialize(context: Context? = null) {
         // Inicializacao contextual do bundle comercial

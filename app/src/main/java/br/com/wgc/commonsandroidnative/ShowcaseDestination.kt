@@ -1,4 +1,4 @@
-﻿package br.com.wgc.commonsandroidnative
+package br.com.wgc.commonsandroidnative
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -12,7 +12,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class ShowcaseCategory(val title: String) {
     ARCHETYPES("🚀 Fluxos Ponta-a-Ponta"),
+    BUNDLES("📦 Bundles Comerciais (42)"),
     ECOMMERCE("E-Commerce & Vendas"),
     SERVICES("Operações & Serviços"),
     ENGAGEMENT("Engajamento & Fidelidade"),
@@ -145,7 +146,7 @@ sealed class ShowcaseDestination(
         title = "Atendimento WhatsApp",
         description = "Deep link direto para canais de suporte no WhatsApp",
         category = ShowcaseCategory.ENGAGEMENT,
-        icon = Icons.Default.Send
+        icon = Icons.AutoMirrored.Filled.Send
     )
 
     data object Chat : ShowcaseDestination(
@@ -238,8 +239,17 @@ sealed class ShowcaseDestination(
         icon = Icons.Default.DateRange
     )
 
+    data object CommercialBundles : ShowcaseDestination(
+        route = "commercial_bundles",
+        title = "Catálogo dos 42 Bundles",
+        description = "14 Domínios × 3 Níveis (Basic, Standard, Pro) com composições completas",
+        category = ShowcaseCategory.BUNDLES,
+        icon = Icons.Default.Build
+    )
+
     companion object {
         val allDestinations: List<ShowcaseDestination> = listOf(
+            CommercialBundles,
             FoodDeliveryFlow, RetailEcommerceFlow, ServiceBookingFlow,
             Catalog, Cart, Search, Promotions, Payment, Stores,
             Scheduling, Quotation, OrderTracking, Maps,

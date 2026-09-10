@@ -116,7 +116,7 @@ jobs:
         env:
           GPR_USER: ${{ secrets.GPR_USER || github.actor }}
           GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
-        run: ./gradlew publish --no-daemon
+        run: ./gradlew publish -PVERSION_NAME=${{ steps.semver.outputs.version }} --no-daemon
 
       - name: Configure GitHub Access
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'

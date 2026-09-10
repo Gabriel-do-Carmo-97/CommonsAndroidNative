@@ -25,8 +25,11 @@ publishing {
             } else {
                 project.name
             }
-            val runNumber = System.getenv("GITHUB_RUN_NUMBER")
-            version = if (!runNumber.isNullOrEmpty()) "0.0.$runNumber" else "0.0.1-SNAPSHOT"
+            val versionName = (findProperty("VERSION_NAME") as? String)
+                ?: System.getenv("VERSION_NAME")
+                ?: System.getenv("GITHUB_RUN_NUMBER")?.let { "0.0.$it" }
+                ?: "0.0.1-SNAPSHOT"
+            version = versionName
 
             afterEvaluate {
                 from(components["release"])

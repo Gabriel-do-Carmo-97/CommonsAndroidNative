@@ -1,4 +1,4 @@
-﻿package br.com.wgc.commonsandroidnative
+package br.com.wgc.commonsandroidnative
 
 import android.os.Bundle
 import android.widget.Toast
@@ -165,6 +165,7 @@ fun MainAppShowcaseScreen(
                     .padding(innerPadding)
             ) {
                 when (currentDestination) {
+                    is ShowcaseDestination.CommercialBundles -> CommercialBundlesScreen(modifier = Modifier.fillMaxSize())
                     is ShowcaseDestination.FoodDeliveryFlow -> FoodDeliveryFlowCoordinator(
                         onFinishFlow = { selectedDestinationRoute = null },
                         modifier = Modifier.fillMaxSize()
@@ -290,7 +291,7 @@ private fun ShowcaseHubHome(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "Ecossistema Completo • 22 Módulos Reutilizáveis",
+                    text = "Ecossistema Corporativo • 33 Features & 42 Bundles Comerciais",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
