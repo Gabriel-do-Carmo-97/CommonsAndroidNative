@@ -13,6 +13,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel responsÃ¡vel pelo controle de preferÃªncias de configuraÃ§Ã£o da conta e aplicativo.
+ *
+ * @param authManager Gerenciador de sessÃ£o corporativo injetado via Hilt.
+ */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val authManager: WgcAuthManager
@@ -20,7 +25,7 @@ class SettingsViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(
         SettingsHubUiState(
-            userName = authManager.currentUser?.displayName ?: "Usuário WGC",
+            userName = authManager.currentUser?.displayName ?: "UsuÃ¡rio WGC",
             email = authManager.currentUser?.email ?: "usuario@wgc.com.br",
             notificationsEnabled = true,
             darkModeEnabled = false
@@ -35,7 +40,7 @@ class SettingsViewModel @Inject constructor(
                     is AuthSessionState.Authenticated -> {
                         _uiState.update {
                             it.copy(
-                                userName = session.user.displayName ?: "Usuário WGC",
+                                userName = session.user.displayName ?: "UsuÃ¡rio WGC",
                                 email = session.user.email ?: "usuario@wgc.com.br"
                             )
                         }
@@ -44,7 +49,7 @@ class SettingsViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(
                                 userName = "Visitante",
-                                email = "Não autenticado"
+                                email = "NÃ£o autenticado"
                             )
                         }
                     }
@@ -54,14 +59,27 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Alterna a preferÃªncia de notificaÃ§Ãµes push.
+     *
+     * @param enabled Indica se notificaÃ§Ãµes estÃ£o habilitadas.
+     */
     override fun onToggleNotifications(enabled: Boolean) {
         _uiState.update { it.copy(notificationsEnabled = enabled) }
     }
 
+    /**
+     * Alterna a preferÃªncia de tema escuro.
+     *
+     * @param enabled Indica se tema escuro estÃ¡ ativado.
+     */
     override fun onToggleDarkMode(enabled: Boolean) {
         _uiState.update { it.copy(darkModeEnabled = enabled) }
     }
 
+    /**
+     * Encerra a sessÃ£o do usuÃ¡rio.
+     */
     override fun onLogoutClick() {
         viewModelScope.launch {
             authManager.logout()

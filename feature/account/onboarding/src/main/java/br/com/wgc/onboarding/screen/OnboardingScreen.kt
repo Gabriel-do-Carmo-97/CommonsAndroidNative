@@ -22,8 +22,6 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -34,13 +32,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+/**
+ * Tela de Onboarding e apresentaÃ§Ã£o inicial de propostas de valor do aplicativo.
+ *
+ * Apresenta carrossel interativo com transiÃ§Ãµes animadas, indicadores de pÃ¡gina
+ * e botÃµes de navegaÃ§Ã£o e conclusÃ£o para o usuÃ¡rio.
+ *
+ * @param modifier Modificador de layout Compose aplicado Ã  tela.
+ * @param onFinished Callback invocado quando o usuÃ¡rio conclui ou pula o onboarding.
+ * @param viewModel ViewModel responsÃ¡vel pelo controle de estado e Ã­ndice do carrossel.
+ */
 @Composable
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
@@ -178,7 +185,7 @@ fun OnboardingScreen(
                     modifier = Modifier.height(48.dp)
                 ) {
                     val isLastPage = uiState.currentPageIndex == uiState.pages.size - 1
-                    Text(if (isLastPage) "Começar Agora" else "Avançar")
+                    Text(if (isLastPage) "ComeÃ§ar Agora" else "AvanÃ§ar")
                     Spacer(modifier = Modifier.size(6.dp))
                     Icon(
                         imageVector = if (isLastPage) Icons.Default.CheckCircle else Icons.AutoMirrored.Filled.ArrowForward,
