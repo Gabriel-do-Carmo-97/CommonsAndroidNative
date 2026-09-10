@@ -1,4 +1,4 @@
-﻿name: Android CI/CD Pipeline (Hyper-Granular Pro)
+name: Android CI/CD Pipeline (Hyper-Granular Pro)
 
 on:
   push:
@@ -744,7 +744,7 @@ jobs:
 
       - name: Calculate Semantic Version
         id: semver
-        uses: PaulHatch/semantic-version@v5.4.0
+        uses: PaulHatch/semantic-version@v6.0.3
         with:
           tag_prefix: "v"
           major_pattern: "(MAJOR)"
