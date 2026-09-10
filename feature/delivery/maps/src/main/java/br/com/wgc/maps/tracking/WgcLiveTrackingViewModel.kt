@@ -13,16 +13,37 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel corporativo para rastreamento de parceiros e entregas em tempo real.
+ *
+ * Integra com [GeolocationRepository] do OmniBackend consumindo coordenadas GPS
+ * via WebSocket/Firestore Streams e atualizando o template de mapa em tempo real.
+ *
+ * @param geolocationRepository RepositÃ³rio de telemetria e posiÃ§Ãµes geogrÃ¡ficas em tempo real.
+ */
 @HiltViewModel
 class WgcLiveTrackingViewModel @Inject constructor(
     private val geolocationRepository: GeolocationRepository
 ) : BaseRealtimeLocationViewModel() {
 
     private val _uiState = MutableStateFlow(RealtimeLocationUiState())
+
+    /**
+     * Fluxo reativo do estado da posiÃ§Ã£o do entregador no mapa.
+     */
     override val uiState: StateFlow<RealtimeLocationUiState> = _uiState.asStateFlow()
 
     private var onContactCallback: (() -> Unit)? = null
 
+    /**
+     * Inicializa a escuta ativa de coordenadas geogrÃ¡ficas de uma entidade conectada.
+     *
+     * @param entityType Tipo de entidade rastreada (ex: `drivers`).
+     * @param entityId Identificador Ãºnico do entregador ou veÃ­culo parceiro.
+     * @param driverName Nome de exibiÃ§Ã£o do motorista para o cliente final.
+     * @param destinationAddress EndereÃ§o formatado do ponto de entrega.
+     * @param onContact AÃ§Ã£o invocada quando o usuÃ¡rio clica no botÃ£o de ligar/contatar motorista.
+     */
     fun initializeTracking(
         entityType: String = "drivers",
         entityId: String,
@@ -47,7 +68,7 @@ class WgcLiveTrackingViewModel @Inject constructor(
                         val location = result.data
                         _uiState.update {
                             it.copy(
-                                statusText = "Posição atualizada (${location.latitude}, ${location.longitude})",
+                                statusText = "PosiÃ§Ã£o atualizada (${location.latitude}, ${location.longitude})",
                                 isTrackingActive = true
                             )
                         }
@@ -65,6 +86,9 @@ class WgcLiveTrackingViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Aciona o callback registrado para contato direto telefÃ´nico ou via chat com o motorista.
+     */
     override fun onContactDriverClick() {
         onContactCallback?.invoke()
     }

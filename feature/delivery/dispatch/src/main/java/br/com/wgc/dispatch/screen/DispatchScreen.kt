@@ -12,12 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela do painel de despacho (Dispatch) e alocaÃ§Ã£o de pedidos.
+ *
+ * Apresenta a interface de gestÃ£o e visualizaÃ§Ã£o da esteira operacional
+ * de distribuiÃ§Ã£o e roteirizaÃ§Ã£o para entregadores parceiros.
+ *
+ * @param modifier Modificador de layout Compose a ser aplicado na raiz.
+ * @param title TÃ­tulo customizado exibido no topo do painel.
+ */
 @Composable
 fun DispatchScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Dispatch e Alocação WGC"
+    title: String = "MÃ³dulo de Dispatch e AlocaÃ§Ã£o WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +34,6 @@ fun DispatchScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Motor inteligente de alocação de pedidos e roteirização WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Motor inteligente de alocaÃ§Ã£o de pedidos e roteirizaÃ§Ã£o WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

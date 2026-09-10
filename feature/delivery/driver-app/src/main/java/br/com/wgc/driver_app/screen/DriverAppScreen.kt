@@ -12,12 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela inicial do aplicativo operacional do Entregador (Driver App).
+ *
+ * ProvÃª interface para aceitaÃ§Ã£o de entregas, visualizaÃ§Ã£o de rotas otimizadas
+ * e confirmaÃ§Ã£o de chegada ao ponto de coleta/entrega.
+ *
+ * @param modifier Modificador de layout Jetpack Compose aplicado ao contÃªiner raiz.
+ * @param title TÃ­tulo descritivo exibido na interface operacional.
+ */
 @Composable
 fun DriverAppScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo do Entregador e Logística WGC"
+    title: String = "MÃ³dulo do Entregador e LogÃ­stica WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +34,6 @@ fun DriverAppScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "App operacional do motoboy, aceitação de entregas e rotas otimizadas WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "App operacional do motoboy, aceitaÃ§Ã£o de entregas e rotas otimizadas WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

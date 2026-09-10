@@ -12,12 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela do mÃ³dulo de Mapas Offline e Cache Local de Rotas.
+ *
+ * Exibe regiÃµes baixadas para visualizaÃ§Ã£o sem conectividade e status
+ * do armazenamento interno de cartografia vetorial.
+ *
+ * @param modifier Modificador Compose aplicado na raiz do contÃªiner.
+ * @param title TÃ­tulo customizado exibido no topo.
+ */
 @Composable
 fun OfflineMapsScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Mapas Offline WGC"
+    title: String = "MÃ³dulo de Mapas Offline WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +34,6 @@ fun OfflineMapsScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Navegação turn-by-turn e cache de mapas locais WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "NavegaÃ§Ã£o turn-by-turn e cache de mapas locais WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

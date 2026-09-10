@@ -18,11 +18,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -43,6 +41,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+/**
+ * Tela de Acompanhamento e Linha do Tempo de Pedidos (Order Tracking).
+ *
+ * Apresenta o status atual do pedido atravÃ©s de um stepper vertical progressivo,
+ * estimativa de tempo restante (ETA), dados do entregador parceiro e botÃ£o para abrir o rastreamento em mapa.
+ *
+ * @param modifier Modificador de layout Jetpack Compose aplicado Ã  tela.
+ * @param onOpenMapTracking Callback invocado para transiÃ§Ã£o Ã  tela com o mapa ao vivo.
+ * @param viewModel ViewModel injetado gerenciador do ciclo de vida e estado do pedido.
+ */
 @Composable
 fun OrderTrackingScreen(
     modifier: Modifier = Modifier,
@@ -118,9 +126,9 @@ fun OrderTrackingScreen(
                                     .clip(CircleShape)
                                     .background(
                                         when {
-                                            isCurrent -> MaterialTheme.colorScheme.primary
-                                            isDone -> Color(0xFF2E7D32)
-                                            else -> MaterialTheme.colorScheme.outlineVariant
+                                             isCurrent -> MaterialTheme.colorScheme.primary
+                                             isDone -> Color(0xFF2E7D32)
+                                             else -> MaterialTheme.colorScheme.outlineVariant
                                         }
                                     ),
                                 contentAlignment = Alignment.Center
@@ -220,7 +228,7 @@ fun OrderTrackingScreen(
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text("Avançar Status")
+                Text("AvanÃ§ar Status")
             }
         }
     }
