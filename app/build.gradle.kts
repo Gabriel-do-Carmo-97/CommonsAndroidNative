@@ -1,14 +1,14 @@
-plugins {
+﻿plugins {
     id("commons.android.application")
     id("commons.android.compose")
     id("commons.android.hilt")
 }
 
 android {
-    namespace = "br.com.gds.commonsandroidnative"
+    namespace = "br.com.wgc.commonsandroidnative"
 
     defaultConfig {
-        applicationId = "br.com.gds.commonsandroidnative"
+        applicationId = "br.com.wgc.commonsandroidnative"
         versionCode = 1
         versionName = "1.0"
     }

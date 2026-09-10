@@ -1,4 +1,4 @@
-plugins {
+﻿plugins {
     id("commons.android.library")
     id("commons.android.compose")
     id("commons.android.publishing")
@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.gds.ai_assistant"
+    namespace = "br.com.wgc.ai_assistant"
 }
 
 dependencies {

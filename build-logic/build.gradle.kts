@@ -1,8 +1,8 @@
-plugins {
+﻿plugins {
     `kotlin-dsl`
 }
 
-group = "br.com.gds.commonsandroidnative.buildlogic"
+group = "br.com.wgc.commonsandroidnative.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

@@ -1,130 +1,136 @@
-﻿# CommonsAndroidNative
+# CommonsAndroidNative 🚀
 
-Monorepo de bibliotecas e SDKs Android reutilizÃ¡veis da organizaÃ§Ã£o **WGC**, para construÃ§Ã£o acelerada de aplicativos comerciais, e-commerce, delivery, serviÃ§os e soluÃ§Ãµes white-label.
+[![Android CI/CD](https://github.com/Gabriel-do-Carmo-97/CommonsAndroidNative/actions/workflows/android.yaml/badge.svg)](https://github.com/Gabriel-do-Carmo-97/CommonsAndroidNative/actions)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![Min SDK](https://img.shields.io/badge/minSdk-29-green.svg)
+![Compile SDK](https://img.shields.io/badge/compileSdk-37-brightgreen.svg)
+![Kotlin](https://img.shields.io/badge/kotlin-2.2.20-purple.svg)
+![Detekt](https://img.shields.io/badge/Detekt-Passing-success.svg)
+![SemVer](https://img.shields.io/badge/SemVer-Conventional%20Commits-orange.svg)
 
-Todos os mÃ³dulos sÃ£o publicados e distribuÃ­dos individualmente via **GitHub Packages** (`br.com.wgc:*`).
+**CommonsAndroidNative** é o monorepo de bibliotecas, módulos funcionais e SDKs corporativos reutilizáveis da organização **WGC**, projetado para acelerar a construção de aplicativos móveis comerciais, e-commerce, delivery, prestação de serviços, fintech e soluções white-label em escala.
+
+Todos os artefatos são publicados individualmente e centralizados no **GitHub Packages** sob o namespace corporativo **`br.com.wgc:*`**.
 
 ---
 
-## ðŸ“¦ Estrutura Completa de MÃ³dulos (33 MÃ³dulos Organizados por DomÃ­nio)
+## 🏛️ Arquitetura e Catálogo de Módulos
 
-Os mÃ³dulos estÃ£o agrupados na pasta `feature/` por domÃ­nios de negÃ³cio e registrados com separaÃ§Ã£o por `:` (padrÃ£o `CoreAndroidNative`: `:feature:<tema>:<nome>`), mantendo a publicaÃ§Ã£o de primeiro nÃ­vel (`br.com.wgc:<module>`).
+O repositório é composto por **33 módulos de feature granulares** (em `feature/`) e **42 bundles comerciais integrados** (em `bundles/`), operando sob **Clean Architecture** estrita com Jetpack Compose, Coroutines/Flows, Hilt e integração nativa ao **OmniBackend** e **DesignSystemAndroid** (`core-ds`).
 
-### ðŸš€ AplicaÃ§Ã£o & Showcase
-| MÃ³dulo | Tipo | Caminho | DescriÃ§Ã£o |
+```mermaid
+graph TD
+    classDef client fill:#4285F4,stroke:#1A73E8,stroke-width:2px,color:#fff;
+    classDef bundle fill:#9C27B0,stroke:#7B1FA2,stroke-width:2px,color:#fff;
+    classDef feature fill:#34A853,stroke:#1E8E3E,stroke-width:2px,color:#fff;
+    classDef core fill:#FBBC04,stroke:#F29900,stroke-width:2px,color:#000;
+
+    App["App Showcase (:app)"]:::client
+    Bundles["Bundles Comerciais (:bundles:*:*)<br/>42 Módulos (Basic / Standard / Pro)"]:::bundle
+    Features["Features Granulares (:feature:*:*)<br/>33 Módulos de Domínio & UI"]:::feature
+    CoreFoundation["Fundação Organizacional<br/>CoreAndroidNative & DesignSystemAndroid (core-ds)"]:::core
+
+    App --> Bundles
+    Bundles --> Features
+    Features --> CoreFoundation
+```
+
+---
+
+## 📦 1. Módulos de Feature Granulares (33 Módulos por Domínio)
+
+Os módulos estão divididos por áreas de negócio sob a convenção `:feature:<domínio>:<nome>`, com namespace padronizado em **`br.com.wgc.<nome>`**:
+
+### 🚀 Showcase & Demonstração
+| Módulo | Tipo | Namespace | Descrição |
 | :--- | :--- | :--- | :--- |
-| [`:app`](./app) | AplicaÃ§Ã£o | `app/` | Showcase interativo com BottomBar e navegaÃ§Ã£o para testar todos os mÃ³dulos. |
+| [`:app`](./app) | Aplicação | `br.com.wgc.commonsandroidnative` | Showcase interativo com BottomBar para validar e testar todos os módulos. |
+
+### 🔐 Auth & Segurança (`feature/auth/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:auth:authentication`](./feature/auth/authentication) | Biblioteca | `br.com.wgc.authentication` | Fluxos de Login, Cadastro e Recuperação com OmniBackend. |
+| [`:feature:auth:biometric`](./feature/auth/biometric) | Biblioteca | `br.com.wgc.biometric` | Autenticação Biométrica (BiometricPrompt), App Lock e PIN. |
+
+### 👤 Conta & Perfil (`feature/account/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:account:onboarding`](./feature/account/onboarding) | Biblioteca | `br.com.wgc.onboarding` | Pagers de boas-vindas, onboarding e solicitação de permissões. |
+| [`:feature:account:profile`](./feature/account/profile) | Biblioteca | `br.com.wgc.profile` | Perfil do usuário, avatar, gestão de endereços e consentimentos LGPD. |
+| [`:feature:account:settings`](./feature/account/settings) | Biblioteca | `br.com.wgc.settings` | Configurações, preferências de notificações e temas. |
+
+### 🏬 Vitrine & Catálogo (`feature/storefront/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:storefront:catalog`](./feature/storefront/catalog) | Biblioteca | `br.com.wgc.catalog` | Catálogo e vitrines reativas, opções e paginação. |
+| [`:feature:storefront:search`](./feature/storefront/search) | Biblioteca | `br.com.wgc.search` | Busca reativa com debounce, histórico e filtros avançados. |
+| [`:feature:storefront:promotions`](./feature/storefront/promotions) | Biblioteca | `br.com.wgc.promotions` | Banners promocionais, carrosséis de ofertas e cupons de desconto. |
+| [`:feature:storefront:stores`](./feature/storefront/stores) | Biblioteca | `br.com.wgc.stores` | Localizador de lojas físicas e retirada presencial com GPS. |
+
+### 💳 Checkout & Pagamentos (`feature/checkout/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:checkout:cart`](./feature/checkout/cart) | Biblioteca | `br.com.wgc.cart` | Carrinho persistente, cálculo de frete e validação de estoque. |
+| [`:feature:checkout:payment`](./feature/checkout/payment) | Biblioteca | `br.com.wgc.payment` | Gateway de pagamento, PIX (QRCode/Copia-e-Cola) e Cartão de Crédito. |
+| [`:feature:checkout:quotation`](./feature/checkout/quotation) | Biblioteca | `br.com.wgc.quotation` | Solicitação e negociação de orçamentos com anexo de mídias. |
+
+### 🚚 Logística & Entrega (`feature/delivery/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:delivery:order-tracking`](./feature/delivery/order-tracking) | Biblioteca | `br.com.wgc.order_tracking` | Rastreamento em tempo real com timeline de status. |
+| [`:feature:delivery:maps`](./feature/delivery/maps) | Biblioteca | `br.com.wgc.maps` | Renderização de mapas vetoriais, rotas dinâmicas e marcadores. |
+| [`:feature:delivery:driver-app`](./feature/delivery/driver-app) | Biblioteca | `br.com.wgc.driver_app` | Modo operacional para motoristas e entregadores parceiros. |
+| [`:feature:delivery:dispatch`](./feature/delivery/dispatch) | Biblioteca | `br.com.wgc.dispatch` | Gestão de expedição e distribuição de rotas de entrega. |
+| [`:feature:delivery:geofencing`](./feature/delivery/geofencing) | Biblioteca | `br.com.wgc.geofencing` | Cercamento eletrônico para detecção automática de chegada. |
+| [`:feature:delivery:offline-maps`](./feature/delivery/offline-maps) | Biblioteca | `br.com.wgc.offline_maps` | Cache offline de vetores e tiles cartográficos. |
+
+### 💬 Comunicação & Suporte (`feature/communication/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:communication:message`](./feature/communication/message) | Biblioteca | `br.com.wgc.message` | Chat em tempo real, suporte in-app e histórico de conversas. |
+| [`:feature:communication:whatsapp-direct`](./feature/communication/whatsapp-direct) | Biblioteca | `br.com.wgc.whatsapp_direct` | Transbordo direto de atendimento via API do WhatsApp. |
+
+### ⭐ Fidelização & Satisfação (`feature/customer/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:customer:feedback`](./feature/customer/feedback) | Biblioteca | `br.com.wgc.feedback` | In-App Reviews do Google Play e pesquisas NPS. |
+| [`:feature:customer:loyalty`](./feature/customer/loyalty) | Biblioteca | `br.com.wgc.loyalty` | Cartão de fidelidade, clube de pontos e cashback. |
+| [`:feature:customer:reviews-store`](./feature/customer/reviews-store) | Biblioteca | `br.com.wgc.reviews_store` | Avaliações por estrelas (1-5) com comentários e fotos. |
+
+### 📅 Serviços & Assinaturas (`feature/services/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:services:scheduling`](./feature/services/scheduling) | Biblioteca | `br.com.wgc.scheduling` | Agenda de horários, seleção de profissionais e remarcação. |
+| [`:feature:services:subscriptions`](./feature/services/subscriptions) | Biblioteca | `br.com.wgc.subscriptions` | Planos de assinatura recorrente e benefícios ativos. |
+
+### ⚙️ Sistema & Dispositivo (`feature/system/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:system:force-update`](./feature/system/force-update) | Biblioteca | `br.com.wgc.force_update` | Bloqueio de versão obsoleta e tela de manutenção remota. |
+| [`:feature:system:media-picker`](./feature/system/media-picker) | Biblioteca | `br.com.wgc.media_picker` | PhotoPicker, câmera e compressão automática de mídia. |
+| [`:feature:system:multi-language`](./feature/system/multi-language) | Biblioteca | `br.com.wgc.multi_language` | Internacionalização dinâmica sem reiniciar a aplicação. |
+
+### 🧠 Plataforma & Telemetria (`feature/platform/`)
+| Módulo | Tipo | Namespace | Descrição |
+| :--- | :--- | :--- | :--- |
+| [`:feature:platform:ai-assistant`](./feature/platform/ai-assistant) | Biblioteca | `br.com.wgc.ai_assistant` | Assistente inteligente contextual com streaming de respostas. |
+| [`:feature:platform:analytics`](./feature/platform/analytics) | Biblioteca | `br.com.wgc.analytics` | Telemetria comportamental e funis de conversão OmniBackend. |
+| [`:feature:platform:emergency`](./feature/platform/emergency) | Biblioteca | `br.com.wgc.emergency` | Botão de socorro, alerta de pânico e compartilhamento de rota. |
+| [`:feature:platform:offline-sync`](./feature/platform/offline-sync) | Biblioteca | `br.com.wgc.offline_sync` | Motor resiliente de sincronização offline bidirecional. |
+| [`:feature:platform:telemetry`](./feature/platform/telemetry) | Biblioteca | `br.com.wgc.telemetry` | APM, monitoramento de performance e métricas de conectividade. |
 
 ---
 
-### ðŸ” 1. Auth & SeguranÃ§a (`feature/auth/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:auth:authentication`](./feature/auth/authentication) | Biblioteca | Fluxos de Login, Cadastro e RecuperaÃ§Ã£o integrados ao `OmniBackend`. |
-| [`:feature:auth:biometric`](./feature/auth/biometric) | Biblioteca | AutenticaÃ§Ã£o BiomÃ©trica (Fingerprint/FaceID), App Lock e PIN de seguranÃ§a. |
+## 📦 2. Bundles Comerciais (14 Domínios × 3 Níveis = 42 Bundles)
 
----
+Cada bundle agrega e expõe via `api(...)` os módulos granulares de features necessários para seu escopo. Todos contêm **singleton de inicialização**, **testes unitários** e **testes instrumentados**.
 
-### ðŸ‘¤ 2. Conta & UsuÃ¡rio (`feature/account/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:account:onboarding`](./feature/account/onboarding) | Biblioteca | Pagers de boas-vindas, tour do app e solicitaÃ§Ã£o contextual de permissÃµes. |
-| [`:feature:account:profile`](./feature/account/profile) | Biblioteca | Perfil do usuÃ¡rio, avatar, gestÃ£o de endereÃ§os e conformidade LGPD. |
-| [`:feature:account:settings`](./feature/account/settings) | Biblioteca | PreferÃªncias do aplicativo, tema dinÃ¢mico e configuraÃ§Ãµes de notificaÃ§Ãµes. |
-
----
-
-### ðŸª 3. Vitrine & Descoberta (`feature/storefront/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:storefront:catalog`](./feature/storefront/catalog) | Biblioteca | CardÃ¡pio/CatÃ¡logo digital, categorizaÃ§Ã£o, opÃ§Ãµes e customizaÃ§Ã£o de itens. |
-| [`:feature:storefront:search`](./feature/storefront/search) | Biblioteca | Busca reativa com debounce, histÃ³rico de pesquisas e filtros avanÃ§ados. |
-| [`:feature:storefront:promotions`](./feature/storefront/promotions) | Biblioteca | Banners promocionais, carrossel de ofertas e cupons de desconto. |
-| [`:feature:storefront:stores`](./feature/storefront/stores) | Biblioteca | LocalizaÃ§Ã£o de filiais, seletor de lojas fÃ­sicas e raio de proximidade via GPS. |
-
----
-
-### ðŸ’³ 4. Checkout & Compra (`feature/checkout/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:checkout:cart`](./feature/checkout/cart) | Biblioteca | Carrinho persistente, cÃ¡lculo de frete/taxas e validaÃ§Ã£o de disponibilidade. |
-| [`:feature:checkout:payment`](./feature/checkout/payment) | Biblioteca | Gateway de pagamento, PIX com QRCode copia-e-cola, cartÃ£o de crÃ©dito e histÃ³rico. |
-| [`:feature:checkout:quotation`](./feature/checkout/quotation) | Biblioteca | SolicitaÃ§Ã£o e negociaÃ§Ã£o de orÃ§amentos personalizados com anexo de mÃ­dias. |
-
----
-
-### ðŸšš 5. Entrega & LogÃ­stica (`feature/delivery/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:delivery:order-tracking`](./feature/delivery/order-tracking) | Biblioteca | Rastreio em tempo real com timeline de status e tempo estimado de entrega. |
-| [`:feature:delivery:maps`](./feature/delivery/maps) | Biblioteca | ExibiÃ§Ã£o de mapas, rotas, geolocalizaÃ§Ã£o e pin de destinos. |
-| [`:feature:delivery:driver-app`](./feature/delivery/driver-app) | Biblioteca | Interface e fluxo operacional para motoristas e entregadores parceiros. |
-| [`:feature:delivery:dispatch`](./feature/delivery/dispatch) | Biblioteca | GestÃ£o de expediÃ§Ã£o, despacho de encomendas e distribuiÃ§Ã£o de rotas. |
-| [`:feature:delivery:geofencing`](./feature/delivery/geofencing) | Biblioteca | Cercas virtuais com alertas de entrada/saÃ­da de perÃ­metro operacional. |
-| [`:feature:delivery:offline-maps`](./feature/delivery/offline-maps) | Biblioteca | Armazenamento e renderizaÃ§Ã£o de mapas em cache para operaÃ§Ã£o offline. |
-
----
-
-### ðŸ’¬ 6. ComunicaÃ§Ã£o (`feature/communication/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:communication:message`](./feature/communication/message) | Biblioteca | Chat em tempo real, suporte ao cliente, FCM push e mensagens in-app. |
-| [`:feature:communication:whatsapp-direct`](./feature/communication/whatsapp-direct) | Biblioteca | Transbordo direto de pedidos e atendimento formatado via API WhatsApp. |
-
----
-
-### â­ 7. Fidelidade & SatisfaÃ§Ã£o (`feature/customer/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:customer:feedback`](./feature/customer/feedback) | Biblioteca | In-App Reviews do Google Play, pesquisa NPS e Shake-to-Report de bugs. |
-| [`:feature:customer:loyalty`](./feature/customer/loyalty) | Biblioteca | CartÃ£o fidelidade digital, clube de pontos e acÃºmulo de cashback. |
-| [`:feature:customer:reviews-store`](./feature/customer/reviews-store) | Biblioteca | AvaliaÃ§Ãµes por estrelas (1-5) e comentÃ¡rios diretos da loja/estabelecimento. |
-
----
-
-### ðŸ“… 8. ServiÃ§os & Assinaturas (`feature/services/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:services:scheduling`](./feature/services/scheduling) | Biblioteca | Agenda de horÃ¡rios, seleÃ§Ã£o de profissionais e reagendamento de serviÃ§os. |
-| [`:feature:services:subscriptions`](./feature/services/subscriptions) | Biblioteca | Planos recorrentes, assinaturas periÃ³dicas e gestÃ£o de benefÃ­cios ativos. |
-
----
-
-### âš™ï¸ 9. Sistema & Dispositivo (`feature/system/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:system:force-update`](./feature/system/force-update) | Biblioteca | Bloqueio de versÃ£o obsoleta (Force Update) e tela de manutenÃ§Ã£o remota. |
-| [`:feature:system:media-picker`](./feature/system/media-picker) | Biblioteca | PhotoPicker, integraÃ§Ã£o com cÃ¢mera, compressÃ£o e scanner MLKit. |
-| [`:feature:system:multi-language`](./feature/system/multi-language) | Biblioteca | InternacionalizaÃ§Ã£o dinÃ¢mica e alternÃ¢ncia de idiomas em tempo de execuÃ§Ã£o. |
-
----
-
-### ðŸ§  10. Plataforma & Infraestrutura (`feature/platform/`)
-| MÃ³dulo | Tipo | DescriÃ§Ã£o |
-| :--- | :--- | :--- |
-| [`:feature:platform:ai-assistant`](./feature/platform/ai-assistant) | Biblioteca | Assistente conversacional inteligente com suporte a recomendaÃ§Ãµes. |
-| [`:feature:platform:analytics`](./feature/platform/analytics) | Biblioteca | Telemetria comportamental, rastreio de eventos e mÃ©tricas de conversÃ£o. |
-| [`:feature:platform:emergency`](./feature/platform/emergency) | Biblioteca | BotÃ£o de pÃ¢nico, contatos de emergÃªncia e transmissÃ£o rÃ¡pida de localizaÃ§Ã£o. |
-| [`:feature:platform:offline-sync`](./feature/platform/offline-sync) | Biblioteca | Fila de sincronizaÃ§Ã£o resiliente com reconexÃ£o automÃ¡tica e retry. |
-| [`:feature:platform:telemetry`](./feature/platform/telemetry) | Biblioteca | Monitoramento de performance, logs de diagnÃ³sticos e integridade do app. |
-
----
-
-## ðŸ“¦ Bundles Comerciais (14 DomÃ­nios Ã— 3 NÃ­veis = 42 Bundles)
-
-Para simplificar a composiÃ§Ã£o comercial de soluÃ§Ãµes white-label e aplicativos clientes (como no projeto `SolutionsAndroid`), o repositÃ³rio disponibiliza **42 bundles modulares** organizados sob a pasta `bundles/` nos nÃ­veis **Basic**, **Standard** e **Pro**.
-
-Cada bundle agrega e expÃµe via `api(...)` os mÃ³dulos granulares de features necessÃ¡rios para o respectivo escopo.
-
-### Coordenadas de PublicaÃ§Ã£o
-Todos os bundles sÃ£o publicados no GitHub Packages sob o groupId `br.com.wgc`:
+### Coordenadas de Publicação
 ```text
 br.com.wgc:bundle-<dominio>-<nivel>:<versao>
 ```
-*Exemplo:* `br.com.wgc:bundle-ecommerce-pro:0.0.1` ou `br.com.wgc:bundle-delivery-standard:0.0.1`.
 
-### Tabela de DomÃ­nios e Bundles
-| DomÃ­nio | MÃ³dulo Gradle | NÃ­vel | MÃ³dulos Inclusos |
+| Domínio | Módulo Gradle | Nível | Módulos Granulares Inclusos |
 | :--- | :--- | :--- | :--- |
 | **Communication** | `:bundles:communication:basic` | Basic | `:feature:communication:message`, `:feature:communication:whatsapp-direct` |
 | | `:bundles:communication:standard` | Standard | Basic + `:feature:system:media-picker`, `:feature:customer:feedback` |
@@ -171,51 +177,70 @@ br.com.wgc:bundle-<dominio>-<nivel>:<versao>
 
 ---
 
-## ðŸ› ï¸ Tecnologias e Ferramentas
+## 🛠️ Tecnologias e Padrões de Engenharia
 
-- **Linguagem**: Kotlin 2.2+ (Target JVM 17)
-- **UI Framework**: Jetpack Compose com Material 3
-- **InjeÃ§Ã£o de DependÃªncia**: Dagger Hilt com KSP
-- **Arquitetura**: MVVM com Unidirectional Data Flow (UDF), Coroutines e Kotlin Flows
-- **Build System**: Gradle 8.x com Version Catalogs (`gradle/libs.versions.toml`)
-- **Qualidade & AnÃ¡lise EstÃ¡tica**: Detekt e Dokka (DocumentaÃ§Ã£o KDoc)
-- **CI/CD**: GitHub Actions com execuÃ§Ã£o de testes unitÃ¡rios e publicaÃ§Ã£o automÃ¡tica de AARs
+- **Linguagem**: Kotlin 2.2+ (JVM 17 Target)
+- **UI Toolkit**: Jetpack Compose com Design Tokens do `DesignSystemAndroid` (`core-ds`)
+- **Injeção de Dependências**: Dagger Hilt com KSP
+- **Arquitetura**: Clean Architecture + MVVM com State Hoisting, Coroutines e Flows
+- **Qualidade & Análise Estática**: Detekt com regras rigorosas para Compose e Coroutines
+- **Documentação**: Dokka V2 com 100% de KDoc obrigatório
+- **CI/CD**: GitHub Actions com SemVer automatizado, validação de PR e deploy no GitHub Pages
 
 ---
 
-## ðŸ”‘ ConfiguraÃ§Ã£o Local de Credenciais (GitHub Packages)
+## 🔑 Instalação & Credenciais (GitHub Packages)
 
-Para que o Gradle consiga baixar e publicar dependÃªncias do GitHub Packages da organizaÃ§Ã£o, defina as credenciais de uma das seguintes formas:
-
-### OpÃ§Ã£o 1: Via variÃ¡veis de ambiente
-```bash
-export GPR_USER="seu-usuario-github"
-export GPR_KEY="seu-personal-access-token" # token com permissÃ£o read:packages / write:packages
+No arquivo `settings.gradle.kts` do aplicativo cliente:
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Gabriel-do-Carmo-97/CommonsAndroidNative")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull ?: System.getenv("GITHUB_ACTOR")
+                password = providers.gradleProperty("gpr.key").orNull ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
 ```
-*(No Windows PowerShell: `$env:GPR_USER="seu-usuario"` e `$env:GPR_KEY="seu-token"`)*
 
-### OpÃ§Ã£o 2: No arquivo `local.properties` (nÃ£o commitado)
+Configuração em `local.properties`:
 ```properties
 gpr.user=seu-usuario-github
-gpr.key=seu-personal-access-token
+gpr.key=seu-personal-access-token-com-read-packages
 ```
 
 ---
 
-## ðŸš€ Como Executar
+## ⚡ Comandos Essenciais
 
-### 1. Compilar o projeto
+### 1. Compilar os projetos
 ```bash
-./gradlew build
+./gradlew assembleDebug
 ```
 
-### 2. Executar os Testes UnitÃ¡rios
+### 2. Executar os testes unitários
 ```bash
-./gradlew test
+./gradlew testDebugUnitTest
 ```
 
-### 3. Executar a AplicaÃ§Ã£o Showcase (`:app`)
+### 3. Executar análise estática Detekt
 ```bash
-./gradlew :app:installDebug
+./gradlew detekt
 ```
 
+### 4. Gerar documentação Dokka da API
+```bash
+./gradlew dokkaHtml
+```
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença **Apache 2.0**. Consulte [`LICENSE`](./LICENSE) para obter mais informações.

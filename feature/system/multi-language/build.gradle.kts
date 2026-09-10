@@ -1,4 +1,4 @@
-plugins {
+﻿plugins {
     id("commons.android.library")
     id("commons.android.compose")
     id("commons.android.publishing")
@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.gds.multi_language"
+    namespace = "br.com.wgc.multi_language"
 }
 
 dependencies {

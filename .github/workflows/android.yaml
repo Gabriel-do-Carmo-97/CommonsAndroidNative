@@ -1,4 +1,4 @@
-name: Android Publish Commons Libraries
+name: Android CI/CD Pipeline (Enterprise Pro)
 
 on:
   push:
@@ -6,23 +6,54 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  contents: write
+  packages: write
+  pages: write
+  pull-requests: read
+
 jobs:
-  build_Test_and_Publish:
-
-    name: Build, Test and Publish
+  # --- 1. VALIDAR TÍTULO DO PR (CONVENTIONAL COMMITS) ---
+  semantic-pull-request:
+    name: 🏷️ Validate PR Title
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            refactor
+            docs
+            test
+            chore
+          requireScope: false
 
-    permissions:
-      contents: write
-      packages: write
+  # --- 2. BUILD, TESTES E PUBLICAÇÃO ---
+  build_Test_and_Publish:
+    name: 🚀 Build, Test, Dokka & Publish
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔢 Calculate Semantic Version
+        id: semver
+        uses: PaulHatch/semantic-version@v5.4.0
+        with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "feat"
+          bump_each_commit_patch_pattern: "fix|refactor"
+          version_format: "${major}.${minor}.${patch}"
 
       - name: Detect changed modules
         id: changed_modules
@@ -36,7 +67,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -54,7 +85,7 @@ jobs:
           GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
         run: ./gradlew testDebugUnitTest
 
-      - name: Build with Gradle
+      - name: 📦 Assemble Release AARs
         env:
           GPR_USER: ${{ secrets.GPR_USER || github.actor }}
           GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
@@ -62,11 +93,23 @@ jobs:
 
       - name: ⬆️ Upload Release AARs as Artifacts
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: release-aars
           path: ./**/build/outputs/aar/*-release.aar
           if-no-files-found: ignore
+
+      - name: 📚 Generate Dokka API Docs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: ./gradlew dokkaHtml --continue || true
+
+      - name: 🌐 Deploy Dokka to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v4
+        continue-on-error: true
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/dokka/html
 
       - name: 📦 Publish Changed Libraries to GitHub Packages
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
@@ -88,18 +131,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG_NAME="v0.0.${{ github.run_number }}"
+          TAG_NAME="v${{ steps.semver.outputs.version }}"
           git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
-          git push origin "$TAG_NAME"
+          git push origin "$TAG_NAME" || true
 
       - name: Create Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG_NAME="v0.0.${{ github.run_number }}"
+          TAG_NAME="v${{ steps.semver.outputs.version }}"
           AAR_FILES=$(find . -path '*/build/outputs/aar/*-release.aar' | tr '\n' ' ')
           gh release create "$TAG_NAME" \
             --title "Release $TAG_NAME" \
-            --notes "Release automático. Mudanças detectadas em: ${{ steps.changed_modules.outputs.all_changed_files }}." \
+            --generate-notes \
             $AAR_FILES
