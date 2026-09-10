@@ -12,12 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela de Analytics e Dashboard gerencial para visualizaÃ§Ã£o de mÃ©tricas e KPIs.
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param title TÃ­tulo do painel de controle.
+ */
 @Composable
 fun AnalyticsScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Analytics e Dashboard WGC"
+    title: String = "MÃ³dulo de Analytics e Dashboard WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +31,6 @@ fun AnalyticsScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Dashboard de BI, faturamento e gestão de pedidos na palma da mão", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Dashboard de BI, faturamento e gestÃ£o de pedidos na palma da mÃ£o", style = MaterialTheme.typography.bodyMedium)
     }
 }

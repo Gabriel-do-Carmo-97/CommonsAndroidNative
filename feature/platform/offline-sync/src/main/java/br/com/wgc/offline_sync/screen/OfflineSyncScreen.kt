@@ -12,12 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela de monitoramento de integridade e status de sincronizaÃ§Ã£o offline-first.
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param title TÃ­tulo do painel de sincronizaÃ§Ã£o.
+ */
 @Composable
 fun OfflineSyncScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Sincronização Offline WGC"
+    title: String = "MÃ³dulo de SincronizaÃ§Ã£o Offline WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +31,6 @@ fun OfflineSyncScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Operação offline-first e sincronização automática WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "OperaÃ§Ã£o offline-first e sincronizaÃ§Ã£o automÃ¡tica WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

@@ -12,12 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela de monitoramento de telemetria veicular, status de sensores e tracking em tempo real.
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param title TÃ­tulo do painel de telemetria.
+ */
 @Composable
 fun TelemetryScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Telemetria e GPS WGC"
+    title: String = "MÃ³dulo de Telemetria e GPS WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +31,6 @@ fun TelemetryScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Rastreamento GPS em background e telemetria de alta precisão WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Rastreamento GPS em background e telemetria de alta precisÃ£o WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

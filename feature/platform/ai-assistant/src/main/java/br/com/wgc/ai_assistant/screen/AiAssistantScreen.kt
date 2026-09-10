@@ -12,12 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela do Assistente de InteligÃªncia Artificial generativa e recomendaÃ§Ãµes contextuais.
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param title TÃ­tulo do cabeÃ§alho da tela do assistente.
+ */
 @Composable
 fun AiAssistantScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Assistente de IA WGC"
+    title: String = "MÃ³dulo de Assistente de IA WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +31,6 @@ fun AiAssistantScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Chatbot inteligente e recomendações via Vertex AI / Gemini WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Chatbot inteligente e recomendaÃ§Ãµes via Vertex AI / Gemini WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

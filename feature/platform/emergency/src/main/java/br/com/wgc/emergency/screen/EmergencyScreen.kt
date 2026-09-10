@@ -12,12 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.wgc.design_system.components.*
 
+/**
+ * Tela do BotÃ£o de PÃ¢nico e Alerta Silencioso de EmergÃªncia com geolocalizaÃ§Ã£o imediata.
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param title TÃ­tulo do mÃ³dulo de emergÃªncia.
+ */
 @Composable
 fun EmergencyScreen(
     modifier: Modifier = Modifier,
-    title: String = "Módulo de Botão de Pânico WGC"
+    title: String = "MÃ³dulo de BotÃ£o de PÃ¢nico WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -26,6 +31,6 @@ fun EmergencyScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Botão de pânico e alerta silencioso de segurança WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "BotÃ£o de pÃ¢nico e alerta silencioso de seguranÃ§a WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }
