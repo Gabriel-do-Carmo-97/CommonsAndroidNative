@@ -22,6 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 
+/**
+ * Tela de configuraÃ§Ã£o e validaÃ§Ã£o de biometria, PIN e bloqueio do aplicativo (App Lock).
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param viewModel ViewModel de gerenciamento biomÃ©trico.
+ */
 @Composable
 fun BiometricScreen(
     modifier: Modifier = Modifier,
@@ -56,7 +62,7 @@ fun BiometricScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = if (uiState.isAuthenticated) "Identidade Confirmada!" else "Segurança Biométrica",
+                    text = if (uiState.isAuthenticated) "Identidade Confirmada!" else "SeguranÃ§a BiomÃ©trica",
                     style = MaterialTheme.typography.titleMedium,
                     color = if (uiState.isAuthenticated) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                 )

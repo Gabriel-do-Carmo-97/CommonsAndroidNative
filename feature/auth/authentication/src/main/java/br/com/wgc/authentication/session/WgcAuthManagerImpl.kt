@@ -18,6 +18,14 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * ImplementaÃ§Ã£o Singleton do gerenciador de sessÃ£o corporativa [WgcAuthManager].
+ *
+ * MantÃ©m o estado da sessÃ£o do usuÃ¡rio sincronizado entre o backend e a persistÃªncia local.
+ *
+ * @param authRepository RepositÃ³rio de autenticaÃ§Ã£o do OmniBackend.
+ * @param dataStore Gerenciador de persistÃªncia de credenciais locais.
+ */
 @Singleton
 class WgcAuthManagerImpl @Inject constructor(
     private val authRepository: AuthRepository,
@@ -70,9 +78,18 @@ class WgcAuthManagerImpl @Inject constructor(
     }
 }
 
+/**
+ * MÃ³dulo Hilt que vincula a implementaÃ§Ã£o [WgcAuthManagerImpl] ao contrato [WgcAuthManager].
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AuthSessionModule {
+    /**
+     * Associa o singleton de gerenciamento de sessÃ£o Ã  sua interface.
+     *
+     * @param impl InstÃ¢ncia concreta de [WgcAuthManagerImpl].
+     * @return Contrato pÃºblico de gerenciamento de sessÃ£o [WgcAuthManager].
+     */
     @Binds
     @Singleton
     abstract fun bindWgcAuthManager(impl: WgcAuthManagerImpl): WgcAuthManager

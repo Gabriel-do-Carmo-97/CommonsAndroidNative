@@ -13,18 +13,33 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel responsÃ¡vel pelas regras de negÃ³cio e fluxo de recuperaÃ§Ã£o de senha.
+ *
+ * Valida o formato do e-mail do usuÃ¡rio e executa o envio de instruÃ§Ãµes via [AuthRepository],
+ * emitindo eventos de navegaÃ§Ã£o para retorno Ã  tela de login apÃ³s o sucesso.
+ *
+ * @param authRepository RepositÃ³rio de autenticaÃ§Ã£o provido via Hilt para comunicaÃ§Ã£o com o backend.
+ */
 @HiltViewModel
 class ForgotPasswordViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : BaseResetPasswordScreenTemplateViewModel() {
 
     private val _navigationEvent = Channel<AuthNavDestinations.ForgotPasswordScreen>(Channel.BUFFERED)
+
+    /**
+     * Fluxo de eventos de navegaÃ§Ã£o observados pela camada de apresentaÃ§Ã£o.
+     */
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
+    /**
+     * Processa a solicitaÃ§Ã£o de redefiniÃ§Ã£o de senha com validaÃ§Ã£o de formato e chamada de repositÃ³rio.
+     */
     override fun onResetPasswordClick() {
         val email = uiState.value.email.trim()
         if (!email.isValidEmail()) {
-            updateState { it.copy(emailError = "Informe um e-mail válido") }
+            updateState { it.copy(emailError = "Informe um e-mail vÃ¡lido") }
             return
         }
 
@@ -47,6 +62,9 @@ class ForgotPasswordViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Redireciona o usuÃ¡rio de volta Ã  tela de login.
+     */
     override fun onBackToLoginClick() {
         viewModelScope.launch {
             _navigationEvent.send(AuthNavDestinations.ForgotPasswordScreen.Login)

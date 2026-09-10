@@ -19,6 +19,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel corporativo para controle de autenticaÃ§Ã£o de usuÃ¡rios, sessÃ£o persistente e biometria.
+ *
+ * @param useCase Caso de uso de login do OmniBackend.
+ * @param dataStore UtilitÃ¡rio de persistÃªncia de preferÃªncias do Core.
+ * @param biometricAuthHelper Helper de autenticaÃ§Ã£o biomÃ©trica do Core.
+ */
 @HiltViewModel
 class LoginWGCViewModel @Inject constructor(
     private val useCase: LoginUseCase,
@@ -27,6 +34,10 @@ class LoginWGCViewModel @Inject constructor(
 ) : BaseLoginScreenTemplateViewModel() {
 
     private val _navigationEvent = Channel<AuthNavDestinations.LoginScreen>(Channel.BUFFERED)
+
+    /**
+     * Fluxo de navegaÃ§Ã£o para redirecionamentos pÃ³s-autenticaÃ§Ã£o, cadastro ou recuperaÃ§Ã£o de senha.
+     */
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
     init {
@@ -46,6 +57,9 @@ class LoginWGCViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Dispara autenticaÃ§Ã£o via e-mail e senha junto ao OmniBackend.
+     */
     override fun onLoginClick() {
         val currentEmail = uiState.value.email.trim()
         val currentPassword = uiState.value.password
@@ -86,7 +100,10 @@ class LoginWGCViewModel @Inject constructor(
     }
 
     /**
-     * Inicia autenticação biométrica (Touch ID / Face Unlock) utilizando o BiometricAuthHelper do Core.
+     * Inicia autenticaÃ§Ã£o biomÃ©trica utilizando o helper do Core.
+     *
+     * @param activity FragmentActivity para exibiÃ§Ã£o do prompt nativo.
+     * @param onSuccess Callback invocado apÃ³s sucesso na validaÃ§Ã£o biomÃ©trica.
      */
     fun authenticateWithBiometrics(
         activity: FragmentActivity,
@@ -94,15 +111,15 @@ class LoginWGCViewModel @Inject constructor(
     ) {
         val status = biometricAuthHelper.canAuthenticate()
         if (status != BiometricAuthStatus.Ready) {
-            updateState { it.copy(generalError = "Biometria não configurada ou indisponível neste aparelho.") }
+            updateState { it.copy(generalError = "Biometria nÃ£o configurada ou indisponÃ­vel neste aparelho.") }
             return
         }
 
-        val savedEmail = uiState.value.email.ifBlank { "Usuário Autenticado" }
+        val savedEmail = uiState.value.email.ifBlank { "UsuÃ¡rio Autenticado" }
         biometricAuthHelper.authenticate(
             activity = activity,
             config = BiometricPromptConfig(
-                title = "Autenticação Biométrica",
+                title = "AutenticaÃ§Ã£o BiomÃ©trica",
                 subtitle = "Toque no sensor para entrar",
                 negativeButtonText = "Cancelar"
             )
@@ -120,25 +137,36 @@ class LoginWGCViewModel @Inject constructor(
                     updateState { it.copy(generalError = result.errorMessage.toString()) }
                 }
                 is BiometricAuthResult.Failed -> {
-                    updateState { it.copy(generalError = "Biometria não reconhecida.") }
+                    updateState { it.copy(generalError = "Biometria nÃ£o reconhecida.") }
                 }
                 is BiometricAuthResult.Cancelled -> Unit
             }
         }
     }
 
+    /**
+     * Redireciona o usuÃ¡rio para o fluxo de cadastro.
+     */
     override fun onRegisterClick() {
         viewModelScope.launch {
             _navigationEvent.send(AuthNavDestinations.LoginScreen.RegisterUser)
         }
     }
 
+    /**
+     * Redireciona o usuÃ¡rio para o fluxo de recuperaÃ§Ã£o de senha.
+     */
     override fun onForgotPasswordClick() {
         viewModelScope.launch {
             _navigationEvent.send(AuthNavDestinations.LoginScreen.ForgotPassword)
         }
     }
 
+    /**
+     * Trata alteraÃ§Ã£o da opÃ§Ã£o de lembrar credenciais.
+     *
+     * @param isChecked Indica se a credencial deve ser persistida localmente.
+     */
     override fun onRememberMeCheckedChange(isChecked: Boolean) {
         super.onRememberMeCheckedChange(isChecked)
         viewModelScope.launch {
