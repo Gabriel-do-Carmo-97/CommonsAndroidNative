@@ -23,6 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
+/**
+ * Tela de seleÃ§Ã£o, captura e upload de arquivos de imagem e mÃ­dia.
+ *
+ * Utiliza o ActivityResultContracts moderno do Jetpack Compose e envia
+ * o arquivo diretamente para o bucket do OmniBackend Storage.
+ *
+ * @param modifier Modificador de layout Compose.
+ * @param viewModel ViewModel responsÃ¡vel pelo controle de seleÃ§Ã£o e progresso do upload.
+ */
 @Composable
 fun MediaPickerScreen(
     modifier: Modifier = Modifier,
@@ -64,7 +73,7 @@ fun MediaPickerScreen(
                     )
                 } else {
                     Text(
-                        text = "Nenhum arquivo de mídia selecionado",
+                        text = "Nenhum arquivo de mÃ­dia selecionado",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -97,7 +106,7 @@ fun MediaPickerScreen(
                 if (uiState.uploadedUrl != null) {
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "Upload Concluído com Sucesso!\nURL: ${uiState.uploadedUrl}",
+                        text = "Upload ConcluÃ­do com Sucesso!\nURL: ${uiState.uploadedUrl}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.primary
                     )

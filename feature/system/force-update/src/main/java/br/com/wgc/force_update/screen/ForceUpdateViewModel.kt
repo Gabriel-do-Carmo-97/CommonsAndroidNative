@@ -13,8 +13,20 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Estado da interface de verificaÃ§Ã£o de versÃ£o e atualizaÃ§Ã£o forÃ§ada.
+ *
+ * @property title TÃ­tulo do mÃ³dulo de manutenÃ§Ã£o.
+ * @property isUpdateRequired Indica se existe nova versÃ£o recomendada ou obrigatÃ³ria.
+ * @property isForceUpdate Indica se a versÃ£o instalada estÃ¡ bloqueada para uso.
+ * @property currentVersionCode CÃ³digo de versÃ£o localmente instalado.
+ * @property minRequiredVersionCode CÃ³digo mÃ­nimo da versÃ£o exigida pelo servidor.
+ * @property storeUrl URL de redirecionamento para download na loja oficial.
+ * @property isLoading Indica se a checagem remota estÃ¡ em andamento.
+ * @property errorMessage Mensagem de erro caso a consulta ao Remote Config falhe.
+ */
 data class ForceUpdateUiState(
-    val title: String = "Módulo de Force Update e Manutenção",
+    val title: String = "MÃ³dulo de Force Update e ManutenÃ§Ã£o",
     val isUpdateRequired: Boolean = false,
     val isForceUpdate: Boolean = false,
     val currentVersionCode: Long = 1L,
@@ -24,14 +36,26 @@ data class ForceUpdateUiState(
     val errorMessage: String? = null
 )
 
+/**
+ * ViewModel que consulta parÃ¢metros do [RemoteConfigRepository] para garantir conformidade de versÃ£o.
+ *
+ * @param remoteConfigRepository RepositÃ³rio do OmniBackend para consulta a configuraÃ§Ãµes dinÃ¢micas.
+ */
 @HiltViewModel
 class ForceUpdateViewModel @Inject constructor(
     private val remoteConfigRepository: RemoteConfigRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ForceUpdateUiState())
+
+    /** Fluxo observÃ¡vel do estado de atualizaÃ§Ã£o do app. */
     val uiState: StateFlow<ForceUpdateUiState> = _uiState.asStateFlow()
 
+    /**
+     * Consulta os parÃ¢metros remotos de versÃ£o mÃ­nima e ativaÃ§Ã£o de bloqueio.
+     *
+     * @param currentVersionCode VersÃ£o numÃ©rica localmente compilada do app.
+     */
     fun checkForUpdate(currentVersionCode: Long = 1L) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, currentVersionCode = currentVersionCode) }
@@ -66,7 +90,7 @@ class ForceUpdateViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            errorMessage = fetchResult.error.message ?: "Erro ao checar versão remota"
+                            errorMessage = fetchResult.error.message ?: "Erro ao checar versÃ£o remota"
                         )
                     }
                 }
