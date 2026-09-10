@@ -27,7 +27,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,6 +39,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+/**
+ * Tela de Pesquisa de SatisfaÃ§Ã£o do Cliente e NPS (Net Promoter Score).
+ *
+ * Permite a coleta de avaliaÃ§Ãµes de 1 a 5 estrelas, pontuaÃ§Ã£o NPS de 0 a 10,
+ * seleÃ§Ã£o de categoria do aspecto avaliado e envio de comentÃ¡rios abertos.
+ *
+ * @param modifier Modificador de layout Compose aplicado na raiz da tela.
+ * @param viewModel ViewModel injetado responsÃ¡vel pelo estado e envio das mÃ©tricas de feedback.
+ */
 @Composable
 fun FeedbackScreen(
     modifier: Modifier = Modifier,
@@ -60,7 +68,7 @@ fun FeedbackScreen(
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = "Sua opinião é fundamental para evoluirmos nossos serviços e atendimento.",
+            text = "Sua opiniÃ£o Ã© fundamental para evoluirmos nossos serviÃ§os e atendimento.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -110,7 +118,7 @@ fun FeedbackScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Como foi sua experiência geral?",
+                        text = "Como foi sua experiÃªncia geral?",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -140,7 +148,7 @@ fun FeedbackScreen(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "Em uma escala de 0 a 10, o quanto recomendaria nossos serviços?",
+                        text = "Em uma escala de 0 a 10, o quanto recomendaria nossos serviÃ§os?",
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -202,7 +210,7 @@ fun FeedbackScreen(
                 value = uiState.comment,
                 onValueChange = viewModel::onCommentChanged,
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Conte mais detalhes sobre sua experiência (opcional)...") },
+                placeholder = { Text("Conte mais detalhes sobre sua experiÃªncia (opcional)...") },
                 minLines = 3,
                 shape = RoundedCornerShape(12.dp)
             )
@@ -220,7 +228,7 @@ fun FeedbackScreen(
                 if (uiState.isSubmitting) {
                     CircularProgressIndicator(color = Color.White, modifier = Modifier.size(20.dp))
                 } else {
-                    Text("Enviar Avaliação")
+                    Text("Enviar AvaliaÃ§Ã£o")
                 }
             }
         }

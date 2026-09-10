@@ -1,4 +1,4 @@
-﻿package br.com.wgc.loyalty.screen
+package br.com.wgc.loyalty.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,6 +40,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+/**
+ * Tela do Clube de Fidelidade, Recompensas e Cartela de Carimbos.
+ *
+ * Apresenta o saldo de pontos acumulados, tier atual de vantagens, cartela de carimbos
+ * digital interativa e catÃ¡logo de cupons/recompensas resgatÃ¡veis.
+ *
+ * @param modifier Modificador de layout Compose aplicado na raiz do componente.
+ * @param viewModel ViewModel injetado para controle de pontos, carimbos e resgates.
+ */
 @Composable
 fun LoyaltyScreen(
     modifier: Modifier = Modifier,
@@ -98,7 +107,7 @@ fun LoyaltyScreen(
                         }
                     ) {
                         Text(
-                            text = "Nível ${uiState.tier.label}",
+                            text = "NÃ­vel ${uiState.tier.label}",
                             color = Color.White,
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
@@ -109,7 +118,7 @@ fun LoyaltyScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Benefício: ${uiState.tier.benefit}",
+                    text = "BenefÃ­cio: ${uiState.tier.benefit}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -195,7 +204,7 @@ fun LoyaltyScreen(
 
         // Rewards list
         Text(
-            text = "Recompensas Disponíveis",
+            text = "Recompensas DisponÃ­veis",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
@@ -239,6 +248,12 @@ fun LoyaltyScreen(
     }
 }
 
+/**
+ * Item individual circular da cartela de carimbos.
+ *
+ * @param number NÃºmero ordinal da posiÃ§Ã£o do carimbo.
+ * @param isStamped Sinalizador indicando se o carimbo jÃ¡ foi conquistado.
+ */
 @Composable
 private fun StampItem(number: Int, isStamped: Boolean) {
     Box(

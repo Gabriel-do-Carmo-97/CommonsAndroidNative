@@ -11,42 +11,89 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Estado imutÃ¡vel da tela de pesquisa de satisfaÃ§Ã£o e NPS.
+ *
+ * @property title TÃ­tulo exibido no cabeÃ§alho do formulÃ¡rio.
+ * @property npsScore Nota atribuÃ­da de 0 a 10 no Net Promoter Score.
+ * @property starRating ClassificaÃ§Ã£o quantitativa de 1 a 5 estrelas.
+ * @property selectedCategory Categoria principal destacada pelo cliente.
+ * @property availableCategories Lista de opÃ§Ãµes de categorias para filtragem.
+ * @property comment ComentÃ¡rio descritivo ou sugestÃ£o livre.
+ * @property isSubmitting Indicador de envio assÃ­ncrono em andamento.
+ * @property isSubmitted Indicador de conclusÃ£o bem-sucedida do feedback.
+ * @property errorMessage Mensagem de erro caso a transmissÃ£o falhe.
+ */
 data class FeedbackUiState(
-    val title: String = "Pesquisa de Satisfação & NPS",
+    val title: String = "Pesquisa de SatisfaÃ§Ã£o & NPS",
     val npsScore: Int = 10,
     val starRating: Int = 5,
     val selectedCategory: String = "Atendimento",
-    val availableCategories: List<String> = listOf("Atendimento", "Entrega", "Qualidade", "Preço", "Aplicativo"),
+    val availableCategories: List<String> = listOf("Atendimento", "Entrega", "Qualidade", "PreÃ§o", "Aplicativo"),
     val comment: String = "",
     val isSubmitting: Boolean = false,
     val isSubmitted: Boolean = false,
     val errorMessage: String? = null
 )
 
+/**
+ * ViewModel responsÃ¡vel pelo gerenciamento de pesquisas de satisfaÃ§Ã£o e despacho para o OmniBackend.
+ *
+ * @param firestoreRepository RepositÃ³rio Cloud Firestore para persistÃªncia remota das mÃ©tricas de NPS.
+ */
 @HiltViewModel
 class FeedbackViewModel @Inject constructor(
     private val firestoreRepository: FirestoreRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FeedbackUiState())
+
+    /**
+     * Fluxo de estado observÃ¡vel com os dados do formulÃ¡rio de feedback.
+     */
     val uiState: StateFlow<FeedbackUiState> = _uiState.asStateFlow()
 
+    /**
+     * Atualiza a nota de recomendaÃ§Ã£o NPS fornecida pelo usuÃ¡rio.
+     *
+     * @param score Nota inteira limitada no intervalo de 0 a 10.
+     */
     fun onNpsScoreChanged(score: Int) {
         _uiState.update { it.copy(npsScore = score.coerceIn(0, 10)) }
     }
 
+    /**
+     * Atualiza a avaliaÃ§Ã£o por estrelas selecionada pelo usuÃ¡rio.
+     *
+     * @param rating Quantidade de estrelas no intervalo de 1 a 5.
+     */
     fun onStarRatingChanged(rating: Int) {
         _uiState.update { it.copy(starRating = rating.coerceIn(1, 5)) }
     }
 
+    /**
+     * Define a categoria do aspecto avaliado.
+     *
+     * @param category Nome da categoria temÃ¡tica selecionada.
+     */
     fun onCategorySelected(category: String) {
         _uiState.update { it.copy(selectedCategory = category) }
     }
 
+    /**
+     * Modifica o texto livre de comentÃ¡rio do usuÃ¡rio.
+     *
+     * @param comment Mensagem com detalhes da experiÃªncia.
+     */
     fun onCommentChanged(comment: String) {
         _uiState.update { it.copy(comment = comment) }
     }
 
+    /**
+     * Transmite os dados estruturados de satisfaÃ§Ã£o para a coleÃ§Ã£o `feedbacks` no Firestore.
+     *
+     * @param onSuccess Callback executado apÃ³s a confirmaÃ§Ã£o do registro.
+     */
     fun submitFeedback(onSuccess: () -> Unit = {}) {
         _uiState.update { it.copy(isSubmitting = true, errorMessage = null) }
         viewModelScope.launch {
@@ -64,7 +111,7 @@ class FeedbackViewModel @Inject constructor(
                     customId = null
                 )
             } catch (_: Exception) {
-                // Fallback gracioso para persistência offline
+                // Fallback gracioso para persistÃªncia offline
             }
             _uiState.update { it.copy(isSubmitting = false, isSubmitted = true) }
             onSuccess()
