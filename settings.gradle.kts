@@ -50,60 +50,92 @@ dependencyResolutionManagement {
 rootProject.name = "CommonsAndroidNative"
 include(":app")
 
-fun registerFeature(name: String, theme: String) {
-    include(":$name")
-    project(":$name").projectDir = file("features/$theme/$name")
+fun registerFeature(theme: String, name: String) {
+    include(":feature:$theme:$name")
+    project(":feature:$theme:$name").projectDir = file("feature/$theme/$name")
 }
 
 // 🔐 Auth & Segurança
-registerFeature("authentication", "auth")
-registerFeature("biometric", "auth")
+registerFeature("auth", "authentication")
+registerFeature("auth", "biometric")
 
 // 👤 Conta & Usuário
-registerFeature("onboarding", "account")
-registerFeature("profile", "account")
-registerFeature("settings", "account")
+registerFeature("account", "onboarding")
+registerFeature("account", "profile")
+registerFeature("account", "settings")
 
 // 🏪 Vitrine & Descoberta
-registerFeature("catalog", "storefront")
-registerFeature("search", "storefront")
-registerFeature("promotions", "storefront")
-registerFeature("stores", "storefront")
+registerFeature("storefront", "catalog")
+registerFeature("storefront", "search")
+registerFeature("storefront", "promotions")
+registerFeature("storefront", "stores")
 
 // 💳 Checkout & Compra
-registerFeature("cart", "checkout")
-registerFeature("payment", "checkout")
-registerFeature("quotation", "checkout")
+registerFeature("checkout", "cart")
+registerFeature("checkout", "payment")
+registerFeature("checkout", "quotation")
 
 // 🚚 Entrega & Logística
-registerFeature("order-tracking", "delivery")
-registerFeature("maps", "delivery")
-registerFeature("driver-app", "delivery")
-registerFeature("dispatch", "delivery")
-registerFeature("geofencing", "delivery")
-registerFeature("offline-maps", "delivery")
+registerFeature("delivery", "order-tracking")
+registerFeature("delivery", "maps")
+registerFeature("delivery", "driver-app")
+registerFeature("delivery", "dispatch")
+registerFeature("delivery", "geofencing")
+registerFeature("delivery", "offline-maps")
 
 // 💬 Comunicação
-registerFeature("message", "communication")
-registerFeature("whatsapp-direct", "communication")
+registerFeature("communication", "message")
+registerFeature("communication", "whatsapp-direct")
 
 // ⭐ Fidelidade & Satisfação
-registerFeature("feedback", "customer")
-registerFeature("loyalty", "customer")
-registerFeature("reviews-store", "customer")
+registerFeature("customer", "feedback")
+registerFeature("customer", "loyalty")
+registerFeature("customer", "reviews-store")
 
 // 📅 Serviços & Assinaturas
-registerFeature("scheduling", "services")
-registerFeature("subscriptions", "services")
+registerFeature("services", "scheduling")
+registerFeature("services", "subscriptions")
 
 // ⚙️ Sistema & Dispositivo
-registerFeature("force-update", "system")
-registerFeature("media-picker", "system")
-registerFeature("multi-language", "system")
+registerFeature("system", "force-update")
+registerFeature("system", "media-picker")
+registerFeature("system", "multi-language")
 
 // 🧠 Plataforma & Infraestrutura
-registerFeature("ai-assistant", "platform")
-registerFeature("analytics", "platform")
-registerFeature("emergency", "platform")
-registerFeature("offline-sync", "platform")
-registerFeature("telemetry", "platform")
+registerFeature("platform", "ai-assistant")
+registerFeature("platform", "analytics")
+registerFeature("platform", "emergency")
+registerFeature("platform", "offline-sync")
+registerFeature("platform", "telemetry")
+
+// 📦 Commercial Bundles (14 domains x 3 tiers = 42 bundles)
+fun registerBundle(domain: String, tier: String) {
+    val path = ":bundle:$domain:$tier"
+    include(path)
+    project(path).projectDir = file("bundle/$domain/$tier")
+}
+
+val bundleDomains = listOf(
+    "communication",
+    "delivery",
+    "ecommerce",
+    "education",
+    "emergency",
+    "events",
+    "finance",
+    "foundation",
+    "health",
+    "identity",
+    "real-estate",
+    "services",
+    "social",
+    "subscriptions"
+)
+val bundleTiers = listOf("basic", "standard", "pro")
+
+bundleDomains.forEach { domain ->
+    bundleTiers.forEach { tier ->
+        registerBundle(domain, tier)
+    }
+}
+

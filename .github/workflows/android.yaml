@@ -29,7 +29,8 @@ jobs:
         uses: tj-actions/changed-files@v47
         with:
           files: |
-            features/**
+            feature/**
+            bundle/**
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -69,13 +70,7 @@ jobs:
         env:
           GPR_USER: ${{ secrets.GPR_USER || github.actor }}
           GPR_KEY: ${{ secrets.GPR_KEY || secrets.GITHUB_TOKEN }}
-        run: |
-          for module in ai-assistant analytics authentication biometric cart catalog dispatch driver-app emergency feedback force-update geofencing loyalty maps media-picker message multi-language offline-maps offline-sync onboarding order-tracking payment profile promotions quotation reviews-store scheduling search settings stores subscriptions telemetry whatsapp-direct; do
-            if echo "${{ steps.changed_modules.outputs.all_changed_files }}" | grep -q "$module/"; then
-              echo "Publishing :$module to GitHub Packages..."
-              ./gradlew ":$module:publish" --no-daemon
-            fi
-          done
+        run: ./gradlew publish --no-daemon
 
       - name: Configure GitHub Access
         if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.changed_modules.outputs.any_changed == 'true'

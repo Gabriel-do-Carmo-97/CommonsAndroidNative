@@ -10,7 +10,6 @@
               <build path="$PROJECT_DIR$/build-logic" name="build-logic">
                 <projects>
                   <project path="$PROJECT_DIR$/build-logic" />
-                  <project path="$PROJECT_DIR$/build-logic/convention" />
                 </projects>
               </build>
             </builds>
@@ -22,42 +21,52 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ai-assistant" />
-            <option value="$PROJECT_DIR$/analytics" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/authentication" />
-            <option value="$PROJECT_DIR$/biometric" />
             <option value="$PROJECT_DIR$/build-logic" />
-            <option value="$PROJECT_DIR$/build-logic/convention" />
-            <option value="$PROJECT_DIR$/cart" />
-            <option value="$PROJECT_DIR$/catalog" />
-            <option value="$PROJECT_DIR$/dispatch" />
-            <option value="$PROJECT_DIR$/driver-app" />
-            <option value="$PROJECT_DIR$/emergency" />
-            <option value="$PROJECT_DIR$/feedback" />
-            <option value="$PROJECT_DIR$/force-update" />
-            <option value="$PROJECT_DIR$/geofencing" />
-            <option value="$PROJECT_DIR$/loyalty" />
-            <option value="$PROJECT_DIR$/maps" />
-            <option value="$PROJECT_DIR$/media-picker" />
-            <option value="$PROJECT_DIR$/message" />
-            <option value="$PROJECT_DIR$/multi-language" />
-            <option value="$PROJECT_DIR$/offline-maps" />
-            <option value="$PROJECT_DIR$/offline-sync" />
-            <option value="$PROJECT_DIR$/onboarding" />
-            <option value="$PROJECT_DIR$/order-tracking" />
-            <option value="$PROJECT_DIR$/payment" />
-            <option value="$PROJECT_DIR$/profile" />
-            <option value="$PROJECT_DIR$/promotions" />
-            <option value="$PROJECT_DIR$/quotation" />
-            <option value="$PROJECT_DIR$/reviews-store" />
-            <option value="$PROJECT_DIR$/scheduling" />
-            <option value="$PROJECT_DIR$/search" />
-            <option value="$PROJECT_DIR$/settings" />
-            <option value="$PROJECT_DIR$/stores" />
-            <option value="$PROJECT_DIR$/subscriptions" />
-            <option value="$PROJECT_DIR$/telemetry" />
-            <option value="$PROJECT_DIR$/whatsapp-direct" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/account" />
+            <option value="$PROJECT_DIR$/feature/account/onboarding" />
+            <option value="$PROJECT_DIR$/feature/account/profile" />
+            <option value="$PROJECT_DIR$/feature/account/settings" />
+            <option value="$PROJECT_DIR$/feature/auth" />
+            <option value="$PROJECT_DIR$/feature/auth/authentication" />
+            <option value="$PROJECT_DIR$/feature/auth/biometric" />
+            <option value="$PROJECT_DIR$/feature/checkout" />
+            <option value="$PROJECT_DIR$/feature/checkout/cart" />
+            <option value="$PROJECT_DIR$/feature/checkout/payment" />
+            <option value="$PROJECT_DIR$/feature/checkout/quotation" />
+            <option value="$PROJECT_DIR$/feature/communication" />
+            <option value="$PROJECT_DIR$/feature/communication/message" />
+            <option value="$PROJECT_DIR$/feature/communication/whatsapp-direct" />
+            <option value="$PROJECT_DIR$/feature/customer" />
+            <option value="$PROJECT_DIR$/feature/customer/feedback" />
+            <option value="$PROJECT_DIR$/feature/customer/loyalty" />
+            <option value="$PROJECT_DIR$/feature/customer/reviews-store" />
+            <option value="$PROJECT_DIR$/feature/delivery" />
+            <option value="$PROJECT_DIR$/feature/delivery/dispatch" />
+            <option value="$PROJECT_DIR$/feature/delivery/driver-app" />
+            <option value="$PROJECT_DIR$/feature/delivery/geofencing" />
+            <option value="$PROJECT_DIR$/feature/delivery/maps" />
+            <option value="$PROJECT_DIR$/feature/delivery/offline-maps" />
+            <option value="$PROJECT_DIR$/feature/delivery/order-tracking" />
+            <option value="$PROJECT_DIR$/feature/platform" />
+            <option value="$PROJECT_DIR$/feature/platform/ai-assistant" />
+            <option value="$PROJECT_DIR$/feature/platform/analytics" />
+            <option value="$PROJECT_DIR$/feature/platform/emergency" />
+            <option value="$PROJECT_DIR$/feature/platform/offline-sync" />
+            <option value="$PROJECT_DIR$/feature/platform/telemetry" />
+            <option value="$PROJECT_DIR$/feature/services" />
+            <option value="$PROJECT_DIR$/feature/services/scheduling" />
+            <option value="$PROJECT_DIR$/feature/services/subscriptions" />
+            <option value="$PROJECT_DIR$/feature/storefront" />
+            <option value="$PROJECT_DIR$/feature/storefront/catalog" />
+            <option value="$PROJECT_DIR$/feature/storefront/promotions" />
+            <option value="$PROJECT_DIR$/feature/storefront/search" />
+            <option value="$PROJECT_DIR$/feature/storefront/stores" />
+            <option value="$PROJECT_DIR$/feature/system" />
+            <option value="$PROJECT_DIR$/feature/system/force-update" />
+            <option value="$PROJECT_DIR$/feature/system/media-picker" />
+            <option value="$PROJECT_DIR$/feature/system/multi-language" />
           </set>
         </option>
       </GradleProjectSettings>
