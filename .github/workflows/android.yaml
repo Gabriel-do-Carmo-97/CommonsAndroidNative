@@ -1,4 +1,4 @@
-﻿name: Android CI/CD Pipeline (Hyper-Granular Pro)
+name: Android CI/CD Pipeline (Hyper-Granular Pro)
 
 on:
   push:
@@ -602,88 +602,749 @@ jobs:
           if-no-files-found: ignore
 
   # =============================================================================
-  # NIVEL 5: COMMERCIAL BUNDLES (MATRIZ PARALELA POR DOMINIO)
+  # NIVEL 5: COMMERCIAL BUNDLES (INDIVIDUAL JOBS POR DOMINIO)
   # =============================================================================
 
-  bundles:
-    name: "bundle: ${{ matrix.domain }}"
-    needs:
-      - feature-auth
-      - feature-account
-      - feature-system
-      - feature-platform
-      - feature-storefront
-      - feature-checkout
-      - feature-customer
-      - feature-delivery
-      - feature-communication
-      - feature-services
+  bundle-foundation:
+    name: "bundle: foundation"
+    needs: [feature-system, feature-account, feature-auth]
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        domain:
-          - identity
-          - foundation
-          - ecommerce
-          - delivery
-          - services
-          - communication
-          - subscriptions
-          - social
-          - education
-          - health
-          - finance
-          - events
-          - real-estate
-          - emergency
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
-      - name: Detekt, Lint, Testes e Build do Bundle (${{ matrix.domain }})
+      - name: Detekt, Lint, Testes e Build do Bundle (foundation)
         run: |
           ./gradlew \
-            :bundles:${{ matrix.domain }}:basic:detekt \
-            :bundles:${{ matrix.domain }}:basic:lintDebug \
-            :bundles:${{ matrix.domain }}:basic:testDebugUnitTest \
-            :bundles:${{ matrix.domain }}:basic:assembleRelease \
-            :bundles:${{ matrix.domain }}:basic:assembleDebug \
-            :bundles:${{ matrix.domain }}:standard:detekt \
-            :bundles:${{ matrix.domain }}:standard:lintDebug \
-            :bundles:${{ matrix.domain }}:standard:testDebugUnitTest \
-            :bundles:${{ matrix.domain }}:standard:assembleRelease \
-            :bundles:${{ matrix.domain }}:standard:assembleDebug \
-            :bundles:${{ matrix.domain }}:pro:detekt \
-            :bundles:${{ matrix.domain }}:pro:lintDebug \
-            :bundles:${{ matrix.domain }}:pro:testDebugUnitTest \
-            :bundles:${{ matrix.domain }}:pro:assembleRelease \
-            :bundles:${{ matrix.domain }}:pro:assembleDebug
+            :bundles:foundation:basic:detekt \
+            :bundles:foundation:basic:lintDebug \
+            :bundles:foundation:basic:testDebugUnitTest \
+            :bundles:foundation:basic:assembleRelease \
+            :bundles:foundation:basic:assembleDebug \
+            :bundles:foundation:standard:detekt \
+            :bundles:foundation:standard:lintDebug \
+            :bundles:foundation:standard:testDebugUnitTest \
+            :bundles:foundation:standard:assembleRelease \
+            :bundles:foundation:standard:assembleDebug \
+            :bundles:foundation:pro:detekt \
+            :bundles:foundation:pro:lintDebug \
+            :bundles:foundation:pro:testDebugUnitTest \
+            :bundles:foundation:pro:assembleRelease \
+            :bundles:foundation:pro:assembleDebug
       - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: reports-bundle-${{ matrix.domain }}
+          name: reports-bundle-foundation
           path: |
-            bundles/${{ matrix.domain }}/**/build/reports/tests/
-            bundles/${{ matrix.domain }}/**/build/reports/detekt/
-            bundles/${{ matrix.domain }}/**/build/reports/lint-results*.html
+            bundles/foundation/**/build/reports/tests/
+            bundles/foundation/**/build/reports/detekt/
+            bundles/foundation/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
         uses: actions/upload-artifact@v4
         with:
-          name: release-aar-bundle-${{ matrix.domain }}
-          path: bundles/${{ matrix.domain }}/**/build/outputs/aar/*-release.aar
+          name: release-aar-bundle-foundation
+          path: bundles/foundation/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
         uses: actions/upload-artifact@v4
         with:
-          name: debug-aar-bundle-${{ matrix.domain }}
-          path: bundles/${{ matrix.domain }}/**/build/outputs/aar/*-debug.aar
+          name: debug-aar-bundle-foundation
+          path: bundles/foundation/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-identity:
+    name: "bundle: identity"
+    needs: [feature-auth, feature-account]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (identity)
+        run: |
+          ./gradlew \
+            :bundles:identity:basic:detekt \
+            :bundles:identity:basic:lintDebug \
+            :bundles:identity:basic:testDebugUnitTest \
+            :bundles:identity:basic:assembleRelease \
+            :bundles:identity:basic:assembleDebug \
+            :bundles:identity:standard:detekt \
+            :bundles:identity:standard:lintDebug \
+            :bundles:identity:standard:testDebugUnitTest \
+            :bundles:identity:standard:assembleRelease \
+            :bundles:identity:standard:assembleDebug \
+            :bundles:identity:pro:detekt \
+            :bundles:identity:pro:lintDebug \
+            :bundles:identity:pro:testDebugUnitTest \
+            :bundles:identity:pro:assembleRelease \
+            :bundles:identity:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-identity
+          path: |
+            bundles/identity/**/build/reports/tests/
+            bundles/identity/**/build/reports/detekt/
+            bundles/identity/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-identity
+          path: bundles/identity/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-identity
+          path: bundles/identity/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-ecommerce:
+    name: "bundle: ecommerce"
+    needs: [feature-storefront, feature-checkout, feature-customer]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (ecommerce)
+        run: |
+          ./gradlew \
+            :bundles:ecommerce:basic:detekt \
+            :bundles:ecommerce:basic:lintDebug \
+            :bundles:ecommerce:basic:testDebugUnitTest \
+            :bundles:ecommerce:basic:assembleRelease \
+            :bundles:ecommerce:basic:assembleDebug \
+            :bundles:ecommerce:standard:detekt \
+            :bundles:ecommerce:standard:lintDebug \
+            :bundles:ecommerce:standard:testDebugUnitTest \
+            :bundles:ecommerce:standard:assembleRelease \
+            :bundles:ecommerce:standard:assembleDebug \
+            :bundles:ecommerce:pro:detekt \
+            :bundles:ecommerce:pro:lintDebug \
+            :bundles:ecommerce:pro:testDebugUnitTest \
+            :bundles:ecommerce:pro:assembleRelease \
+            :bundles:ecommerce:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-ecommerce
+          path: |
+            bundles/ecommerce/**/build/reports/tests/
+            bundles/ecommerce/**/build/reports/detekt/
+            bundles/ecommerce/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-ecommerce
+          path: bundles/ecommerce/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-ecommerce
+          path: bundles/ecommerce/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-delivery:
+    name: "bundle: delivery"
+    needs: [feature-delivery]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (delivery)
+        run: |
+          ./gradlew \
+            :bundles:delivery:basic:detekt \
+            :bundles:delivery:basic:lintDebug \
+            :bundles:delivery:basic:testDebugUnitTest \
+            :bundles:delivery:basic:assembleRelease \
+            :bundles:delivery:basic:assembleDebug \
+            :bundles:delivery:standard:detekt \
+            :bundles:delivery:standard:lintDebug \
+            :bundles:delivery:standard:testDebugUnitTest \
+            :bundles:delivery:standard:assembleRelease \
+            :bundles:delivery:standard:assembleDebug \
+            :bundles:delivery:pro:detekt \
+            :bundles:delivery:pro:lintDebug \
+            :bundles:delivery:pro:testDebugUnitTest \
+            :bundles:delivery:pro:assembleRelease \
+            :bundles:delivery:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-delivery
+          path: |
+            bundles/delivery/**/build/reports/tests/
+            bundles/delivery/**/build/reports/detekt/
+            bundles/delivery/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-delivery
+          path: bundles/delivery/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-delivery
+          path: bundles/delivery/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-services:
+    name: "bundle: services"
+    needs: [feature-services, feature-storefront]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (services)
+        run: |
+          ./gradlew \
+            :bundles:services:basic:detekt \
+            :bundles:services:basic:lintDebug \
+            :bundles:services:basic:testDebugUnitTest \
+            :bundles:services:basic:assembleRelease \
+            :bundles:services:basic:assembleDebug \
+            :bundles:services:standard:detekt \
+            :bundles:services:standard:lintDebug \
+            :bundles:services:standard:testDebugUnitTest \
+            :bundles:services:standard:assembleRelease \
+            :bundles:services:standard:assembleDebug \
+            :bundles:services:pro:detekt \
+            :bundles:services:pro:lintDebug \
+            :bundles:services:pro:testDebugUnitTest \
+            :bundles:services:pro:assembleRelease \
+            :bundles:services:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-services
+          path: |
+            bundles/services/**/build/reports/tests/
+            bundles/services/**/build/reports/detekt/
+            bundles/services/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-services
+          path: bundles/services/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-services
+          path: bundles/services/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-communication:
+    name: "bundle: communication"
+    needs: [feature-communication]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (communication)
+        run: |
+          ./gradlew \
+            :bundles:communication:basic:detekt \
+            :bundles:communication:basic:lintDebug \
+            :bundles:communication:basic:testDebugUnitTest \
+            :bundles:communication:basic:assembleRelease \
+            :bundles:communication:basic:assembleDebug \
+            :bundles:communication:standard:detekt \
+            :bundles:communication:standard:lintDebug \
+            :bundles:communication:standard:testDebugUnitTest \
+            :bundles:communication:standard:assembleRelease \
+            :bundles:communication:standard:assembleDebug \
+            :bundles:communication:pro:detekt \
+            :bundles:communication:pro:lintDebug \
+            :bundles:communication:pro:testDebugUnitTest \
+            :bundles:communication:pro:assembleRelease \
+            :bundles:communication:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-communication
+          path: |
+            bundles/communication/**/build/reports/tests/
+            bundles/communication/**/build/reports/detekt/
+            bundles/communication/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-communication
+          path: bundles/communication/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-communication
+          path: bundles/communication/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-subscriptions:
+    name: "bundle: subscriptions"
+    needs: [feature-services, feature-checkout]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (subscriptions)
+        run: |
+          ./gradlew \
+            :bundles:subscriptions:basic:detekt \
+            :bundles:subscriptions:basic:lintDebug \
+            :bundles:subscriptions:basic:testDebugUnitTest \
+            :bundles:subscriptions:basic:assembleRelease \
+            :bundles:subscriptions:basic:assembleDebug \
+            :bundles:subscriptions:standard:detekt \
+            :bundles:subscriptions:standard:lintDebug \
+            :bundles:subscriptions:standard:testDebugUnitTest \
+            :bundles:subscriptions:standard:assembleRelease \
+            :bundles:subscriptions:standard:assembleDebug \
+            :bundles:subscriptions:pro:detekt \
+            :bundles:subscriptions:pro:lintDebug \
+            :bundles:subscriptions:pro:testDebugUnitTest \
+            :bundles:subscriptions:pro:assembleRelease \
+            :bundles:subscriptions:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-subscriptions
+          path: |
+            bundles/subscriptions/**/build/reports/tests/
+            bundles/subscriptions/**/build/reports/detekt/
+            bundles/subscriptions/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-subscriptions
+          path: bundles/subscriptions/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-subscriptions
+          path: bundles/subscriptions/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-social:
+    name: "bundle: social"
+    needs: [feature-account, feature-communication]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (social)
+        run: |
+          ./gradlew \
+            :bundles:social:basic:detekt \
+            :bundles:social:basic:lintDebug \
+            :bundles:social:basic:testDebugUnitTest \
+            :bundles:social:basic:assembleRelease \
+            :bundles:social:basic:assembleDebug \
+            :bundles:social:standard:detekt \
+            :bundles:social:standard:lintDebug \
+            :bundles:social:standard:testDebugUnitTest \
+            :bundles:social:standard:assembleRelease \
+            :bundles:social:standard:assembleDebug \
+            :bundles:social:pro:detekt \
+            :bundles:social:pro:lintDebug \
+            :bundles:social:pro:testDebugUnitTest \
+            :bundles:social:pro:assembleRelease \
+            :bundles:social:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-social
+          path: |
+            bundles/social/**/build/reports/tests/
+            bundles/social/**/build/reports/detekt/
+            bundles/social/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-social
+          path: bundles/social/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-social
+          path: bundles/social/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-education:
+    name: "bundle: education"
+    needs: [feature-services, feature-account]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (education)
+        run: |
+          ./gradlew \
+            :bundles:education:basic:detekt \
+            :bundles:education:basic:lintDebug \
+            :bundles:education:basic:testDebugUnitTest \
+            :bundles:education:basic:assembleRelease \
+            :bundles:education:basic:assembleDebug \
+            :bundles:education:standard:detekt \
+            :bundles:education:standard:lintDebug \
+            :bundles:education:standard:testDebugUnitTest \
+            :bundles:education:standard:assembleRelease \
+            :bundles:education:standard:assembleDebug \
+            :bundles:education:pro:detekt \
+            :bundles:education:pro:lintDebug \
+            :bundles:education:pro:testDebugUnitTest \
+            :bundles:education:pro:assembleRelease \
+            :bundles:education:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-education
+          path: |
+            bundles/education/**/build/reports/tests/
+            bundles/education/**/build/reports/detekt/
+            bundles/education/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-education
+          path: bundles/education/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-education
+          path: bundles/education/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-health:
+    name: "bundle: health"
+    needs: [feature-services, feature-communication]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (health)
+        run: |
+          ./gradlew \
+            :bundles:health:basic:detekt \
+            :bundles:health:basic:lintDebug \
+            :bundles:health:basic:testDebugUnitTest \
+            :bundles:health:basic:assembleRelease \
+            :bundles:health:basic:assembleDebug \
+            :bundles:health:standard:detekt \
+            :bundles:health:standard:lintDebug \
+            :bundles:health:standard:testDebugUnitTest \
+            :bundles:health:standard:assembleRelease \
+            :bundles:health:standard:assembleDebug \
+            :bundles:health:pro:detekt \
+            :bundles:health:pro:lintDebug \
+            :bundles:health:pro:testDebugUnitTest \
+            :bundles:health:pro:assembleRelease \
+            :bundles:health:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-health
+          path: |
+            bundles/health/**/build/reports/tests/
+            bundles/health/**/build/reports/detekt/
+            bundles/health/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-health
+          path: bundles/health/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-health
+          path: bundles/health/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-finance:
+    name: "bundle: finance"
+    needs: [feature-checkout, feature-auth]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (finance)
+        run: |
+          ./gradlew \
+            :bundles:finance:basic:detekt \
+            :bundles:finance:basic:lintDebug \
+            :bundles:finance:basic:testDebugUnitTest \
+            :bundles:finance:basic:assembleRelease \
+            :bundles:finance:basic:assembleDebug \
+            :bundles:finance:standard:detekt \
+            :bundles:finance:standard:lintDebug \
+            :bundles:finance:standard:testDebugUnitTest \
+            :bundles:finance:standard:assembleRelease \
+            :bundles:finance:standard:assembleDebug \
+            :bundles:finance:pro:detekt \
+            :bundles:finance:pro:lintDebug \
+            :bundles:finance:pro:testDebugUnitTest \
+            :bundles:finance:pro:assembleRelease \
+            :bundles:finance:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-finance
+          path: |
+            bundles/finance/**/build/reports/tests/
+            bundles/finance/**/build/reports/detekt/
+            bundles/finance/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-finance
+          path: bundles/finance/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-finance
+          path: bundles/finance/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-events:
+    name: "bundle: events"
+    needs: [feature-storefront, feature-checkout]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (events)
+        run: |
+          ./gradlew \
+            :bundles:events:basic:detekt \
+            :bundles:events:basic:lintDebug \
+            :bundles:events:basic:testDebugUnitTest \
+            :bundles:events:basic:assembleRelease \
+            :bundles:events:basic:assembleDebug \
+            :bundles:events:standard:detekt \
+            :bundles:events:standard:lintDebug \
+            :bundles:events:standard:testDebugUnitTest \
+            :bundles:events:standard:assembleRelease \
+            :bundles:events:standard:assembleDebug \
+            :bundles:events:pro:detekt \
+            :bundles:events:pro:lintDebug \
+            :bundles:events:pro:testDebugUnitTest \
+            :bundles:events:pro:assembleRelease \
+            :bundles:events:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-events
+          path: |
+            bundles/events/**/build/reports/tests/
+            bundles/events/**/build/reports/detekt/
+            bundles/events/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-events
+          path: bundles/events/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-events
+          path: bundles/events/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-real-estate:
+    name: "bundle: real-estate"
+    needs: [feature-storefront]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (real-estate)
+        run: |
+          ./gradlew \
+            :bundles:real-estate:basic:detekt \
+            :bundles:real-estate:basic:lintDebug \
+            :bundles:real-estate:basic:testDebugUnitTest \
+            :bundles:real-estate:basic:assembleRelease \
+            :bundles:real-estate:basic:assembleDebug \
+            :bundles:real-estate:standard:detekt \
+            :bundles:real-estate:standard:lintDebug \
+            :bundles:real-estate:standard:testDebugUnitTest \
+            :bundles:real-estate:standard:assembleRelease \
+            :bundles:real-estate:standard:assembleDebug \
+            :bundles:real-estate:pro:detekt \
+            :bundles:real-estate:pro:lintDebug \
+            :bundles:real-estate:pro:testDebugUnitTest \
+            :bundles:real-estate:pro:assembleRelease \
+            :bundles:real-estate:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-real-estate
+          path: |
+            bundles/real-estate/**/build/reports/tests/
+            bundles/real-estate/**/build/reports/detekt/
+            bundles/real-estate/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-real-estate
+          path: bundles/real-estate/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-real-estate
+          path: bundles/real-estate/**/build/outputs/aar/*-debug.aar
+          if-no-files-found: ignore
+
+  bundle-emergency:
+    name: "bundle: emergency"
+    needs: [feature-platform, feature-delivery]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Detekt, Lint, Testes e Build do Bundle (emergency)
+        run: |
+          ./gradlew \
+            :bundles:emergency:basic:detekt \
+            :bundles:emergency:basic:lintDebug \
+            :bundles:emergency:basic:testDebugUnitTest \
+            :bundles:emergency:basic:assembleRelease \
+            :bundles:emergency:basic:assembleDebug \
+            :bundles:emergency:standard:detekt \
+            :bundles:emergency:standard:lintDebug \
+            :bundles:emergency:standard:testDebugUnitTest \
+            :bundles:emergency:standard:assembleRelease \
+            :bundles:emergency:standard:assembleDebug \
+            :bundles:emergency:pro:detekt \
+            :bundles:emergency:pro:lintDebug \
+            :bundles:emergency:pro:testDebugUnitTest \
+            :bundles:emergency:pro:assembleRelease \
+            :bundles:emergency:pro:assembleDebug
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-bundle-emergency
+          path: |
+            bundles/emergency/**/build/reports/tests/
+            bundles/emergency/**/build/reports/detekt/
+            bundles/emergency/**/build/reports/lint-results*.html
+          if-no-files-found: ignore
+      - name: Upload Release AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aar-bundle-emergency
+          path: bundles/emergency/**/build/outputs/aar/*-release.aar
+          if-no-files-found: error
+      - name: Upload Debug AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-aar-bundle-emergency
+          path: bundles/emergency/**/build/outputs/aar/*-debug.aar
           if-no-files-found: ignore
 
   # =============================================================================
@@ -692,7 +1353,21 @@ jobs:
 
   sample-app:
     name: "app: sample-app"
-    needs: [bundles]
+    needs:
+      - bundle-foundation
+      - bundle-identity
+      - bundle-ecommerce
+      - bundle-delivery
+      - bundle-services
+      - bundle-communication
+      - bundle-subscriptions
+      - bundle-social
+      - bundle-education
+      - bundle-health
+      - bundle-finance
+      - bundle-events
+      - bundle-real-estate
+      - bundle-emergency
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -725,9 +1400,22 @@ jobs:
   # =============================================================================
 
   publish-and-release:
-    name: "ðŸš€ Publish & Release"
+    name: "🚀 Publish & Release"
     needs:
-      - bundles
+      - bundle-foundation
+      - bundle-identity
+      - bundle-ecommerce
+      - bundle-delivery
+      - bundle-services
+      - bundle-communication
+      - bundle-subscriptions
+      - bundle-social
+      - bundle-education
+      - bundle-health
+      - bundle-finance
+      - bundle-events
+      - bundle-real-estate
+      - bundle-emergency
       - sample-app
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
