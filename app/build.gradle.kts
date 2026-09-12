@@ -1,4 +1,4 @@
-﻿plugins {
+plugins {
     id("commons.android.application")
     id("commons.android.compose")
     id("commons.android.hilt")
@@ -12,6 +12,10 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+}
+
+hilt {
+    enableAggregatingTask = false
 }
 
 dependencies {
