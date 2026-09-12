@@ -1,4 +1,4 @@
-﻿package br.com.wgc.authentication.login
+package br.com.wgc.authentication.login
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewModelScope
@@ -20,11 +20,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel corporativo para controle de autenticaÃ§Ã£o de usuÃ¡rios, sessÃ£o persistente e biometria.
+ * ViewModel corporativo para controle de autenticação de usuários, sessão persistente e biometria.
  *
  * @param useCase Caso de uso de login do OmniBackend.
- * @param dataStore UtilitÃ¡rio de persistÃªncia de preferÃªncias do Core.
- * @param biometricAuthHelper Helper de autenticaÃ§Ã£o biomÃ©trica do Core.
+ * @param dataStore Utilitário de persistência de preferências do Core.
+ * @param biometricAuthHelper Helper de autenticação biométrica do Core.
  */
 @HiltViewModel
 class LoginWGCViewModel @Inject constructor(
@@ -36,7 +36,7 @@ class LoginWGCViewModel @Inject constructor(
     private val _navigationEvent = Channel<AuthNavDestinations.LoginScreen>(Channel.BUFFERED)
 
     /**
-     * Fluxo de navegaÃ§Ã£o para redirecionamentos pÃ³s-autenticaÃ§Ã£o, cadastro ou recuperaÃ§Ã£o de senha.
+     * Fluxo de navegação para redirecionamentos pós-autenticação, cadastro ou recuperação de senha.
      */
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
@@ -58,7 +58,7 @@ class LoginWGCViewModel @Inject constructor(
     }
 
     /**
-     * Dispara autenticaÃ§Ã£o via e-mail e senha junto ao OmniBackend.
+     * Dispara autenticação via e-mail e senha junto ao OmniBackend.
      */
     override fun onLoginClick() {
         val currentEmail = uiState.value.email.trim()
@@ -100,10 +100,10 @@ class LoginWGCViewModel @Inject constructor(
     }
 
     /**
-     * Inicia autenticaÃ§Ã£o biomÃ©trica utilizando o helper do Core.
+     * Inicia autenticação biométrica utilizando o helper do Core.
      *
-     * @param activity FragmentActivity para exibiÃ§Ã£o do prompt nativo.
-     * @param onSuccess Callback invocado apÃ³s sucesso na validaÃ§Ã£o biomÃ©trica.
+     * @param activity FragmentActivity para exibição do prompt nativo.
+     * @param onSuccess Callback invocado após sucesso na validação biométrica.
      */
     fun authenticateWithBiometrics(
         activity: FragmentActivity,
@@ -111,15 +111,15 @@ class LoginWGCViewModel @Inject constructor(
     ) {
         val status = biometricAuthHelper.canAuthenticate()
         if (status != BiometricAuthStatus.Ready) {
-            updateState { it.copy(generalError = "Biometria nÃ£o configurada ou indisponÃ­vel neste aparelho.") }
+            updateState { it.copy(generalError = "Biometria não configurada ou indisponível neste aparelho.") }
             return
         }
 
-        val savedEmail = uiState.value.email.ifBlank { "UsuÃ¡rio Autenticado" }
+        val savedEmail = uiState.value.email.ifBlank { "Usuário Autenticado" }
         biometricAuthHelper.authenticate(
             activity = activity,
             config = BiometricPromptConfig(
-                title = "AutenticaÃ§Ã£o BiomÃ©trica",
+                title = "Autenticação Biométrica",
                 subtitle = "Toque no sensor para entrar",
                 negativeButtonText = "Cancelar"
             )
@@ -137,7 +137,7 @@ class LoginWGCViewModel @Inject constructor(
                     updateState { it.copy(generalError = result.errorMessage.toString()) }
                 }
                 is BiometricAuthResult.Failed -> {
-                    updateState { it.copy(generalError = "Biometria nÃ£o reconhecida.") }
+                    updateState { it.copy(generalError = "Biometria não reconhecida.") }
                 }
                 is BiometricAuthResult.Cancelled -> Unit
             }
@@ -145,7 +145,7 @@ class LoginWGCViewModel @Inject constructor(
     }
 
     /**
-     * Redireciona o usuÃ¡rio para o fluxo de cadastro.
+     * Redireciona o usuário para o fluxo de cadastro.
      */
     override fun onRegisterClick() {
         viewModelScope.launch {
@@ -154,7 +154,7 @@ class LoginWGCViewModel @Inject constructor(
     }
 
     /**
-     * Redireciona o usuÃ¡rio para o fluxo de recuperaÃ§Ã£o de senha.
+     * Redireciona o usuário para o fluxo de recuperação de senha.
      */
     override fun onForgotPasswordClick() {
         viewModelScope.launch {
@@ -163,7 +163,7 @@ class LoginWGCViewModel @Inject constructor(
     }
 
     /**
-     * Trata alteraÃ§Ã£o da opÃ§Ã£o de lembrar credenciais.
+     * Trata alteração da opção de lembrar credenciais.
      *
      * @param isChecked Indica se a credencial deve ser persistida localmente.
      */

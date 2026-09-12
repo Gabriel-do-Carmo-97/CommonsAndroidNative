@@ -1,4 +1,4 @@
-﻿package br.com.wgc.media_picker.screen
+package br.com.wgc.media_picker.screen
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -15,16 +15,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Estado da interface de seleÃ§Ã£o e transferÃªncia de arquivos multimÃ­dia.
+ * Estado da interface de seleção e transferência de arquivos multimídia.
  *
- * @property title TÃ­tulo identificador do componente de captura.
+ * @property title Título identificador do componente de captura.
  * @property selectedMediaUri URI local do arquivo selecionado na galeria do dispositivo.
- * @property isUploading Indica se a transferÃªncia de dados para a nuvem estÃ¡ em execuÃ§Ã£o.
- * @property uploadedUrl URL pÃºblica final gerada pelo serviÃ§o de armazenamento em nuvem.
+ * @property isUploading Indica se a transferência de dados para a nuvem está em execução.
+ * @property uploadedUrl URL pública final gerada pelo serviço de armazenamento em nuvem.
  * @property errorMessage Mensagem de erro caso o upload falhe.
  */
 data class MediaPickerUiState(
-    val title: String = "MÃ³dulo de Captura de MÃ­dia e QR Code",
+    val title: String = "Módulo de Captura de Mídia e QR Code",
     val selectedMediaUri: Uri? = null,
     val isUploading: Boolean = false,
     val uploadedUrl: String? = null,
@@ -32,9 +32,9 @@ data class MediaPickerUiState(
 )
 
 /**
- * ViewModel que orquestra a seleÃ§Ã£o e upload de mÃ­dias atravÃ©s do [StorageRepository].
+ * ViewModel que orquestra a seleção e upload de mídias através do [StorageRepository].
  *
- * @param storageRepository RepositÃ³rio de arquivos do OmniBackend.
+ * @param storageRepository Repositório de arquivos do OmniBackend.
  */
 @HiltViewModel
 class MediaPickerViewModel @Inject constructor(
@@ -43,11 +43,11 @@ class MediaPickerViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(MediaPickerUiState())
 
-    /** Fluxo observÃ¡vel do estado do seletor de mÃ­dia. */
+    /** Fluxo observável do estado do seletor de mídia. */
     val uiState: StateFlow<MediaPickerUiState> = _uiState.asStateFlow()
 
     /**
-     * Registra a URI de mÃ­dia selecionada pelo usuÃ¡rio na galeria.
+     * Registra a URI de mídia selecionada pelo usuário na galeria.
      *
      * @param uri URI local do arquivo escolhido.
      */
@@ -58,7 +58,7 @@ class MediaPickerViewModel @Inject constructor(
     /**
      * Envia o arquivo selecionado para o destino remoto especificado.
      *
-     * @param targetPath SubdiretÃ³rio no bucket de armazenamento remoto.
+     * @param targetPath Subdiretório no bucket de armazenamento remoto.
      */
     fun uploadMedia(targetPath: String = "commons_uploads") {
         val uri = _uiState.value.selectedMediaUri ?: return

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.biometric.screen
+package br.com.wgc.biometric.screen
 
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -14,26 +14,26 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
- * Estado de interface da tela de autenticaÃ§Ã£o biomÃ©trica e seguranÃ§a.
+ * Estado de interface da tela de autenticação biométrica e segurança.
  *
- * @property title TÃ­tulo informativo do cabeÃ§alho da tela.
- * @property isBiometricReady Indica se os sensores biomÃ©tricos do aparelho estÃ£o operacionais.
- * @property isAuthenticated Indica se o usuÃ¡rio concluiu a verificaÃ§Ã£o biomÃ©trica com sucesso.
+ * @property title Título informativo do cabeçalho da tela.
+ * @property isBiometricReady Indica se os sensores biométricos do aparelho estão operacionais.
+ * @property isAuthenticated Indica se o usuário concluiu a verificação biométrica com sucesso.
  * @property statusMessage Mensagem contextual sobre o status atual dos sensores.
- * @property errorMessage Mensagem de erro caso haja falha ou cancelamento da operaÃ§Ã£o.
+ * @property errorMessage Mensagem de erro caso haja falha ou cancelamento da operação.
  */
 data class BiometricUiState(
-    val title: String = "MÃ³dulo de Biometria, PIN e App Lock",
+    val title: String = "Módulo de Biometria, PIN e App Lock",
     val isBiometricReady: Boolean = false,
     val isAuthenticated: Boolean = false,
-    val statusMessage: String = "Toque no botÃ£o para autenticar com biometria.",
+    val statusMessage: String = "Toque no botão para autenticar com biometria.",
     val errorMessage: String? = null
 )
 
 /**
- * ViewModel responsÃ¡vel pela integraÃ§Ã£o com o sensor biomÃ©trico (BiometricPrompt) do dispositivo.
+ * ViewModel responsável pela integração com o sensor biométrico (BiometricPrompt) do dispositivo.
  *
- * @param biometricAuthHelper Helper de seguranÃ§a provido pelo CoreAndroidNative.
+ * @param biometricAuthHelper Helper de segurança provido pelo CoreAndroidNative.
  */
 @HiltViewModel
 class BiometricViewModel @Inject constructor(
@@ -42,7 +42,7 @@ class BiometricViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(BiometricUiState())
 
-    /** Fluxo de estado da UI com as informaÃ§Ãµes de seguranÃ§a biomÃ©trica. */
+    /** Fluxo de estado da UI com as informações de segurança biométrica. */
     val uiState: StateFlow<BiometricUiState> = _uiState.asStateFlow()
 
     init {
@@ -50,7 +50,7 @@ class BiometricViewModel @Inject constructor(
     }
 
     /**
-     * Verifica a disponibilidade de hardware e credenciais biomÃ©tricas registradas no aparelho.
+     * Verifica a disponibilidade de hardware e credenciais biométricas registradas no aparelho.
      */
     fun checkBiometricAvailability() {
         val status = biometricAuthHelper.canAuthenticate()
@@ -58,22 +58,22 @@ class BiometricViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 isBiometricReady = isReady,
-                statusMessage = if (isReady) "Sensor biomÃ©trico pronto para uso." else "Biometria indisponÃ­vel ou nÃ£o configurada."
+                statusMessage = if (isReady) "Sensor biométrico pronto para uso." else "Biometria indisponível ou não configurada."
             )
         }
     }
 
     /**
-     * Executa a chamada do BiometricPrompt nativo para autenticar o usuÃ¡rio.
+     * Executa a chamada do BiometricPrompt nativo para autenticar o usuário.
      *
-     * @param activity Contexto de FragmentActivity onde o diÃ¡logo biomÃ©trico Ã© renderizado.
-     * @param onResult Callback com o resultado booleano da autenticaÃ§Ã£o.
+     * @param activity Contexto de FragmentActivity onde o diálogo biométrico é renderizado.
+     * @param onResult Callback com o resultado booleano da autenticação.
      */
     fun authenticate(activity: FragmentActivity, onResult: (Boolean) -> Unit = {}) {
         val status = biometricAuthHelper.canAuthenticate()
         if (status != BiometricAuthStatus.Ready) {
             _uiState.update {
-                it.copy(errorMessage = "Biometria indisponÃ­vel neste dispositivo.")
+                it.copy(errorMessage = "Biometria indisponível neste dispositivo.")
             }
             onResult(false)
             return
@@ -82,7 +82,7 @@ class BiometricViewModel @Inject constructor(
         biometricAuthHelper.authenticate(
             activity = activity,
             config = BiometricPromptConfig(
-                title = "AutenticaÃ§Ã£o BiomÃ©trica WGC",
+                title = "Autenticação Biométrica WGC",
                 subtitle = "Confirme sua identidade para prosseguir",
                 negativeButtonText = "Cancelar"
             )
@@ -111,7 +111,7 @@ class BiometricViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isAuthenticated = false,
-                            errorMessage = "Biometria nÃ£o reconhecida. Tente novamente."
+                            errorMessage = "Biometria não reconhecida. Tente novamente."
                         )
                     }
                     onResult(false)

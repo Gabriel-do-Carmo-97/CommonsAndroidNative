@@ -1,4 +1,4 @@
-﻿package br.com.wgc.authentication.registerAddress
+package br.com.wgc.authentication.registerAddress
 
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.authentication.navigation.AuthNavDestinations
@@ -12,24 +12,24 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel responsÃ¡vel pela validaÃ§Ã£o e cadastro de endereÃ§os do usuÃ¡rio.
+ * ViewModel responsável pela validação e cadastro de endereços do usuário.
  */
 @HiltViewModel
 class RegisterAddressViewModel @Inject constructor() : BaseRegisterAddressScreenTemplateViewModel() {
 
     private val _navigationEvent = Channel<AuthNavDestinations.RegisterAddress>(Channel.BUFFERED)
 
-    /** Fluxo de eventos de navegaÃ§Ã£o para transiÃ§Ãµes de tela. */
+    /** Fluxo de eventos de navegação para transições de tela. */
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
-    /** Finaliza o registro do endereÃ§o e prossegue no fluxo. */
+    /** Finaliza o registro do endereço e prossegue no fluxo. */
     override fun onRegisterClick() {
         viewModelScope.launch {
             _navigationEvent.send(AuthNavDestinations.RegisterAddress.RegisterUser)
         }
     }
 
-    /** Retorna Ã  etapa anterior de cadastro. */
+    /** Retorna à etapa anterior de cadastro. */
     override fun onBackClick() {
         viewModelScope.launch {
             _navigationEvent.send(AuthNavDestinations.RegisterAddress.RegisterUser)
@@ -37,15 +37,15 @@ class RegisterAddressViewModel @Inject constructor() : BaseRegisterAddressScreen
     }
 
     /**
-     * Valida e formata o CEP digitado pelo usuÃ¡rio.
+     * Valida e formata o CEP digitado pelo usuário.
      *
-     * @param cep SequÃªncia numÃ©rica do cÃ³digo de endereÃ§amento postal.
+     * @param cep Sequência numérica do código de endereçamento postal.
      */
     override fun onCepSearch(cep: String) {
         if (!cep.isValidCep()) {
             updateState {
                 it.copy(
-                    cepError = "CEP invÃ¡lido (deve conter 8 dÃ­gitos numÃ©ricos)",
+                    cepError = "CEP inválido (deve conter 8 dígitos numéricos)",
                     isCepLoading = false
                 )
             }

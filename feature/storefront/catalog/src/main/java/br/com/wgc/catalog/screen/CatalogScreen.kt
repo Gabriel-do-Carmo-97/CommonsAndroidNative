@@ -1,4 +1,4 @@
-﻿package br.com.wgc.catalog.screen
+package br.com.wgc.catalog.screen
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -38,13 +38,13 @@ import br.com.wgc.ds_templates.screens.mercadolivre.FakeMercadoLivreHomeViewMode
 import br.com.wgc.ds_templates.screens.mercadolivre.MercadoLivreHomeScreenTemplate
 
 /**
- * Modos de exibiÃ§Ã£o e layouts comerciais suportados pelo catÃ¡logo de produtos.
+ * Modos de exibição e layouts comerciais suportados pelo catálogo de produtos.
  *
- * @property title RÃ³tulo descritivo do template comercial.
+ * @property title Rótulo descritivo do template comercial.
  */
 enum class CommercialTemplateMode(val title: String) {
-    /** Layout padrÃ£o de e-commerce com grid e carrossÃ©is horizontais. */
-    ECOMMERCE_STANDARD("E-Commerce PadrÃ£o"),
+    /** Layout padrão de e-commerce com grid e carrosséis horizontais. */
+    ECOMMERCE_STANDARD("E-Commerce Padrão"),
 
     /** Layout estilo app de delivery (iFood) com foco em restaurantes e pratos. */
     IFOOD_DELIVERY("iFood / Delivery"),
@@ -54,14 +54,14 @@ enum class CommercialTemplateMode(val title: String) {
 }
 
 /**
- * Tela principal do CatÃ¡logo de Produtos e Vitrines Comerciais.
+ * Tela principal do Catálogo de Produtos e Vitrines Comerciais.
  *
- * Permite alternÃ¢ncia dinÃ¢mica em tempo de execuÃ§Ã£o entre diferentes templates
+ * Permite alternância dinâmica em tempo de execução entre diferentes templates
  * visuais corporativos mantidos pelo Design System.
  *
  * @param modifier Modificador de layout Compose.
  * @param initialMode Modo de layout comercial inicial a ser renderizado.
- * @param viewModel ViewModel de controle do catÃ¡logo e produtos.
+ * @param viewModel ViewModel de controle do catálogo e produtos.
  */
 @Composable
 fun CatalogScreen(

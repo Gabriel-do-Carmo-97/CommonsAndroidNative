@@ -1,4 +1,4 @@
-﻿package br.com.wgc.stores.screen
+package br.com.wgc.stores.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,9 +40,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 /**
- * Tela do Localizador de Lojas e Filiais FÃ­sicas (Store Locator).
+ * Tela do Localizador de Lojas e Filiais Físicas (Store Locator).
  *
- * Permite busca por endereÃ§o, filtros de horÃ¡rio de funcionamento e seleÃ§Ã£o de filial para retirada.
+ * Permite busca por endereço, filtros de horário de funcionamento e seleção de filial para retirada.
  *
  * @param modifier Modificador de layout Compose.
  * @param viewModel ViewModel de consulta e gerenciamento das filiais.
@@ -71,7 +71,7 @@ fun StoresScreen(
             value = uiState.searchQuery,
             onValueChange = viewModel::onSearchQueryChanged,
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Buscar filial ou endereÃ§o...") },
+            placeholder = { Text("Buscar filial ou endereço...") },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Buscar") },
             singleLine = true,
             shape = RoundedCornerShape(12.dp)
@@ -211,7 +211,7 @@ private fun StoreCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "${branch.address} â€¢ ${branch.distanceKm} km",
+                    text = "${branch.address} • ${branch.distanceKm} km",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

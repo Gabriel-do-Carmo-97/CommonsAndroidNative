@@ -1,4 +1,4 @@
-﻿package br.com.wgc.scheduling.screen
+package br.com.wgc.scheduling.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,16 +12,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Item representativo de um serviÃ§o disponÃ­vel para agendamento.
+ * Item representativo de um serviço disponível para agendamento.
  *
- * @param id Identificador do serviÃ§o.
- * @param name Nome comercial do serviÃ§o.
- * @param durationMin DuraÃ§Ã£o estimada em minutos.
- * @param price Valor monetÃ¡rio formatado.
- * @property id Identificador do serviÃ§o.
- * @property name Nome comercial do serviÃ§o.
- * @property durationMin DuraÃ§Ã£o estimada em minutos.
- * @property price Valor monetÃ¡rio formatado.
+ * @param id Identificador do serviço.
+ * @param name Nome comercial do serviço.
+ * @param durationMin Duração estimada em minutos.
+ * @param price Valor monetário formatado.
+ * @property id Identificador do serviço.
+ * @property name Nome comercial do serviço.
+ * @property durationMin Duração estimada em minutos.
+ * @property price Valor monetário formatado.
  */
 data class ServiceItem(
     val id: String,
@@ -31,14 +31,14 @@ data class ServiceItem(
 )
 
 /**
- * Profissional credenciado encarregado da execuÃ§Ã£o do atendimento.
+ * Profissional credenciado encarregado da execução do atendimento.
  *
  * @param id Identificador do profissional.
  * @param name Nome completo do prestador.
- * @param role Cargo ou especialidade tÃ©cnica.
+ * @param role Cargo ou especialidade técnica.
  * @property id Identificador do profissional.
  * @property name Nome completo do prestador.
- * @property role Cargo ou especialidade tÃ©cnica.
+ * @property role Cargo ou especialidade técnica.
  */
 data class ProviderItem(
     val id: String,
@@ -47,12 +47,12 @@ data class ProviderItem(
 )
 
 /**
- * Intervalo de horÃ¡rio (slot) da agenda de atendimento.
+ * Intervalo de horário (slot) da agenda de atendimento.
  *
- * @param time HorÃ¡rio no formato HH:mm.
- * @param isAvailable Sinalizador indicando se o horÃ¡rio estÃ¡ livre para reserva.
- * @property time HorÃ¡rio no formato HH:mm.
- * @property isAvailable Sinalizador indicando se o horÃ¡rio estÃ¡ livre para reserva.
+ * @param time Horário no formato HH:mm.
+ * @param isAvailable Sinalizador indicando se o horário está livre para reserva.
+ * @property time Horário no formato HH:mm.
+ * @property isAvailable Sinalizador indicando se o horário está livre para reserva.
  */
 data class TimeSlot(
     val time: String,
@@ -60,36 +60,36 @@ data class TimeSlot(
 )
 
 /**
- * Estado imutÃ¡vel do fluxo de agendamento de serviÃ§os.
+ * Estado imutável do fluxo de agendamento de serviços.
  *
- * @property title TÃ­tulo do cabeÃ§alho da tela de agendamento.
- * @property services CatÃ¡logo de serviÃ§os ofertados para agendamento.
- * @property selectedService ServiÃ§o atualmente selecionado pelo cliente.
+ * @property title Título do cabeçalho da tela de agendamento.
+ * @property services Catálogo de serviços ofertados para agendamento.
+ * @property selectedService Serviço atualmente selecionado pelo cliente.
  * @property providers Lista de profissionais habilitados.
- * @property selectedProvider Profissional selecionado para a execuÃ§Ã£o.
- * @property availableDates Dias do calendÃ¡rio disponÃ­veis para reserva.
+ * @property selectedProvider Profissional selecionado para a execução.
+ * @property availableDates Dias do calendário disponíveis para reserva.
  * @property selectedDate Data escolhida.
- * @property timeSlots Faixas de horÃ¡rios para a data selecionada.
- * @property selectedTime HorÃ¡rio escolhido.
- * @property isSubmitting Indicador de transaÃ§Ã£o de agendamento em andamento.
+ * @property timeSlots Faixas de horários para a data selecionada.
+ * @property selectedTime Horário escolhido.
+ * @property isSubmitting Indicador de transação de agendamento em andamento.
  * @property isBookingConfirmed Indicador de agendamento validado e registrado com sucesso.
  */
 data class SchedulingUiState(
-    val title: String = "Agendamento de ServiÃ§os",
+    val title: String = "Agendamento de Serviços",
     val services: List<ServiceItem> = listOf(
         ServiceItem("s1", "Corte de Cabelo & Barba", 45, "R$ 65,00"),
-        ServiceItem("s2", "RevisÃ£o Automotiva Preventiva", 120, "R$ 280,00"),
-        ServiceItem("s3", "Consulta MÃ©dica / AvaliaÃ§Ã£o", 30, "R$ 150,00"),
-        ServiceItem("s4", "Limpeza e HigienizaÃ§Ã£o VIP", 60, "R$ 110,00")
+        ServiceItem("s2", "Revisão Automotiva Preventiva", 120, "R$ 280,00"),
+        ServiceItem("s3", "Consulta Médica / Avaliação", 30, "R$ 150,00"),
+        ServiceItem("s4", "Limpeza e Higienização VIP", 60, "R$ 110,00")
     ),
     val selectedService: ServiceItem = ServiceItem("s1", "Corte de Cabelo & Barba", 45, "R$ 65,00"),
     val providers: List<ProviderItem> = listOf(
         ProviderItem("p1", "Carlos Andrade", "Especialista Master"),
-        ProviderItem("p2", "Fernanda Lima", "Profissional SÃªnior"),
-        ProviderItem("p3", "Qualquer Profissional DisponÃ­vel", "Mais RÃ¡pido")
+        ProviderItem("p2", "Fernanda Lima", "Profissional Sênior"),
+        ProviderItem("p3", "Qualquer Profissional Disponível", "Mais Rápido")
     ),
     val selectedProvider: ProviderItem = ProviderItem("p1", "Carlos Andrade", "Especialista Master"),
-    val availableDates: List<String> = listOf("Hoje", "AmanhÃ£", "Quarta", "Quinta", "Sexta", "SÃ¡bado"),
+    val availableDates: List<String> = listOf("Hoje", "Amanhã", "Quarta", "Quinta", "Sexta", "Sábado"),
     val selectedDate: String = "Hoje",
     val timeSlots: List<TimeSlot> = listOf(
         TimeSlot("09:00", true),
@@ -105,9 +105,9 @@ data class SchedulingUiState(
 )
 
 /**
- * ViewModel responsÃ¡vel pelo fluxo de reserva e integraÃ§Ã£o com a coleÃ§Ã£o `appointments` do Firestore.
+ * ViewModel responsável pelo fluxo de reserva e integração com a coleção `appointments` do Firestore.
  *
- * @param firestoreRepository RepositÃ³rio do OmniBackend encarregado do registro remoto do agendamento.
+ * @param firestoreRepository Repositório do OmniBackend encarregado do registro remoto do agendamento.
  */
 @HiltViewModel
 class SchedulingViewModel @Inject constructor(
@@ -117,14 +117,14 @@ class SchedulingViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SchedulingUiState())
 
     /**
-     * Fluxo observÃ¡vel contendo o estado completo da reserva.
+     * Fluxo observável contendo o estado completo da reserva.
      */
     val uiState: StateFlow<SchedulingUiState> = _uiState.asStateFlow()
 
     /**
-     * Seleciona o serviÃ§o a ser contratado.
+     * Seleciona o serviço a ser contratado.
      *
-     * @param service Item de serviÃ§o escolhido.
+     * @param service Item de serviço escolhido.
      */
     fun selectService(service: ServiceItem) {
         _uiState.update { it.copy(selectedService = service) }
@@ -142,23 +142,23 @@ class SchedulingViewModel @Inject constructor(
     /**
      * Define o dia selecionado para o atendimento.
      *
-     * @param date RÃ³tulo da data selecionada.
+     * @param date Rótulo da data selecionada.
      */
     fun selectDate(date: String) {
         _uiState.update { it.copy(selectedDate = date) }
     }
 
     /**
-     * Define o horÃ¡rio especÃ­fico do atendimento.
+     * Define o horário específico do atendimento.
      *
-     * @param time HorÃ¡rio selecionado.
+     * @param time Horário selecionado.
      */
     fun selectTime(time: String) {
         _uiState.update { it.copy(selectedTime = time) }
     }
 
     /**
-     * Confirma a reserva e persiste os dados na coleÃ§Ã£o `appointments` do OmniBackend.
+     * Confirma a reserva e persiste os dados na coleção `appointments` do OmniBackend.
      */
     fun confirmBooking() {
         _uiState.update { it.copy(isSubmitting = true) }

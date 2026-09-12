@@ -1,4 +1,4 @@
-﻿package br.com.wgc.onboarding.screen
+package br.com.wgc.onboarding.screen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
@@ -39,14 +39,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 /**
- * Tela de Onboarding e apresentaÃ§Ã£o inicial de propostas de valor do aplicativo.
+ * Tela de Onboarding e apresentação inicial de propostas de valor do aplicativo.
  *
- * Apresenta carrossel interativo com transiÃ§Ãµes animadas, indicadores de pÃ¡gina
- * e botÃµes de navegaÃ§Ã£o e conclusÃ£o para o usuÃ¡rio.
+ * Apresenta carrossel interativo com transições animadas, indicadores de página
+ * e botões de navegação e conclusão para o usuário.
  *
- * @param modifier Modificador de layout Compose aplicado Ã  tela.
- * @param onFinished Callback invocado quando o usuÃ¡rio conclui ou pula o onboarding.
- * @param viewModel ViewModel responsÃ¡vel pelo controle de estado e Ã­ndice do carrossel.
+ * @param modifier Modificador de layout Compose aplicado à tela.
+ * @param onFinished Callback invocado quando o usuário conclui ou pula o onboarding.
+ * @param viewModel ViewModel responsável pelo controle de estado e índice do carrossel.
  */
 @Composable
 fun OnboardingScreen(
@@ -185,7 +185,7 @@ fun OnboardingScreen(
                     modifier = Modifier.height(48.dp)
                 ) {
                     val isLastPage = uiState.currentPageIndex == uiState.pages.size - 1
-                    Text(if (isLastPage) "ComeÃ§ar Agora" else "AvanÃ§ar")
+                    Text(if (isLastPage) "Começar Agora" else "Avançar")
                     Spacer(modifier = Modifier.size(6.dp))
                     Icon(
                         imageVector = if (isLastPage) Icons.Default.CheckCircle else Icons.AutoMirrored.Filled.ArrowForward,

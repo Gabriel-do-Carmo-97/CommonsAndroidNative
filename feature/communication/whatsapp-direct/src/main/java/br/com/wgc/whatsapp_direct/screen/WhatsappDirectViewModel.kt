@@ -1,4 +1,4 @@
-﻿package br.com.wgc.whatsapp_direct.screen
+package br.com.wgc.whatsapp_direct.screen
 
 import androidx.lifecycle.ViewModel
 import br.com.wgc.whatsapp_direct.helper.WhatsappDirectHelper
@@ -10,17 +10,17 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
- * Estado imutÃ¡vel da tela de prÃ©-visualizaÃ§Ã£o e despacho direto para o WhatsApp.
+ * Estado imutável da tela de pré-visualização e despacho direto para o WhatsApp.
  *
- * @property title TÃ­tulo do cabeÃ§alho da tela.
- * @property recipientPhone NÃºmero de telefone comercial do WhatsApp de destino.
+ * @property title Título do cabeçalho da tela.
+ * @property recipientPhone Número de telefone comercial do WhatsApp de destino.
  * @property customerName Nome informado pelo comprador.
  * @property storeName Nome da loja de destino.
  * @property itemsSummary Resumo em linhas dos itens selecionados.
  * @property totalAmount Total financeiro formatado do pedido.
- * @property deliveryAddress EndereÃ§o residencial ou comercial de entrega.
- * @property paymentMethod MÃ©todo de pagamento escolhido.
- * @property notes InstruÃ§Ãµes ou observaÃ§Ãµes extras ao lojista.
+ * @property deliveryAddress Endereço residencial ou comercial de entrega.
+ * @property paymentMethod Método de pagamento escolhido.
+ * @property notes Instruções ou observações extras ao lojista.
  * @property formattedMessage Texto final formatado pronto para envio.
  */
 data class WhatsappDirectUiState(
@@ -28,7 +28,7 @@ data class WhatsappDirectUiState(
     val recipientPhone: String = "(11) 99999-8888",
     val customerName: String = "Gabriel Carmo",
     val storeName: String = "WGC Express & Delivery",
-    val itemsSummary: String = "â€¢ 1x Combo Burger Artesanal + Batata R$ 42,00\nâ€¢ 1x Suco Natural de Laranja R$ 9,00",
+    val itemsSummary: String = "• 1x Combo Burger Artesanal + Batata R$ 42,00\n• 1x Suco Natural de Laranja R$ 9,00",
     val totalAmount: String = "R$ 51,00",
     val deliveryAddress: String = "Rua Oscar Freire, 900 - Jardins, SP",
     val paymentMethod: String = "Pix na Entrega",
@@ -37,7 +37,7 @@ data class WhatsappDirectUiState(
 )
 
 /**
- * ViewModel responsÃ¡vel pela montagem reativa da mensagem estruturada para envio via WhatsApp.
+ * ViewModel responsável pela montagem reativa da mensagem estruturada para envio via WhatsApp.
  */
 @HiltViewModel
 class WhatsappDirectViewModel @Inject constructor() : ViewModel() {
@@ -54,9 +54,9 @@ class WhatsappDirectViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Atualiza o telefone do destinatÃ¡rio do pedido.
+     * Atualiza o telefone do destinatário do pedido.
      *
-     * @param phone String com o nÃºmero telefÃ´nico.
+     * @param phone String com o número telefônico.
      */
     fun updateRecipientPhone(phone: String) {
         _uiState.update { it.copy(recipientPhone = phone) }
@@ -73,9 +73,9 @@ class WhatsappDirectViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Atualiza o campo de observaÃ§Ãµes adicionais do pedido.
+     * Atualiza o campo de observações adicionais do pedido.
      *
-     * @param notes Texto de instruÃ§Ã£o ou observaÃ§Ã£o.
+     * @param notes Texto de instrução ou observação.
      */
     fun updateNotes(notes: String) {
         _uiState.update { it.copy(notes = notes) }

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.reviews_store.screen
+package br.com.wgc.reviews_store.screen
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,29 +9,29 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
- * Destino para redirecionamento apÃ³s a seleÃ§Ã£o da quantidade de estrelas pelo usuÃ¡rio.
+ * Destino para redirecionamento após a seleção da quantidade de estrelas pelo usuário.
  */
 enum class ReviewRedirectTarget {
-    /** Nenhuma aÃ§Ã£o selecionada ainda. */
+    /** Nenhuma ação selecionada ainda. */
     NONE,
-    /** Redirecionamento para a pÃ¡gina oficial do app na Google Play Store (4 ou 5 estrelas). */
+    /** Redirecionamento para a página oficial do app na Google Play Store (4 ou 5 estrelas). */
     PLAY_STORE,
-    /** Direcionamento para coleta de sugestÃ£o interna de melhoria (1 a 3 estrelas). */
+    /** Direcionamento para coleta de sugestão interna de melhoria (1 a 3 estrelas). */
     INTERNAL_FEEDBACK
 }
 
 /**
- * Estado imutÃ¡vel do fluxo de avaliaÃ§Ã£o do app na Play Store.
+ * Estado imutável do fluxo de avaliação do app na Play Store.
  *
- * @property title TÃ­tulo do cabeÃ§alho da avaliaÃ§Ã£o.
+ * @property title Título do cabeçalho da avaliação.
  * @property starRating Quantidade de estrelas selecionada (0 a 5).
- * @property hasVoted Sinalizador indicando se o usuÃ¡rio jÃ¡ selecionou uma quantidade de estrelas.
- * @property feedbackComment ComentÃ¡rio textual interno para notas baixas.
- * @property redirectTarget Destino da triagem da avaliaÃ§Ã£o.
- * @property isCompleted Indicador de processo de avaliaÃ§Ã£o finalizado.
+ * @property hasVoted Sinalizador indicando se o usuário já selecionou uma quantidade de estrelas.
+ * @property feedbackComment Comentário textual interno para notas baixas.
+ * @property redirectTarget Destino da triagem da avaliação.
+ * @property isCompleted Indicador de processo de avaliação finalizado.
  */
 data class ReviewsStoreUiState(
-    val title: String = "AvaliaÃ§Ã£o na Google Play Store",
+    val title: String = "Avaliação na Google Play Store",
     val starRating: Int = 0,
     val hasVoted: Boolean = false,
     val feedbackComment: String = "",
@@ -40,7 +40,7 @@ data class ReviewsStoreUiState(
 )
 
 /**
- * ViewModel responsÃ¡vel pela triagem de satisfaÃ§Ã£o e redirecionamento estratÃ©gico para a Play Store.
+ * ViewModel responsável pela triagem de satisfação e redirecionamento estratégico para a Play Store.
  */
 @HiltViewModel
 class ReviewsStoreViewModel @Inject constructor() : ViewModel() {
@@ -48,12 +48,12 @@ class ReviewsStoreViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(ReviewsStoreUiState())
 
     /**
-     * Fluxo de estado observÃ¡vel com as etapas da avaliaÃ§Ã£o.
+     * Fluxo de estado observável com as etapas da avaliação.
      */
     val uiState: StateFlow<ReviewsStoreUiState> = _uiState.asStateFlow()
 
     /**
-     * Processa a seleÃ§Ã£o de estrelas efetuada pelo usuÃ¡rio e determina o fluxo de redirecionamento.
+     * Processa a seleção de estrelas efetuada pelo usuário e determina o fluxo de redirecionamento.
      *
      * @param stars Quantidade de estrelas (1 a 5).
      */
@@ -73,7 +73,7 @@ class ReviewsStoreViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Atualiza o comentÃ¡rio de sugestÃ£o interna para avaliaÃ§Ãµes crÃ­ticas.
+     * Atualiza o comentário de sugestão interna para avaliações críticas.
      *
      * @param comment Texto fornecido pelo cliente.
      */
@@ -82,14 +82,14 @@ class ReviewsStoreViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Marca o fluxo de avaliaÃ§Ã£o como concluÃ­do com sucesso.
+     * Marca o fluxo de avaliação como concluído com sucesso.
      */
     fun completeReview() {
         _uiState.update { it.copy(isCompleted = true) }
     }
 
     /**
-     * Reinicializa o estado da avaliaÃ§Ã£o para os valores padrÃ£o.
+     * Reinicializa o estado da avaliação para os valores padrão.
      */
     fun reset() {
         _uiState.update { ReviewsStoreUiState() }

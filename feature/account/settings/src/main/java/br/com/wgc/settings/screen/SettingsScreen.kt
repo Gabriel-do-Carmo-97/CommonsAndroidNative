@@ -1,4 +1,4 @@
-﻿package br.com.wgc.settings.screen
+package br.com.wgc.settings.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,10 +6,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.wgc.ds_templates.screens.profile.SettingsHubScreenTemplate
 
 /**
- * Tela de ConfiguraÃ§Ãµes e PreferÃªncias gerais do aplicativo.
+ * Tela de Configurações e Preferências gerais do aplicativo.
  *
  * @param modifier Modificador de layout Compose.
- * @param viewModel ViewModel de gerenciamento das configuraÃ§Ãµes.
+ * @param viewModel ViewModel de gerenciamento das configurações.
  */
 @Composable
 fun SettingsScreen(

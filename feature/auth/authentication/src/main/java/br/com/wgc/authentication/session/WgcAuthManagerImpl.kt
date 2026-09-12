@@ -1,4 +1,4 @@
-﻿package br.com.wgc.authentication.session
+package br.com.wgc.authentication.session
 
 import br.com.wgc.core.dataStorePreferences.DataStorePreferencesCore
 import br.wgc.omnibackend.core.model.OmniUser
@@ -19,12 +19,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * ImplementaÃ§Ã£o Singleton do gerenciador de sessÃ£o corporativa [WgcAuthManager].
+ * Implementação Singleton do gerenciador de sessão corporativa [WgcAuthManager].
  *
- * MantÃ©m o estado da sessÃ£o do usuÃ¡rio sincronizado entre o backend e a persistÃªncia local.
+ * Mantém o estado da sessão do usuário sincronizado entre o backend e a persistência local.
  *
- * @param authRepository RepositÃ³rio de autenticaÃ§Ã£o do OmniBackend.
- * @param dataStore Gerenciador de persistÃªncia de credenciais locais.
+ * @param authRepository Repositório de autenticação do OmniBackend.
+ * @param dataStore Gerenciador de persistência de credenciais locais.
  */
 @Singleton
 class WgcAuthManagerImpl @Inject constructor(
@@ -79,16 +79,16 @@ class WgcAuthManagerImpl @Inject constructor(
 }
 
 /**
- * MÃ³dulo Hilt que vincula a implementaÃ§Ã£o [WgcAuthManagerImpl] ao contrato [WgcAuthManager].
+ * Módulo Hilt que vincula a implementação [WgcAuthManagerImpl] ao contrato [WgcAuthManager].
  */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AuthSessionModule {
     /**
-     * Associa o singleton de gerenciamento de sessÃ£o Ã  sua interface.
+     * Associa o singleton de gerenciamento de sessão à sua interface.
      *
-     * @param impl InstÃ¢ncia concreta de [WgcAuthManagerImpl].
-     * @return Contrato pÃºblico de gerenciamento de sessÃ£o [WgcAuthManager].
+     * @param impl Instância concreta de [WgcAuthManagerImpl].
+     * @return Contrato público de gerenciamento de sessão [WgcAuthManager].
      */
     @Binds
     @Singleton

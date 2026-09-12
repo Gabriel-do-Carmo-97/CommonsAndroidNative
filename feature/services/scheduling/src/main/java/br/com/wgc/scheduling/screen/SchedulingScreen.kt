@@ -1,4 +1,4 @@
-﻿package br.com.wgc.scheduling.screen
+package br.com.wgc.scheduling.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -38,14 +38,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 /**
- * Tela de Agendamento de ServiÃ§os e Consultas (Scheduling).
+ * Tela de Agendamento de Serviços e Consultas (Scheduling).
  *
- * Guia o usuÃ¡rio atravÃ©s de um fluxo com seleÃ§Ã£o do serviÃ§o e duraÃ§Ã£o,
- * escolha de data em carrossel horizontal, slots de horÃ¡rios disponÃ­veis em grade reativa
- * e confirmaÃ§Ã£o com envio assÃ­ncrono para o OmniBackend.
+ * Guia o usuário através de um fluxo com seleção do serviço e duração,
+ * escolha de data em carrossel horizontal, slots de horários disponíveis em grade reativa
+ * e confirmação com envio assíncrono para o OmniBackend.
  *
  * @param modifier Modificador Jetpack Compose aplicado na raiz da tela.
- * @param viewModel ViewModel injetado responsÃ¡vel pelo estado e despacho do agendamento.
+ * @param viewModel ViewModel injetado responsável pelo estado e despacho do agendamento.
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -68,7 +68,7 @@ fun SchedulingScreen(
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = "Escolha o serviÃ§o, data e profissional para atendimento presencial ou online.",
+            text = "Escolha o serviço, data e profissional para atendimento presencial ou online.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -100,7 +100,7 @@ fun SchedulingScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "${uiState.selectedService.name}\n${uiState.selectedDate} Ã s ${uiState.selectedTime}\nProfissional: ${uiState.selectedProvider.name}",
+                        text = "${uiState.selectedService.name}\n${uiState.selectedDate} às ${uiState.selectedTime}\nProfissional: ${uiState.selectedProvider.name}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
                     )
@@ -108,7 +108,7 @@ fun SchedulingScreen(
             }
         } else {
             // Service Selector
-            Text(text = "1. Selecione o ServiÃ§o", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text(text = "1. Selecione o Serviço", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
             uiState.services.forEach { service ->
                 val isSelected = uiState.selectedService.id == service.id
@@ -163,7 +163,7 @@ fun SchedulingScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // Time Slots FlowRow
-            Text(text = "3. HorÃ¡rios DisponÃ­veis", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text(text = "3. Horários Disponíveis", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),

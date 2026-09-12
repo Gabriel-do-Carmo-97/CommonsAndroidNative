@@ -1,4 +1,4 @@
-﻿package br.com.wgc.stores.screen
+package br.com.wgc.stores.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,13 +13,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Modelo de dados que representa uma filial ou unidade fÃ­sica de atendimento.
+ * Modelo de dados que representa uma filial ou unidade física de atendimento.
  *
  * @property id Identificador exclusivo da filial.
  * @property name Nome comercial da loja.
- * @property address EndereÃ§o completo com bairro e cidade.
- * @property distanceKm DistÃ¢ncia calculada em relaÃ§Ã£o ao usuÃ¡rio em quilÃ´metros.
- * @property isOpen Indica se a unidade estÃ¡ aberta para atendimento presencial.
+ * @property address Endereço completo com bairro e cidade.
+ * @property distanceKm Distância calculada em relação ao usuário em quilômetros.
+ * @property isOpen Indica se a unidade está aberta para atendimento presencial.
  * @property phone Telefone de contato da loja.
  */
 data class StoreBranch(
@@ -34,17 +34,17 @@ data class StoreBranch(
 /**
  * Estado da interface do localizador de lojas.
  *
- * @property title TÃ­tulo do painel de filiais.
- * @property isLoading Indica se a consulta Ã s filiais estÃ¡ carregando.
+ * @property title Título do painel de filiais.
+ * @property isLoading Indica se a consulta às filiais está carregando.
  * @property stores Lista completa de filiais cadastradas.
- * @property filteredStores Lista filtrada com base nos termos de busca e horÃ¡rio de abertura.
- * @property selectedStore Filial atualmente selecionada pelo usuÃ¡rio para compra ou retirada.
+ * @property filteredStores Lista filtrada com base nos termos de busca e horário de abertura.
+ * @property selectedStore Filial atualmente selecionada pelo usuário para compra ou retirada.
  * @property searchQuery Termo de busca digitado.
  * @property onlyOpenFilter Filtro ativo para exibir apenas lojas abertas.
  * @property errorMessage Mensagem de erro caso a consulta falhe.
  */
 data class StoresUiState(
-    val title: String = "MÃ³dulo de Multi-Lojas e Filiais WGC",
+    val title: String = "Módulo de Multi-Lojas e Filiais WGC",
     val isLoading: Boolean = false,
     val stores: List<StoreBranch> = emptyList(),
     val filteredStores: List<StoreBranch> = emptyList(),
@@ -55,9 +55,9 @@ data class StoresUiState(
 )
 
 /**
- * ViewModel responsÃ¡vel pela consulta, filtro geogrÃ¡fico e seleÃ§Ã£o de filiais fÃ­sicas.
+ * ViewModel responsável pela consulta, filtro geográfico e seleção de filiais físicas.
  *
- * @param firestoreRepository RepositÃ³rio do OmniBackend Firestore para consulta da coleÃ§Ã£o de lojas.
+ * @param firestoreRepository Repositório do OmniBackend Firestore para consulta da coleção de lojas.
  */
 @HiltViewModel
 class StoresViewModel @Inject constructor(
@@ -74,7 +74,7 @@ class StoresViewModel @Inject constructor(
     }
 
     /**
-     * Carrega a lista de filiais cadastradas no Firestore com fallback para lista padrÃ£o.
+     * Carrega a lista de filiais cadastradas no Firestore com fallback para lista padrão.
      */
     fun loadStores() {
         _uiState.update { it.copy(isLoading = true, errorMessage = null) }
@@ -120,9 +120,9 @@ class StoresViewModel @Inject constructor(
     }
 
     /**
-     * Atualiza a consulta de busca por nome ou endereÃ§o.
+     * Atualiza a consulta de busca por nome ou endereço.
      *
-     * @param query Termo de busca informado pelo usuÃ¡rio.
+     * @param query Termo de busca informado pelo usuário.
      */
     fun onSearchQueryChanged(query: String) {
         _uiState.update { current ->
@@ -134,7 +134,7 @@ class StoresViewModel @Inject constructor(
     }
 
     /**
-     * Alterna o filtro para exibir apenas estabelecimentos em horÃ¡rio de funcionamento.
+     * Alterna o filtro para exibir apenas estabelecimentos em horário de funcionamento.
      *
      * @param onlyOpen Indica se apenas lojas abertas devem ser mostradas.
      */
@@ -148,9 +148,9 @@ class StoresViewModel @Inject constructor(
     }
 
     /**
-     * Define a filial selecionada como ponto de referÃªncia para compras ou retirada.
+     * Define a filial selecionada como ponto de referência para compras ou retirada.
      *
-     * @param store InstÃ¢ncia da filial selecionada.
+     * @param store Instância da filial selecionada.
      */
     fun selectStore(store: StoreBranch) {
         _uiState.update { it.copy(selectedStore = store) }
@@ -169,9 +169,9 @@ class StoresViewModel @Inject constructor(
     companion object {
         val defaultStores = listOf(
             StoreBranch("store_1", "WGC Flagship - Av. Paulista", "Av. Paulista, 1578 - Bela Vista, SP", 0.8, true, "(11) 3100-0001"),
-            StoreBranch("store_2", "WGC Concept - Jardins", "Rua Oscar Freire, 900 - Cerqueira CÃ©sar, SP", 2.3, true, "(11) 3100-0002"),
+            StoreBranch("store_2", "WGC Concept - Jardins", "Rua Oscar Freire, 900 - Cerqueira César, SP", 2.3, true, "(11) 3100-0002"),
             StoreBranch("store_3", "WGC Express - Faria Lima", "Av. Brg. Faria Lima, 2200 - Pinheiros, SP", 4.1, false, "(11) 3100-0003"),
-            StoreBranch("store_4", "WGC Hub - Barra da Tijuca", "Av. das AmÃ©ricas, 4666 - Barra, RJ", 12.0, true, "(21) 2400-0001")
+            StoreBranch("store_4", "WGC Hub - Barra da Tijuca", "Av. das Américas, 4666 - Barra, RJ", 12.0, true, "(21) 2400-0001")
         )
     }
 }

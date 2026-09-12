@@ -1,4 +1,4 @@
-﻿package br.com.wgc.profile.screen
+package br.com.wgc.profile.screen
 
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.authentication.session.AuthSessionState
@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel responsÃ¡vel pelo gerenciamento de dados de perfil e preferÃªncias do usuÃ¡rio.
+ * ViewModel responsável pelo gerenciamento de dados de perfil e preferências do usuário.
  *
- * @param authManager Gerenciador de sessÃ£o corporativo injetado via Hilt.
+ * @param authManager Gerenciador de sessão corporativo injetado via Hilt.
  */
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -25,7 +25,7 @@ class ProfileViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(
         SettingsHubUiState(
-            userName = authManager.currentUser?.displayName ?: "UsuÃ¡rio WGC",
+            userName = authManager.currentUser?.displayName ?: "Usuário WGC",
             email = authManager.currentUser?.email ?: "usuario@wgc.com.br",
             notificationsEnabled = true,
             darkModeEnabled = false
@@ -40,7 +40,7 @@ class ProfileViewModel @Inject constructor(
                     is AuthSessionState.Authenticated -> {
                         _uiState.update {
                             it.copy(
-                                userName = session.user.displayName ?: "UsuÃ¡rio WGC",
+                                userName = session.user.displayName ?: "Usuário WGC",
                                 email = session.user.email ?: "usuario@wgc.com.br"
                             )
                         }
@@ -49,7 +49,7 @@ class ProfileViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(
                                 userName = "Visitante",
-                                email = "NÃ£o autenticado"
+                                email = "Não autenticado"
                             )
                         }
                     }
@@ -60,9 +60,9 @@ class ProfileViewModel @Inject constructor(
     }
 
     /**
-     * Alterna o recebimento de notificaÃ§Ãµes push no dispositivo.
+     * Alterna o recebimento de notificações push no dispositivo.
      *
-     * @param enabled Indica se as notificaÃ§Ãµes estÃ£o ativadas.
+     * @param enabled Indica se as notificações estão ativadas.
      */
     override fun onToggleNotifications(enabled: Boolean) {
         _uiState.update { it.copy(notificationsEnabled = enabled) }
@@ -71,14 +71,14 @@ class ProfileViewModel @Inject constructor(
     /**
      * Alterna entre o tema escuro e claro no aplicativo.
      *
-     * @param enabled Indica se o tema escuro estÃ¡ ativado.
+     * @param enabled Indica se o tema escuro está ativado.
      */
     override fun onToggleDarkMode(enabled: Boolean) {
         _uiState.update { it.copy(darkModeEnabled = enabled) }
     }
 
     /**
-     * Realiza o encerramento da sessÃ£o ativa do usuÃ¡rio.
+     * Realiza o encerramento da sessão ativa do usuário.
      */
     override fun onLogoutClick() {
         viewModelScope.launch {

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.multi_language.screen
+package br.com.wgc.multi_language.screen
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,23 +7,23 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 /**
- * Estado de visualizaÃ§Ã£o da tela de seleÃ§Ã£o de idioma.
+ * Estado de visualização da tela de seleção de idioma.
  *
- * @property title TÃ­tulo do mÃ³dulo de internacionalizaÃ§Ã£o.
- * @property isLoading Indica se a aplicaÃ§Ã£o da localidade estÃ¡ em andamento.
+ * @property title Título do módulo de internacionalização.
+ * @property isLoading Indica se a aplicação da localidade está em andamento.
  */
 data class MultiLanguageUiState(
-    val title: String = "MÃ³dulo de InternacionalizaÃ§Ã£o WGC",
+    val title: String = "Módulo de Internacionalização WGC",
     val isLoading: Boolean = false
 )
 
 /**
- * ViewModel responsÃ¡vel pela gestÃ£o de localidades e troca de idioma em tempo de execuÃ§Ã£o.
+ * ViewModel responsável pela gestão de localidades e troca de idioma em tempo de execução.
  */
 @HiltViewModel
 class MultiLanguageViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(MultiLanguageUiState())
 
-    /** Fluxo observÃ¡vel com as preferÃªncias de idioma ativas. */
+    /** Fluxo observável com as preferências de idioma ativas. */
     val uiState: StateFlow<MultiLanguageUiState> = _uiState
 }

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.catalog.screen
+package br.com.wgc.catalog.screen
 
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.ds_templates.screens.home.ecommerce.BaseEcommerceHomeViewModel
@@ -13,21 +13,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel que gerencia a vitrine de produtos, categorias ativas e busca de catÃ¡logo.
+ * ViewModel que gerencia a vitrine de produtos, categorias ativas e busca de catálogo.
  *
- * @param firestoreRepository RepositÃ³rio do OmniBackend Firestore para recuperaÃ§Ã£o do catÃ¡logo remoto.
+ * @param firestoreRepository Repositório do OmniBackend Firestore para recuperação do catálogo remoto.
  */
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
     private val firestoreRepository: FirestoreRepository
 ) : BaseEcommerceHomeViewModel() {
 
-    private val sampleCategories = listOf("Todos", "Destaques", "PromoÃ§Ãµes", "Bebidas", "Combos")
+    private val sampleCategories = listOf("Todos", "Destaques", "Promoções", "Bebidas", "Combos")
 
     private val sampleProducts = listOf(
         "Pizza Pepperoni Especial - R$ 59,90",
         "Burger Artesanal Costela - R$ 38,00",
-        "Combo FamÃ­lia 2 Pizzas + Refri - R$ 99,00",
+        "Combo Família 2 Pizzas + Refri - R$ 99,00",
         "Refrigerante Lata 350ml - R$ 6,50",
         "Sobremesa Petit Gateau - R$ 22,00"
     )
@@ -52,14 +52,14 @@ class CatalogViewModel @Inject constructor(
             try {
                 // Tenta carregar os produtos remotos do OmniBackend Firestore
             } catch (_: Exception) {
-                // MantÃ©m produtos padrÃ£o
+                // Mantém produtos padrão
             }
         }
     }
 
-    /** Trata o clique no Ã­cone do carrinho de compras. */
+    /** Trata o clique no ícone do carrinho de compras. */
     override fun onCartClick() {
-        // AÃ§Ã£o de abertura do carrinho disparada pelo template
+        // Ação de abertura do carrinho disparada pelo template
     }
 
     /**

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.force_update.screen
+package br.com.wgc.force_update.screen
 
 import android.content.Intent
 import android.net.Uri
@@ -27,14 +27,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 /**
- * Tela de Bloqueio e AtualizaÃ§Ã£o ObrigatÃ³ria (Force Update) ou Opcional do aplicativo.
+ * Tela de Bloqueio e Atualização Obrigatória (Force Update) ou Opcional do aplicativo.
  *
- * Intercepta o ciclo de vida caso o aplicativo cliente esteja operando em versÃ£o obsoleta
- * ou incompatÃ­vel com as regras vigentes no Remote Config corporativo.
+ * Intercepta o ciclo de vida caso o aplicativo cliente esteja operando em versão obsoleta
+ * ou incompatível com as regras vigentes no Remote Config corporativo.
  *
  * @param modifier Modificador de layout Compose.
- * @param viewModel ViewModel de gerenciamento e verificaÃ§Ã£o de versÃ£o remota.
- * @param currentVersionCode CÃ³digo de versÃ£o atual do aplicativo instalado.
+ * @param viewModel ViewModel de gerenciamento e verificação de versão remota.
+ * @param currentVersionCode Código de versão atual do aplicativo instalado.
  */
 @Composable
 fun ForceUpdateScreen(
@@ -59,7 +59,7 @@ fun ForceUpdateScreen(
         if (uiState.isLoading) {
             CircularProgressIndicator()
             Spacer(modifier = Modifier.height(16.dp))
-            Text("Verificando versÃ£o no Remote Config...", style = MaterialTheme.typography.bodyMedium)
+            Text("Verificando versão no Remote Config...", style = MaterialTheme.typography.bodyMedium)
         } else {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -72,13 +72,13 @@ fun ForceUpdateScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = if (uiState.isForceUpdate) "AtualizaÃ§Ã£o ObrigatÃ³ria" else if (uiState.isUpdateRequired) "Nova VersÃ£o DisponÃ­vel" else "App Atualizado!",
+                        text = if (uiState.isForceUpdate) "Atualização Obrigatória" else if (uiState.isUpdateRequired) "Nova Versão Disponível" else "App Atualizado!",
                         style = MaterialTheme.typography.titleLarge,
                         color = if (uiState.isForceUpdate) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Sua versÃ£o: v${uiState.currentVersionCode} | MÃ­nima exigida: v${uiState.minRequiredVersionCode}",
+                        text = "Sua versão: v${uiState.currentVersionCode} | Mínima exigida: v${uiState.minRequiredVersionCode}",
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Spacer(modifier = Modifier.height(16.dp))

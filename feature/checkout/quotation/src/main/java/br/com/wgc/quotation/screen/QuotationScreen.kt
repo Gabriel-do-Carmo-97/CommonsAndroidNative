@@ -1,4 +1,4 @@
-﻿package br.com.wgc.quotation.screen
+package br.com.wgc.quotation.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,15 +40,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 /**
- * Tela de SimulaÃ§Ã£o e GeraÃ§Ã£o de OrÃ§amentos Comerciais (Quotation).
+ * Tela de Simulação e Geração de Orçamentos Comerciais (Quotation).
  *
- * Permite inserÃ§Ã£o interativa de itens com quantitativos e valores monetÃ¡rios,
+ * Permite inserção interativa de itens com quantitativos e valores monetários,
  * ajuste de percentual de desconto comercial em tempo real e compartilhamento
- * imediato do resumo formatado atravÃ©s do WhatsApp.
+ * imediato do resumo formatado através do WhatsApp.
  *
- * @param modifier Modificador de layout Compose a ser aplicado no contÃªiner principal.
- * @param onSendWhatsApp Callback invocado com o texto formatado do orÃ§amento pronto para despacho.
- * @param viewModel ViewModel injetado responsÃ¡vel pelos cÃ¡lculos e estado da cotaÃ§Ã£o.
+ * @param modifier Modificador de layout Compose a ser aplicado no contêiner principal.
+ * @param onSendWhatsApp Callback invocado com o texto formatado do orçamento pronto para despacho.
+ * @param viewModel ViewModel injetado responsável pelos cálculos e estado da cotação.
  */
 @Composable
 fun QuotationScreen(
@@ -73,7 +73,7 @@ fun QuotationScreen(
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = "Adicione itens de serviÃ§os e peÃ§as, aplique desconto e gere o orÃ§amento pronto para envio.",
+            text = "Adicione itens de serviços e peças, aplique desconto e gere o orçamento pronto para envio.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -98,7 +98,7 @@ fun QuotationScreen(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f))
         ) {
             Column(modifier = Modifier.padding(14.dp)) {
-                Text(text = "Adicionar Item ao OrÃ§amento", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                Text(text = "Adicionar Item ao Orçamento", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -107,7 +107,7 @@ fun QuotationScreen(
                     OutlinedTextField(
                         value = newItemName,
                         onValueChange = { newItemName = it },
-                        placeholder = { Text("Item/ServiÃ§o") },
+                        placeholder = { Text("Item/Serviço") },
                         modifier = Modifier.weight(1.8f),
                         shape = RoundedCornerShape(10.dp)
                     )
@@ -142,7 +142,7 @@ fun QuotationScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // Items List
-        Text(text = "Itens do OrÃ§amento (${uiState.items.size})", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text(text = "Itens do Orçamento (${uiState.items.size})", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(8.dp))
 
         uiState.items.forEach { item ->
@@ -230,7 +230,7 @@ fun QuotationScreen(
         ) {
             Icon(Icons.Default.Send, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Enviar OrÃ§amento via WhatsApp")
+            Text("Enviar Orçamento via WhatsApp")
         }
     }
 }

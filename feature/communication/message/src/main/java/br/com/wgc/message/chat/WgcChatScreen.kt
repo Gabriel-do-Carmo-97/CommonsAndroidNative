@@ -1,4 +1,4 @@
-﻿package br.com.wgc.message.chat
+package br.com.wgc.message.chat
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -53,15 +53,15 @@ import java.util.Locale
 /**
  * Tela de Chat e Mensageria em Tempo Real integrada ao ecossistema WGC.
  *
- * Apresenta o fluxo bidirecional de mensagens entre o usuÃ¡rio autenticado e um destinatÃ¡rio,
- * suporte a rolagem automÃ¡tica em novas mensagens, tratamento de erros via Snackbar e barra de envio.
+ * Apresenta o fluxo bidirecional de mensagens entre o usuário autenticado e um destinatário,
+ * suporte a rolagem automática em novas mensagens, tratamento de erros via Snackbar e barra de envio.
  *
- * @param conversationId Identificador Ãºnico do canal ou conversa ativa.
- * @param currentUserId Identificador Ãºnico do usuÃ¡rio que estÃ¡ enviando as mensagens.
+ * @param conversationId Identificador único do canal ou conversa ativa.
+ * @param currentUserId Identificador único do usuário que está enviando as mensagens.
  * @param modifier Modificador de layout Compose aplicado ao Scaffold principal.
- * @param recipientName Nome de exibiÃ§Ã£o do interlocutor (ex: Suporte ou Entregador).
- * @param onBackClick Callback disparado ao acionar o botÃ£o de navegaÃ§Ã£o voltar.
- * @param viewModel ViewModel injetado responsÃ¡vel pelo fluxo de mensagens e status de envio.
+ * @param recipientName Nome de exibição do interlocutor (ex: Suporte ou Entregador).
+ * @param onBackClick Callback disparado ao acionar o botão de navegação voltar.
+ * @param viewModel ViewModel injetado responsável pelo fluxo de mensagens e status de envio.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -187,10 +187,10 @@ fun WgcChatScreen(
 }
 
 /**
- * BalÃ£o individual de mensagem no histÃ³rico do chat com layout diferenciado por remetente.
+ * Balão individual de mensagem no histórico do chat com layout diferenciado por remetente.
  *
  * @param message Modelo de dados da mensagem contendo texto, autor e carimbo de tempo.
- * @param isCurrentUser Sinalizador indicando se a mensagem pertence ao usuÃ¡rio conectado.
+ * @param isCurrentUser Sinalizador indicando se a mensagem pertence ao usuário conectado.
  * @param modifier Modificador de layout Jetpack Compose aplicado na linha da mensagem.
  */
 @Composable
@@ -247,13 +247,13 @@ private fun ChatMessageBubble(
 }
 
 /**
- * Barra inferior com campo de entrada de texto e botÃ£o de disparo com indicador de envio.
+ * Barra inferior com campo de entrada de texto e botão de disparo com indicador de envio.
  *
- * @param text ConteÃºdo textual atual digitado pelo usuÃ¡rio.
+ * @param text Conteúdo textual atual digitado pelo usuário.
  * @param onTextChanged Callback acionado para cada caractere digitado.
- * @param onSend Callback disparado ao clicar no botÃ£o de envio.
- * @param isSending Sinalizador indicando se uma requisiÃ§Ã£o de envio estÃ¡ ativa.
- * @param modifier Modificador de layout Jetpack Compose aplicado ao contÃªiner da barra.
+ * @param onSend Callback disparado ao clicar no botão de envio.
+ * @param isSending Sinalizador indicando se uma requisição de envio está ativa.
+ * @param modifier Modificador de layout Jetpack Compose aplicado ao contêiner da barra.
  */
 @Composable
 private fun ChatInputBar(

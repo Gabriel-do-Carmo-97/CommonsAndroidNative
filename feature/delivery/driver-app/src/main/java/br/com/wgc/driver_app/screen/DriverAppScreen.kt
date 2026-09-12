@@ -1,4 +1,4 @@
-﻿package br.com.wgc.driver_app.screen
+package br.com.wgc.driver_app.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,16 +16,16 @@ import androidx.compose.ui.unit.dp
 /**
  * Tela inicial do aplicativo operacional do Entregador (Driver App).
  *
- * ProvÃª interface para aceitaÃ§Ã£o de entregas, visualizaÃ§Ã£o de rotas otimizadas
- * e confirmaÃ§Ã£o de chegada ao ponto de coleta/entrega.
+ * Provê interface para aceitação de entregas, visualização de rotas otimizadas
+ * e confirmação de chegada ao ponto de coleta/entrega.
  *
- * @param modifier Modificador de layout Jetpack Compose aplicado ao contÃªiner raiz.
- * @param title TÃ­tulo descritivo exibido na interface operacional.
+ * @param modifier Modificador de layout Jetpack Compose aplicado ao contêiner raiz.
+ * @param title Título descritivo exibido na interface operacional.
  */
 @Composable
 fun DriverAppScreen(
     modifier: Modifier = Modifier,
-    title: String = "MÃ³dulo do Entregador e LogÃ­stica WGC"
+    title: String = "Módulo do Entregador e Logística WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -34,6 +34,6 @@ fun DriverAppScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "App operacional do motoboy, aceitaÃ§Ã£o de entregas e rotas otimizadas WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "App operacional do motoboy, aceitação de entregas e rotas otimizadas WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.order_tracking.screen
+package br.com.wgc.order_tracking.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,11 +44,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 /**
  * Tela de Acompanhamento e Linha do Tempo de Pedidos (Order Tracking).
  *
- * Apresenta o status atual do pedido atravÃ©s de um stepper vertical progressivo,
- * estimativa de tempo restante (ETA), dados do entregador parceiro e botÃ£o para abrir o rastreamento em mapa.
+ * Apresenta o status atual do pedido através de um stepper vertical progressivo,
+ * estimativa de tempo restante (ETA), dados do entregador parceiro e botão para abrir o rastreamento em mapa.
  *
- * @param modifier Modificador de layout Jetpack Compose aplicado Ã  tela.
- * @param onOpenMapTracking Callback invocado para transiÃ§Ã£o Ã  tela com o mapa ao vivo.
+ * @param modifier Modificador de layout Jetpack Compose aplicado à tela.
+ * @param onOpenMapTracking Callback invocado para transição à tela com o mapa ao vivo.
  * @param viewModel ViewModel injetado gerenciador do ciclo de vida e estado do pedido.
  */
 @Composable
@@ -228,7 +228,7 @@ fun OrderTrackingScreen(
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text("AvanÃ§ar Status")
+                Text("Avançar Status")
             }
         }
     }

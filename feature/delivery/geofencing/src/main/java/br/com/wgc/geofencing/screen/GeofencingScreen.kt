@@ -1,4 +1,4 @@
-﻿package br.com.wgc.geofencing.screen
+package br.com.wgc.geofencing.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,18 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * Tela de configuraÃ§Ã£o e monitoramento de Cercas Virtuais (Geofencing).
+ * Tela de configuração e monitoramento de Cercas Virtuais (Geofencing).
  *
- * Permite delimitaÃ§Ã£o de perÃ­metros geogrÃ¡ficos circulares ou poligonais
- * e acionamento de eventos automÃ¡ticos de entrada e saÃ­da.
+ * Permite delimitação de perímetros geográficos circulares ou poligonais
+ * e acionamento de eventos automáticos de entrada e saída.
  *
  * @param modifier Modificador de layout Compose aplicado na raiz.
- * @param title TÃ­tulo do painel de cercamento virtual.
+ * @param title Título do painel de cercamento virtual.
  */
 @Composable
 fun GeofencingScreen(
     modifier: Modifier = Modifier,
-    title: String = "MÃ³dulo de Cercas Virtuais WGC"
+    title: String = "Módulo de Cercas Virtuais WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -34,6 +34,6 @@ fun GeofencingScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Cercas virtuais automÃ¡ticas e alertas de proximidade WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Cercas virtuais automáticas e alertas de proximidade WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

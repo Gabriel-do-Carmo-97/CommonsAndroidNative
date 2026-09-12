@@ -1,4 +1,4 @@
-﻿package br.com.wgc.payment.screen
+package br.com.wgc.payment.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,7 +8,7 @@ import br.com.wgc.ds_templates.screens.home.fintech.FintechHomeScreenTemplate
 /**
  * Tela principal de Pagamento e Carteira Digital (Fintech).
  *
- * Exibe saldo disponÃ­vel, aÃ§Ãµes rÃ¡pidas (Pix, TransferÃªncia) e extrato recente de transaÃ§Ãµes,
+ * Exibe saldo disponível, ações rápidas (Pix, Transferência) e extrato recente de transações,
  * utilizando o template estruturado [FintechHomeScreenTemplate].
  *
  * @param modifier Modificador de layout Compose a ser aplicado na raiz.

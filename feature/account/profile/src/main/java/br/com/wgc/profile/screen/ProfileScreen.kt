@@ -1,4 +1,4 @@
-﻿package br.com.wgc.profile.screen
+package br.com.wgc.profile.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,13 +6,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.wgc.ds_templates.screens.profile.SettingsHubScreenTemplate
 
 /**
- * Tela de Perfil e GestÃ£o de Conta do usuÃ¡rio autenticado.
+ * Tela de Perfil e Gestão de Conta do usuário autenticado.
  *
- * Apresenta dados pessoais, avatar, alternÃ¢ncias de notificaÃ§Ãµes e temas,
- * bem como a aÃ§Ã£o de encerramento seguro de sessÃ£o.
+ * Apresenta dados pessoais, avatar, alternâncias de notificações e temas,
+ * bem como a ação de encerramento seguro de sessão.
  *
  * @param modifier Modificador de layout Compose.
- * @param viewModel ViewModel de gerenciamento do perfil e sessÃ£o do usuÃ¡rio.
+ * @param viewModel ViewModel de gerenciamento do perfil e sessão do usuário.
  */
 @Composable
 fun ProfileScreen(

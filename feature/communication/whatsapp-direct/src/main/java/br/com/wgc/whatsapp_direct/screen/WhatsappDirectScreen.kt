@@ -1,4 +1,4 @@
-﻿package br.com.wgc.whatsapp_direct.screen
+package br.com.wgc.whatsapp_direct.screen
 
 import android.content.Intent
 import androidx.compose.foundation.layout.Column
@@ -38,11 +38,11 @@ import br.com.wgc.whatsapp_direct.helper.WhatsappDirectHelper
 /**
  * Tela de Disparo Direto de Pedidos para o WhatsApp comercial do lojista.
  *
- * Permite customizaÃ§Ã£o do telefone de destino, nome do cliente, observaÃ§Ãµes do pedido
- * e prÃ©-visualizaÃ§Ã£o em tempo real do cartÃ£o de resumo formatado antes da transmissÃ£o.
+ * Permite customização do telefone de destino, nome do cliente, observações do pedido
+ * e pré-visualização em tempo real do cartão de resumo formatado antes da transmissão.
  *
- * @param modifier Modificador Jetpack Compose aplicado na raiz do contÃªiner.
- * @param viewModel ViewModel injetado responsÃ¡vel pela formataÃ§Ã£o da mensagem e validaÃ§Ã£o do telefone.
+ * @param modifier Modificador Jetpack Compose aplicado na raiz do contêiner.
+ * @param viewModel ViewModel injetado responsável pela formatação da mensagem e validação do telefone.
  */
 @Composable
 fun WhatsappDirectScreen(
@@ -65,7 +65,7 @@ fun WhatsappDirectScreen(
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = "Dispare pedidos e orÃ§amentos formatados direto para o WhatsApp do comÃ©rcio.",
+            text = "Dispare pedidos e orçamentos formatados direto para o WhatsApp do comércio.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -97,7 +97,7 @@ fun WhatsappDirectScreen(
         OutlinedTextField(
             value = uiState.notes,
             onValueChange = viewModel::updateNotes,
-            label = { Text("ObservaÃ§Ãµes adicionais do pedido") },
+            label = { Text("Observações adicionais do pedido") },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
         )
@@ -105,7 +105,7 @@ fun WhatsappDirectScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // Formatted Preview Card (styled like a WhatsApp bubble)
-        Text(text = "PrÃ©-visualizaÃ§Ã£o da Mensagem:", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+        Text(text = "Pré-visualização da Mensagem:", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.height(8.dp))
 
         Card(

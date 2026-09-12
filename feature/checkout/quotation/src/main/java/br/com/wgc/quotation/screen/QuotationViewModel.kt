@@ -1,4 +1,4 @@
-﻿package br.com.wgc.quotation.screen
+package br.com.wgc.quotation.screen
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
- * Representa um item individual em uma proposta comercial de orÃ§amento.
+ * Representa um item individual em uma proposta comercial de orçamento.
  *
- * @param id Identificador Ãºnico do item.
- * @param title DescriÃ§Ã£o ou tÃ­tulo do produto/serviÃ§o orÃ§ado.
+ * @param id Identificador único do item.
+ * @param title Descrição ou título do produto/serviço orçado.
  * @param quantity Quantidade de unidades cotadas.
- * @param unitPrice PreÃ§o unitÃ¡rio por unidade do item.
- * @property id Identificador Ãºnico do item.
- * @property title DescriÃ§Ã£o ou tÃ­tulo do produto/serviÃ§o orÃ§ado.
+ * @param unitPrice Preço unitário por unidade do item.
+ * @property id Identificador único do item.
+ * @property title Descrição ou título do produto/serviço orçado.
  * @property quantity Quantidade de unidades cotadas.
- * @property unitPrice PreÃ§o unitÃ¡rio por unidade do item.
- * @property total PreÃ§o total calculado pela multiplicaÃ§Ã£o da quantidade pelo preÃ§o unitÃ¡rio.
+ * @property unitPrice Preço unitário por unidade do item.
+ * @property total Preço total calculado pela multiplicação da quantidade pelo preço unitário.
  */
 data class QuotationItem(
     val id: String,
@@ -31,24 +31,24 @@ data class QuotationItem(
 }
 
 /**
- * Estado imutÃ¡vel da tela de simulaÃ§Ã£o e geraÃ§Ã£o de orÃ§amentos.
+ * Estado imutável da tela de simulação e geração de orçamentos.
  *
- * @property title TÃ­tulo do cabeÃ§alho da proposta.
- * @property clientName Nome do cliente destinatÃ¡rio do orÃ§amento.
- * @property items Lista de itens e serviÃ§os inclusos na cotaÃ§Ã£o.
+ * @property title Título do cabeçalho da proposta.
+ * @property clientName Nome do cliente destinatário do orçamento.
+ * @property items Lista de itens e serviços inclusos na cotação.
  * @property discountPercent Percentual de desconto concedido (0 a 100).
- * @property subtotal Soma dos valores brutos dos itens sem aplicaÃ§Ã£o de desconto.
- * @property discountAmount Valor monetÃ¡rio deduzido correspondente ao desconto.
- * @property total Valor lÃ­quido final a ser pago pelo cliente.
- * @property isGenerated Sinalizador booleano indicando se o orÃ§amento final foi emitido.
+ * @property subtotal Soma dos valores brutos dos itens sem aplicação de desconto.
+ * @property discountAmount Valor monetário deduzido correspondente ao desconto.
+ * @property total Valor líquido final a ser pago pelo cliente.
+ * @property isGenerated Sinalizador booleano indicando se o orçamento final foi emitido.
  */
 data class QuotationUiState(
-    val title: String = "Simulador & Gerador de OrÃ§amentos",
+    val title: String = "Simulador & Gerador de Orçamentos",
     val clientName: String = "Cliente VIP WGC",
     val items: List<QuotationItem> = listOf(
-        QuotationItem("1", "MÃ£o de Obra Especializada", 1, 350.0),
-        QuotationItem("2", "Kit de PeÃ§as e Componentes", 2, 120.0),
-        QuotationItem("3", "Taxa de Deslocamento TÃ©cnico", 1, 50.0)
+        QuotationItem("1", "Mão de Obra Especializada", 1, 350.0),
+        QuotationItem("2", "Kit de Peças e Componentes", 2, 120.0),
+        QuotationItem("3", "Taxa de Deslocamento Técnico", 1, 50.0)
     ),
     val discountPercent: Int = 10,
     val subtotal: Double = 640.0,
@@ -58,10 +58,10 @@ data class QuotationUiState(
 )
 
 /**
- * ViewModel responsÃ¡vel pela lÃ³gica de orÃ§amentos rÃ¡pidos e geraÃ§Ã£o de mensagens de cotaÃ§Ã£o.
+ * ViewModel responsável pela lógica de orçamentos rápidos e geração de mensagens de cotação.
  *
- * Gerencia a lista dinÃ¢mica de itens, aplicaÃ§Ã£o reativa de descontos
- * e formataÃ§Ã£o de texto otimizada para envio via WhatsApp ou mensageiros.
+ * Gerencia a lista dinâmica de itens, aplicação reativa de descontos
+ * e formatação de texto otimizada para envio via WhatsApp ou mensageiros.
  */
 @HiltViewModel
 class QuotationViewModel @Inject constructor() : ViewModel() {
@@ -69,24 +69,24 @@ class QuotationViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(QuotationUiState())
 
     /**
-     * Fluxo observÃ¡vel com o estado do orÃ§amento em tempo real.
+     * Fluxo observável com o estado do orçamento em tempo real.
      */
     val uiState: StateFlow<QuotationUiState> = _uiState.asStateFlow()
 
     /**
-     * Atualiza o nome do cliente associado Ã  proposta comercial.
+     * Atualiza o nome do cliente associado à proposta comercial.
      *
-     * @param name Nome ou razÃ£o social do cliente.
+     * @param name Nome ou razão social do cliente.
      */
     fun updateClientName(name: String) {
         _uiState.update { it.copy(clientName = name) }
     }
 
     /**
-     * Adiciona um novo item ou serviÃ§o ao orÃ§amento recalculando subtotal e total.
+     * Adiciona um novo item ou serviço ao orçamento recalculando subtotal e total.
      *
-     * @param title DescriÃ§Ã£o detalhada do item.
-     * @param unitPrice PreÃ§o unitÃ¡rio do produto ou serviÃ§o.
+     * @param title Descrição detalhada do item.
+     * @param unitPrice Preço unitário do produto ou serviço.
      */
     fun addItem(title: String, unitPrice: Double) {
         if (title.isBlank() || unitPrice <= 0) return
@@ -98,9 +98,9 @@ class QuotationViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Remove um item da cotaÃ§Ã£o atravÃ©s do seu identificador Ãºnico.
+     * Remove um item da cotação através do seu identificador único.
      *
-     * @param id Identificador do item a ser excluÃ­do.
+     * @param id Identificador do item a ser excluído.
      */
     fun removeItem(id: String) {
         _uiState.update { current ->
@@ -110,7 +110,7 @@ class QuotationViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Define o percentual de desconto a ser aplicado sobre o valor bruto do orÃ§amento.
+     * Define o percentual de desconto a ser aplicado sobre o valor bruto do orçamento.
      *
      * @param percent Percentual inteiro de desconto (limitado entre 0 e 100).
      */
@@ -121,22 +121,22 @@ class QuotationViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Marca o orÃ§amento como formalmente gerado e aprovado para despacho.
+     * Marca o orçamento como formalmente gerado e aprovado para despacho.
      */
     fun generateQuotation() {
         _uiState.update { it.copy(isGenerated = true) }
     }
 
     /**
-     * Gera o texto padronizado com markdown do WhatsApp com o detalhamento completo do orÃ§amento.
+     * Gera o texto padronizado com markdown do WhatsApp com o detalhamento completo do orçamento.
      *
-     * @return String formatada contendo cabeÃ§alho, itens listados, subtotal, descontos e total.
+     * @return String formatada contendo cabeçalho, itens listados, subtotal, descontos e total.
      */
     fun generateWhatsAppText(): String {
         val state = _uiState.value
-        val itemsText = state.items.joinToString("\n") { "â€¢ ${it.quantity}x ${it.title} - R$ ${String.format("%.2f", it.total)}" }
+        val itemsText = state.items.joinToString("\n") { "• ${it.quantity}x ${it.title} - R$ ${String.format("%.2f", it.total)}" }
         return """
-            ðŸ“‹ *ORÃ‡AMENTO PERSONALIZADO WGC*
+            📋 *ORÇAMENTO PERSONALIZADO WGC*
             Cliente: *${state.clientName}*
             
             *Itens Solicitados:*
@@ -146,14 +146,14 @@ class QuotationViewModel @Inject constructor() : ViewModel() {
             Desconto (${state.discountPercent}%): -R$ ${String.format("%.2f", state.discountAmount)}
             *Total: R$ ${String.format("%.2f", state.total)}*
             
-            _OrÃ§amento vÃ¡lido por 7 dias._
+            _Orçamento válido por 7 dias._
         """.trimIndent()
     }
 
     /**
-     * Recalcula os totais e descontos do orÃ§amento com base na lista de itens e percentual configurado.
+     * Recalcula os totais e descontos do orçamento com base na lista de itens e percentual configurado.
      *
-     * @param state Estado atual do orÃ§amento a ser recalculado.
+     * @param state Estado atual do orçamento a ser recalculado.
      * @return Novo estado [QuotationUiState] com totais devidamente computados.
      */
     private fun recalculate(state: QuotationUiState): QuotationUiState {

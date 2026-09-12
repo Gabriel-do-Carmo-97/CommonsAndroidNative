@@ -1,7 +1,7 @@
-﻿package br.com.wgc.authentication.navigation
+package br.com.wgc.authentication.navigation
 
 /**
- * Contrato selado que define todas as rotas e destinos de navegaÃ§Ã£o do fluxo de autenticaÃ§Ã£o.
+ * Contrato selado que define todas as rotas e destinos de navegação do fluxo de autenticação.
  */
 sealed interface AuthNavDestinations {
     /**
@@ -9,34 +9,34 @@ sealed interface AuthNavDestinations {
      */
     sealed class LoginScreen : AuthNavDestinations {
         /**
-         * Sucesso na autenticaÃ§Ã£o contendo o e-mail validado.
+         * Sucesso na autenticação contendo o e-mail validado.
          *
-         * @property email EndereÃ§o de e-mail do usuÃ¡rio autenticado.
+         * @property email Endereço de e-mail do usuário autenticado.
          */
         data class LoginSuccess(val email: String) : LoginScreen()
 
         /**
-         * Redirecionamento para a recuperaÃ§Ã£o de senha.
+         * Redirecionamento para a recuperação de senha.
          */
         data object ForgotPassword : LoginScreen()
 
         /**
-         * Redirecionamento para cadastro de novo usuÃ¡rio.
+         * Redirecionamento para cadastro de novo usuário.
          */
         data object RegisterUser : LoginScreen()
     }
 
     /**
-     * Destinos originados a partir da tela de cadastro de usuÃ¡rio.
+     * Destinos originados a partir da tela de cadastro de usuário.
      */
     sealed class RegisterUserScreen : AuthNavDestinations {
         /**
-         * AvanÃ§o para o cadastro de endereÃ§o.
+         * Avanço para o cadastro de endereço.
          */
         data object RegisterAddress : RegisterUserScreen()
 
         /**
-         * AvanÃ§o para cadastro de veÃ­culo (quando aplicÃ¡vel ao app parceiro).
+         * Avanço para cadastro de veículo (quando aplicável ao app parceiro).
          */
         data object RegisterCar : RegisterUserScreen()
 
@@ -47,7 +47,7 @@ sealed interface AuthNavDestinations {
     }
 
     /**
-     * Destinos originados a partir da tela de recuperaÃ§Ã£o de senha.
+     * Destinos originados a partir da tela de recuperação de senha.
      */
     sealed class ForgotPasswordScreen : AuthNavDestinations {
         /**
@@ -57,26 +57,26 @@ sealed interface AuthNavDestinations {
     }
 
     /**
-     * Destinos originados a partir do cadastro de endereÃ§o.
+     * Destinos originados a partir do cadastro de endereço.
      */
     sealed class RegisterAddress : AuthNavDestinations {
         /**
-         * Retorno para a tela de dados do usuÃ¡rio.
+         * Retorno para a tela de dados do usuário.
          */
         data object RegisterUser : RegisterAddress()
     }
 
     /**
-     * Destinos originados a partir do cadastro de veÃ­culos.
+     * Destinos originados a partir do cadastro de veículos.
      */
     sealed class RegisterCar : AuthNavDestinations {
         /**
-         * Retorno para tela de dados do usuÃ¡rio.
+         * Retorno para tela de dados do usuário.
          */
         data object RegisterUser : RegisterCar()
 
         /**
-         * TransiÃ§Ã£o para tela de endereÃ§o.
+         * Transição para tela de endereço.
          */
         data object RegisterAddress : RegisterCar()
     }

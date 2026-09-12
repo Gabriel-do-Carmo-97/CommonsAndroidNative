@@ -1,4 +1,4 @@
-﻿package br.com.wgc.cart.screen
+package br.com.wgc.cart.screen
 
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.ds_templates.screens.cart.BaseStandardCartViewModel
@@ -14,17 +14,17 @@ import java.util.Locale
 import javax.inject.Inject
 
 /**
- * ViewModel responsÃ¡vel pela lÃ³gica de negÃ³cios e estado reativo do Carrinho de Compras.
+ * ViewModel responsável pela lógica de negócios e estado reativo do Carrinho de Compras.
  *
- * Fornece mÃ©todos para adiÃ§Ã£o e remoÃ§Ã£o de itens, cÃ¡lculo de taxa de entrega baseado em CEP
- * e disparo da intenÃ§Ã£o de finalizaÃ§Ã£o da compra.
+ * Fornece métodos para adição e remoção de itens, cálculo de taxa de entrega baseado em CEP
+ * e disparo da intenção de finalização da compra.
  */
 @HiltViewModel
 class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
 
     private val defaultItems = listOf(
         CartItem(id = "1", title = "Pizza Calabresa Especial (Grande)", price = "R$ 54,90"),
-        CartItem(id = "2", title = "Refrigerante GuaranÃ¡ Antarctica 2L", price = "R$ 12,00"),
+        CartItem(id = "2", title = "Refrigerante Guaraná Antarctica 2L", price = "R$ 12,00"),
         CartItem(id = "3", title = "Borda Recheada Catupiry Original", price = "R$ 8,50")
     )
 
@@ -37,14 +37,14 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
     )
 
     /**
-     * Fluxo observÃ¡vel com o estado atualizado do carrinho de compras.
+     * Fluxo observável com o estado atualizado do carrinho de compras.
      */
     override val uiState: StateFlow<StandardCartUiState> = _uiState.asStateFlow()
 
     private var deliveryFee: Double = 0.0
 
     /**
-     * Dispara a intenÃ§Ã£o de checkout/fechamento do pedido simulando processamento assÃ­ncrono.
+     * Dispara a intenção de checkout/fechamento do pedido simulando processamento assíncrono.
      */
     override fun onCheckoutClick() {
         viewModelScope.launch {
@@ -57,7 +57,7 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
     /**
      * Adiciona um novo item ao carrinho recalculando o valor total.
      *
-     * @param item Objeto [CartItem] representando a mercadoria ou serviÃ§o a ser adicionado.
+     * @param item Objeto [CartItem] representando a mercadoria ou serviço a ser adicionado.
      */
     fun addItem(item: CartItem) {
         val updatedList = _uiState.value.items + item
@@ -70,9 +70,9 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
     }
 
     /**
-     * Remove um item especÃ­fico do carrinho atravÃ©s do seu identificador.
+     * Remove um item específico do carrinho através do seu identificador.
      *
-     * @param itemId Identificador Ãºnico do item a ser removido.
+     * @param itemId Identificador único do item a ser removido.
      */
     fun removeItem(itemId: String) {
         val updatedList = _uiState.value.items.filterNot { it.id == itemId }
@@ -87,7 +87,7 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
     /**
      * Aplica uma taxa de entrega calculada dinamicamente conforme a faixa de CEP fornecida.
      *
-     * @param zipCode CÃ³digo postal do endereÃ§o de entrega.
+     * @param zipCode Código postal do endereço de entrega.
      */
     fun applyDeliveryFee(zipCode: String) {
         deliveryFee = if (zipCode.startsWith("01") || zipCode.startsWith("04")) 5.0 else 10.0
@@ -101,7 +101,7 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
      *
      * @param items Lista de itens presentes no carrinho.
      * @param fee Valor da taxa de entrega a ser somado.
-     * @return String formatada com o valor monetÃ¡rio total.
+     * @return String formatada com o valor monetário total.
      */
     private fun calculateTotal(items: List<CartItem>, fee: Double): String {
         var sum = fee

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.maps.navigation
+package br.com.wgc.maps.navigation
 
 /**
  * Destinos e rotas fortemente tipadas para o ecossistema de Mapas e Rastreamento.
@@ -6,25 +6,25 @@
 sealed interface MapsNavDestinations {
 
     /**
-     * Rota de visualizaÃ§Ã£o geral e exploraÃ§Ã£o do mapa.
+     * Rota de visualização geral e exploração do mapa.
      */
     data object MapOverview : MapsNavDestinations
 
     /**
-     * Rota para visualizaÃ§Ã£o dos detalhes e geocodificaÃ§Ã£o de um endereÃ§o.
+     * Rota para visualização dos detalhes e geocodificação de um endereço.
      *
-     * @param addressId Identificador Ãºnico do endereÃ§o registrado.
-     * @property addressId Identificador Ãºnico do endereÃ§o registrado.
+     * @param addressId Identificador único do endereço registrado.
+     * @property addressId Identificador único do endereço registrado.
      */
     data class AddressDetails(val addressId: String) : MapsNavDestinations
 
     /**
-     * Rota de rastreamento em tempo real de entidade parceira (motorista ou veÃ­culo).
+     * Rota de rastreamento em tempo real de entidade parceira (motorista ou veículo).
      *
-     * @param entityId Identificador Ãºnico do motorista ou pedido monitorado.
-     * @param entityType ColeÃ§Ã£o ou tipo de entidade rastreada (ex: `drivers`).
-     * @property entityId Identificador Ãºnico do motorista ou pedido monitorado.
-     * @property entityType ColeÃ§Ã£o ou tipo de entidade rastreada (ex: `drivers`).
+     * @param entityId Identificador único do motorista ou pedido monitorado.
+     * @param entityType Coleção ou tipo de entidade rastreada (ex: `drivers`).
+     * @property entityId Identificador único do motorista ou pedido monitorado.
+     * @property entityType Coleção ou tipo de entidade rastreada (ex: `drivers`).
      */
     data class LiveTracking(val entityId: String, val entityType: String = "drivers") : MapsNavDestinations
 }

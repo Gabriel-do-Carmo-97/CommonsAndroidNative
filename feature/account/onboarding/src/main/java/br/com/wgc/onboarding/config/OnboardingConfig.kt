@@ -1,10 +1,10 @@
-﻿package br.com.wgc.onboarding.config
+package br.com.wgc.onboarding.config
 
 /**
- * ConfiguraÃ§Ãµes de comportamento e apresentaÃ§Ã£o visual da experiÃªncia de Onboarding.
+ * Configurações de comportamento e apresentação visual da experiência de Onboarding.
  *
- * @property enableLottieAnimations Indica se animaÃ§Ãµes Lottie ricas devem ser executadas nos slides.
- * @property autoRequestPermissions Indica se permissÃµes de sistema devem ser solicitadas automaticamente ao final.
+ * @property enableLottieAnimations Indica se animações Lottie ricas devem ser executadas nos slides.
+ * @property autoRequestPermissions Indica se permissões de sistema devem ser solicitadas automaticamente ao final.
  */
 data class OnboardingConfig(
     val enableLottieAnimations: Boolean = true,

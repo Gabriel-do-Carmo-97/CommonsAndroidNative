@@ -1,4 +1,4 @@
-﻿package br.com.wgc.biometric.screen
+package br.com.wgc.biometric.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,10 +23,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 
 /**
- * Tela de configuraÃ§Ã£o e validaÃ§Ã£o de biometria, PIN e bloqueio do aplicativo (App Lock).
+ * Tela de configuração e validação de biometria, PIN e bloqueio do aplicativo (App Lock).
  *
  * @param modifier Modificador de layout Compose.
- * @param viewModel ViewModel de gerenciamento biomÃ©trico.
+ * @param viewModel ViewModel de gerenciamento biométrico.
  */
 @Composable
 fun BiometricScreen(
@@ -62,7 +62,7 @@ fun BiometricScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = if (uiState.isAuthenticated) "Identidade Confirmada!" else "SeguranÃ§a BiomÃ©trica",
+                    text = if (uiState.isAuthenticated) "Identidade Confirmada!" else "Segurança Biométrica",
                     style = MaterialTheme.typography.titleMedium,
                     color = if (uiState.isAuthenticated) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                 )

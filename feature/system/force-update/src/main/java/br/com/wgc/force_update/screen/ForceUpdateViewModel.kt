@@ -1,4 +1,4 @@
-﻿package br.com.wgc.force_update.screen
+package br.com.wgc.force_update.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,19 +14,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Estado da interface de verificaÃ§Ã£o de versÃ£o e atualizaÃ§Ã£o forÃ§ada.
+ * Estado da interface de verificação de versão e atualização forçada.
  *
- * @property title TÃ­tulo do mÃ³dulo de manutenÃ§Ã£o.
- * @property isUpdateRequired Indica se existe nova versÃ£o recomendada ou obrigatÃ³ria.
- * @property isForceUpdate Indica se a versÃ£o instalada estÃ¡ bloqueada para uso.
- * @property currentVersionCode CÃ³digo de versÃ£o localmente instalado.
- * @property minRequiredVersionCode CÃ³digo mÃ­nimo da versÃ£o exigida pelo servidor.
+ * @property title Título do módulo de manutenção.
+ * @property isUpdateRequired Indica se existe nova versão recomendada ou obrigatória.
+ * @property isForceUpdate Indica se a versão instalada está bloqueada para uso.
+ * @property currentVersionCode Código de versão localmente instalado.
+ * @property minRequiredVersionCode Código mínimo da versão exigida pelo servidor.
  * @property storeUrl URL de redirecionamento para download na loja oficial.
- * @property isLoading Indica se a checagem remota estÃ¡ em andamento.
+ * @property isLoading Indica se a checagem remota está em andamento.
  * @property errorMessage Mensagem de erro caso a consulta ao Remote Config falhe.
  */
 data class ForceUpdateUiState(
-    val title: String = "MÃ³dulo de Force Update e ManutenÃ§Ã£o",
+    val title: String = "Módulo de Force Update e Manutenção",
     val isUpdateRequired: Boolean = false,
     val isForceUpdate: Boolean = false,
     val currentVersionCode: Long = 1L,
@@ -37,9 +37,9 @@ data class ForceUpdateUiState(
 )
 
 /**
- * ViewModel que consulta parÃ¢metros do [RemoteConfigRepository] para garantir conformidade de versÃ£o.
+ * ViewModel que consulta parâmetros do [RemoteConfigRepository] para garantir conformidade de versão.
  *
- * @param remoteConfigRepository RepositÃ³rio do OmniBackend para consulta a configuraÃ§Ãµes dinÃ¢micas.
+ * @param remoteConfigRepository Repositório do OmniBackend para consulta a configurações dinâmicas.
  */
 @HiltViewModel
 class ForceUpdateViewModel @Inject constructor(
@@ -48,13 +48,13 @@ class ForceUpdateViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(ForceUpdateUiState())
 
-    /** Fluxo observÃ¡vel do estado de atualizaÃ§Ã£o do app. */
+    /** Fluxo observável do estado de atualização do app. */
     val uiState: StateFlow<ForceUpdateUiState> = _uiState.asStateFlow()
 
     /**
-     * Consulta os parÃ¢metros remotos de versÃ£o mÃ­nima e ativaÃ§Ã£o de bloqueio.
+     * Consulta os parâmetros remotos de versão mínima e ativação de bloqueio.
      *
-     * @param currentVersionCode VersÃ£o numÃ©rica localmente compilada do app.
+     * @param currentVersionCode Versão numérica localmente compilada do app.
      */
     fun checkForUpdate(currentVersionCode: Long = 1L) {
         viewModelScope.launch {
@@ -90,7 +90,7 @@ class ForceUpdateViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            errorMessage = fetchResult.error.message ?: "Erro ao checar versÃ£o remota"
+                            errorMessage = fetchResult.error.message ?: "Erro ao checar versão remota"
                         )
                     }
                 }

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.telemetry.screen
+package br.com.wgc.telemetry.screen
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,18 +7,18 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 /**
- * Estado da interface do sistema de telemetria contÃ­nua.
+ * Estado da interface do sistema de telemetria contínua.
  *
- * @property title TÃ­tulo do sistema de telemetria.
- * @property isLoading Indica se a coleta de dados de sensores estÃ¡ em execuÃ§Ã£o.
+ * @property title Título do sistema de telemetria.
+ * @property isLoading Indica se a coleta de dados de sensores está em execução.
  */
 data class TelemetryUiState(
-    val title: String = "MÃ³dulo de Telemetria e GPS WGC",
+    val title: String = "Módulo de Telemetria e GPS WGC",
     val isLoading: Boolean = false
 )
 
 /**
- * ViewModel que gerencia a coleta de telemetria, consumo de bateria, geolocalizaÃ§Ã£o e envio de mÃ©tricas.
+ * ViewModel que gerencia a coleta de telemetria, consumo de bateria, geolocalização e envio de métricas.
  */
 @HiltViewModel
 class TelemetryViewModel @Inject constructor() : ViewModel() {

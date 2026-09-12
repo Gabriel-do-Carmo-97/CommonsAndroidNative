@@ -1,4 +1,4 @@
-﻿package br.com.wgc.search.screen
+package br.com.wgc.search.screen
 
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.ds_templates.screens.search.BaseSearchAndFilterViewModel
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel que implementa busca textual instantÃ¢nea com mecanismo de debounce reativo.
+ * ViewModel que implementa busca textual instantânea com mecanismo de debounce reativo.
  */
 @HiltViewModel
 class SearchViewModel @Inject constructor() : BaseSearchAndFilterViewModel() {
@@ -27,7 +27,7 @@ class SearchViewModel @Inject constructor() : BaseSearchAndFilterViewModel() {
         "Pizza Portuguesa Especial",
         "Pizza Frango com Catupiry",
         "Refrigerante Coca-Cola 2L",
-        "Refrigerante GuaranÃ¡ Antarctica 2L",
+        "Refrigerante Guaraná Antarctica 2L",
         "Suco de Laranja Natural 500ml",
         "Pudim de Leite Condensado Caseiro",
         "Torta Holandesa de Chocolate",
@@ -48,9 +48,9 @@ class SearchViewModel @Inject constructor() : BaseSearchAndFilterViewModel() {
     private var searchJob: Job? = null
 
     /**
-     * Trata a alteraÃ§Ã£o do texto de busca, aplicando debounce de 300ms antes do filtro.
+     * Trata a alteração do texto de busca, aplicando debounce de 300ms antes do filtro.
      *
-     * @param query Termo de busca digitado pelo usuÃ¡rio.
+     * @param query Termo de busca digitado pelo usuário.
      */
     override fun onSearchQueryChange(query: String) {
         _uiState.update { it.copy(searchQuery = query) }

@@ -1,4 +1,4 @@
-﻿package br.com.wgc.authentication.registerUser
+package br.com.wgc.authentication.registerUser
 
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.authentication.navigation.AuthNavDestinations
@@ -15,9 +15,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel responsÃ¡vel pelo registro de novos usuÃ¡rios no OmniBackend.
+ * ViewModel responsável pelo registro de novos usuários no OmniBackend.
  *
- * @param userRegisterUseCase Caso de uso de cadastro de novos usuÃ¡rios.
+ * @param userRegisterUseCase Caso de uso de cadastro de novos usuários.
  */
 @HiltViewModel
 class RegisterUserViewModel @Inject constructor(
@@ -26,7 +26,7 @@ class RegisterUserViewModel @Inject constructor(
 
     private val _navigationEvent = Channel<AuthNavDestinations.RegisterUserScreen>(Channel.BUFFERED)
 
-    /** Fluxo de eventos de navegaÃ§Ã£o para etapas subsequentes. */
+    /** Fluxo de eventos de navegação para etapas subsequentes. */
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
     /** Valida termos, formato de e-mail e envia dados ao caso de uso de registro. */
@@ -34,12 +34,12 @@ class RegisterUserViewModel @Inject constructor(
         val state = uiState.value
 
         if (!state.acceptedTerms) {
-            updateState { it.copy(generalError = "VocÃª deve aceitar os termos para continuar") }
+            updateState { it.copy(generalError = "Você deve aceitar os termos para continuar") }
             return
         }
 
         if (!state.email.isValidEmail()) {
-            updateState { it.copy(emailError = "Informe um e-mail vÃ¡lido") }
+            updateState { it.copy(emailError = "Informe um e-mail válido") }
             return
         }
 
@@ -81,12 +81,12 @@ class RegisterUserViewModel @Inject constructor(
         }
     }
 
-    /** Trata clique para visualizaÃ§Ã£o dos Termos e CondiÃ§Ãµes de Uso. */
+    /** Trata clique para visualização dos Termos e Condições de Uso. */
     override fun onTermsClick() {
-        // Callback para exibiÃ§Ã£o de termos LGPD
+        // Callback para exibição de termos LGPD
     }
 
-    /** Retorna Ã  tela de login. */
+    /** Retorna à tela de login. */
     override fun onBackClick() {
         viewModelScope.launch {
             _navigationEvent.send(AuthNavDestinations.RegisterUserScreen.Login)

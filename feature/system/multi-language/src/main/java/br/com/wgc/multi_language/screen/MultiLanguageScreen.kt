@@ -1,4 +1,4 @@
-﻿package br.com.wgc.multi_language.screen
+package br.com.wgc.multi_language.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,15 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * Tela de configuraÃ§Ã£o e alternÃ¢ncia dinÃ¢mica de idiomas (i18n / l10n).
+ * Tela de configuração e alternância dinâmica de idiomas (i18n / l10n).
  *
  * @param modifier Modificador de layout Compose.
- * @param title TÃ­tulo do cabeÃ§alho da tela.
+ * @param title Título do cabeçalho da tela.
  */
 @Composable
 fun MultiLanguageScreen(
     modifier: Modifier = Modifier,
-    title: String = "MÃ³dulo de InternacionalizaÃ§Ã£o WGC"
+    title: String = "Módulo de Internacionalização WGC"
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -31,6 +31,6 @@ fun MultiLanguageScreen(
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Suporte a mÃºltiplos idiomas em tempo de execuÃ§Ã£o WGC", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Suporte a múltiplos idiomas em tempo de execução WGC", style = MaterialTheme.typography.bodyMedium)
     }
 }

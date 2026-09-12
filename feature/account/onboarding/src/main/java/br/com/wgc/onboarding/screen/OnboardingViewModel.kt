@@ -1,4 +1,4 @@
-﻿package br.com.wgc.onboarding.screen
+package br.com.wgc.onboarding.screen
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
- * Representa um slide de conteÃºdo informativo do Onboarding.
+ * Representa um slide de conteúdo informativo do Onboarding.
  *
- * @property title TÃ­tulo do slide em destaque.
- * @property description DescriÃ§Ã£o detalhada do valor ou funcionalidade.
- * @property tag Identificador categÃ³rico para renderizaÃ§Ã£o do Ã­cone.
+ * @property title Título do slide em destaque.
+ * @property description Descrição detalhada do valor ou funcionalidade.
+ * @property tag Identificador categórico para renderização do ícone.
  */
 data class OnboardingPage(
     val title: String,
@@ -22,29 +22,29 @@ data class OnboardingPage(
 )
 
 /**
- * Estado de visualizaÃ§Ã£o da tela de Onboarding.
+ * Estado de visualização da tela de Onboarding.
  *
- * @property title TÃ­tulo global do Onboarding.
- * @property pages Lista de pÃ¡ginas que compÃµem a apresentaÃ§Ã£o.
- * @property currentPageIndex Ãndice da pÃ¡gina ativa no carrossel.
+ * @property title Título global do Onboarding.
+ * @property pages Lista de páginas que compõem a apresentação.
+ * @property currentPageIndex Índice da página ativa no carrossel.
  * @property isCompleted Indica se o fluxo foi completado ou pulado.
  */
 data class OnboardingUiState(
     val title: String = "Bem-vindo ao Ecossistema WGC",
     val pages: List<OnboardingPage> = listOf(
         OnboardingPage(
-            title = "CatÃ¡logo & Compras Inteligentes",
+            title = "Catálogo & Compras Inteligentes",
             description = "Explore centenas de produtos, utilize filtros reativos com debounce e monte seu carrinho com facilidade.",
             tag = "E-COMMERCE"
         ),
         OnboardingPage(
             title = "Rastreamento em Tempo Real",
-            description = "Acompanhe seus pedidos e serviÃ§os com geolocalizaÃ§Ã£o ao vivo e previsÃ£o precisa de chegada.",
+            description = "Acompanhe seus pedidos e serviços com geolocalização ao vivo e previsão precisa de chegada.",
             tag = "TRACKING"
         ),
         OnboardingPage(
-            title = "Pagamentos RÃ¡pidos & Seguros",
-            description = "Pague via Pix instantÃ¢neo, cartÃ£o de crÃ©dito ou utilize seu saldo de cashback e pontos de fidelidade.",
+            title = "Pagamentos Rápidos & Seguros",
+            description = "Pague via Pix instantâneo, cartão de crédito ou utilize seu saldo de cashback e pontos de fidelidade.",
             tag = "FINTECH"
         )
     ),
@@ -53,17 +53,17 @@ data class OnboardingUiState(
 )
 
 /**
- * ViewModel responsÃ¡vel pela navegaÃ§Ã£o paginada e conclusÃ£o da experiÃªncia de Onboarding.
+ * ViewModel responsável pela navegação paginada e conclusão da experiência de Onboarding.
  */
 @HiltViewModel
 class OnboardingViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(OnboardingUiState())
 
-    /** Fluxo observÃ¡vel com o estado do carrossel de onboarding. */
+    /** Fluxo observável com o estado do carrossel de onboarding. */
     val uiState: StateFlow<OnboardingUiState> = _uiState.asStateFlow()
 
-    /** AvanÃ§a para o prÃ³ximo slide ou finaliza o onboarding se for o Ãºltimo. */
+    /** Avança para o próximo slide ou finaliza o onboarding se for o último. */
     fun nextPage() {
         _uiState.update { current ->
             if (current.currentPageIndex < current.pages.size - 1) {
