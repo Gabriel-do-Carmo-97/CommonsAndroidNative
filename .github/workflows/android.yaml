@@ -73,7 +73,7 @@ jobs:
             :feature:auth:biometric:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-auth
           path: |
@@ -82,13 +82,13 @@ jobs:
             feature/auth/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-auth
           path: feature/auth/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-auth
           path: feature/auth/**/build/outputs/aar/*-debug.aar
@@ -125,7 +125,7 @@ jobs:
             :feature:account:settings:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-account
           path: |
@@ -134,13 +134,13 @@ jobs:
             feature/account/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-account
           path: feature/account/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-account
           path: feature/account/**/build/outputs/aar/*-debug.aar
@@ -177,7 +177,7 @@ jobs:
             :feature:system:multi-language:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-system
           path: |
@@ -186,13 +186,13 @@ jobs:
             feature/system/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-system
           path: feature/system/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-system
           path: feature/system/**/build/outputs/aar/*-debug.aar
@@ -244,7 +244,7 @@ jobs:
             :feature:platform:telemetry:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-platform
           path: |
@@ -253,13 +253,13 @@ jobs:
             feature/platform/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-platform
           path: feature/platform/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-platform
           path: feature/platform/**/build/outputs/aar/*-debug.aar
@@ -306,7 +306,7 @@ jobs:
             :feature:storefront:stores:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-storefront
           path: |
@@ -315,13 +315,13 @@ jobs:
             feature/storefront/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-storefront
           path: feature/storefront/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-storefront
           path: feature/storefront/**/build/outputs/aar/*-debug.aar
@@ -359,7 +359,7 @@ jobs:
             :feature:checkout:quotation:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-checkout
           path: |
@@ -368,13 +368,13 @@ jobs:
             feature/checkout/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-checkout
           path: feature/checkout/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-checkout
           path: feature/checkout/**/build/outputs/aar/*-debug.aar
@@ -412,7 +412,7 @@ jobs:
             :feature:customer:reviews-store:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-customer
           path: |
@@ -421,13 +421,13 @@ jobs:
             feature/customer/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-customer
           path: feature/customer/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-customer
           path: feature/customer/**/build/outputs/aar/*-debug.aar
@@ -484,7 +484,7 @@ jobs:
             :feature:delivery:offline-maps:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-delivery
           path: |
@@ -493,13 +493,13 @@ jobs:
             feature/delivery/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-delivery
           path: feature/delivery/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-delivery
           path: feature/delivery/**/build/outputs/aar/*-debug.aar
@@ -532,7 +532,7 @@ jobs:
             :feature:communication:whatsapp-direct:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-communication
           path: |
@@ -541,13 +541,13 @@ jobs:
             feature/communication/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-communication
           path: feature/communication/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-communication
           path: feature/communication/**/build/outputs/aar/*-debug.aar
@@ -580,7 +580,7 @@ jobs:
             :feature:services:subscriptions:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-feature-services
           path: |
@@ -589,13 +589,13 @@ jobs:
             feature/services/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-feature-services
           path: feature/services/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-feature-services
           path: feature/services/**/build/outputs/aar/*-debug.aar
@@ -637,7 +637,7 @@ jobs:
             :bundles:foundation:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-foundation
           path: |
@@ -646,13 +646,13 @@ jobs:
             bundles/foundation/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-foundation
           path: bundles/foundation/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-foundation
           path: bundles/foundation/**/build/outputs/aar/*-debug.aar
@@ -690,7 +690,7 @@ jobs:
             :bundles:identity:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-identity
           path: |
@@ -699,13 +699,13 @@ jobs:
             bundles/identity/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-identity
           path: bundles/identity/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-identity
           path: bundles/identity/**/build/outputs/aar/*-debug.aar
@@ -743,7 +743,7 @@ jobs:
             :bundles:ecommerce:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-ecommerce
           path: |
@@ -752,13 +752,13 @@ jobs:
             bundles/ecommerce/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-ecommerce
           path: bundles/ecommerce/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-ecommerce
           path: bundles/ecommerce/**/build/outputs/aar/*-debug.aar
@@ -796,7 +796,7 @@ jobs:
             :bundles:delivery:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-delivery
           path: |
@@ -805,13 +805,13 @@ jobs:
             bundles/delivery/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-delivery
           path: bundles/delivery/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-delivery
           path: bundles/delivery/**/build/outputs/aar/*-debug.aar
@@ -849,7 +849,7 @@ jobs:
             :bundles:services:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-services
           path: |
@@ -858,13 +858,13 @@ jobs:
             bundles/services/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-services
           path: bundles/services/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-services
           path: bundles/services/**/build/outputs/aar/*-debug.aar
@@ -902,7 +902,7 @@ jobs:
             :bundles:communication:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-communication
           path: |
@@ -911,13 +911,13 @@ jobs:
             bundles/communication/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-communication
           path: bundles/communication/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-communication
           path: bundles/communication/**/build/outputs/aar/*-debug.aar
@@ -955,7 +955,7 @@ jobs:
             :bundles:subscriptions:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-subscriptions
           path: |
@@ -964,13 +964,13 @@ jobs:
             bundles/subscriptions/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-subscriptions
           path: bundles/subscriptions/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-subscriptions
           path: bundles/subscriptions/**/build/outputs/aar/*-debug.aar
@@ -1008,7 +1008,7 @@ jobs:
             :bundles:social:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-social
           path: |
@@ -1017,13 +1017,13 @@ jobs:
             bundles/social/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-social
           path: bundles/social/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-social
           path: bundles/social/**/build/outputs/aar/*-debug.aar
@@ -1061,7 +1061,7 @@ jobs:
             :bundles:education:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-education
           path: |
@@ -1070,13 +1070,13 @@ jobs:
             bundles/education/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-education
           path: bundles/education/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-education
           path: bundles/education/**/build/outputs/aar/*-debug.aar
@@ -1114,7 +1114,7 @@ jobs:
             :bundles:health:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-health
           path: |
@@ -1123,13 +1123,13 @@ jobs:
             bundles/health/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-health
           path: bundles/health/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-health
           path: bundles/health/**/build/outputs/aar/*-debug.aar
@@ -1167,7 +1167,7 @@ jobs:
             :bundles:finance:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-finance
           path: |
@@ -1176,13 +1176,13 @@ jobs:
             bundles/finance/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-finance
           path: bundles/finance/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-finance
           path: bundles/finance/**/build/outputs/aar/*-debug.aar
@@ -1220,7 +1220,7 @@ jobs:
             :bundles:events:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-events
           path: |
@@ -1229,13 +1229,13 @@ jobs:
             bundles/events/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-events
           path: bundles/events/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-events
           path: bundles/events/**/build/outputs/aar/*-debug.aar
@@ -1273,7 +1273,7 @@ jobs:
             :bundles:real-estate:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-real-estate
           path: |
@@ -1282,13 +1282,13 @@ jobs:
             bundles/real-estate/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-real-estate
           path: bundles/real-estate/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-real-estate
           path: bundles/real-estate/**/build/outputs/aar/*-debug.aar
@@ -1326,7 +1326,7 @@ jobs:
             :bundles:emergency:pro:assembleDebug
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-bundle-emergency
           path: |
@@ -1335,13 +1335,13 @@ jobs:
             bundles/emergency/**/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Release AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aar-bundle-emergency
           path: bundles/emergency/**/build/outputs/aar/*-release.aar
           if-no-files-found: error
       - name: Upload Debug AAR
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: debug-aar-bundle-emergency
           path: bundles/emergency/**/build/outputs/aar/*-debug.aar
@@ -1381,7 +1381,7 @@ jobs:
         run: ./gradlew :app:lintDebug :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease
       - name: Upload Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reports-sample-app
           path: |
@@ -1389,13 +1389,13 @@ jobs:
             app/build/reports/lint-results*.html
           if-no-files-found: ignore
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: ignore
       - name: Upload Release APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: app-release-apk
           path: app/build/outputs/apk/release/*.apk
@@ -1431,7 +1431,7 @@ jobs:
         run: ./gradlew jacocoRootReport
       - name: Upload JaCoCo Reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: unified-coverage-report
           path: |
