@@ -61,6 +61,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "CommonsAndroidNative"
 include(":app")
+include(":core:testing")
+project(":core:testing").projectDir = file("core/testing")
 
 fun registerFeature(theme: String, name: String) {
     include(":feature:$theme:$name")
