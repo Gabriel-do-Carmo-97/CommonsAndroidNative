@@ -54,7 +54,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -101,7 +101,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -153,7 +153,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -210,7 +210,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -277,7 +277,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -335,7 +335,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -388,7 +388,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -445,7 +445,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -513,7 +513,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -561,7 +561,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -613,7 +613,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -666,7 +666,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -719,7 +719,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -772,7 +772,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -825,7 +825,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -878,7 +878,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -931,7 +931,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -984,7 +984,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1037,7 +1037,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1090,7 +1090,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1143,7 +1143,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1196,7 +1196,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1249,7 +1249,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1302,7 +1302,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1373,7 +1373,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1423,7 +1423,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: { fetch-depth: 0, lfs: true }
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
@@ -1469,7 +1469,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           lfs: true
@@ -1567,7 +1567,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup Android & Java Environment
         uses: ./.github/actions/setup-android-env
       - name: Generate Dokka HTML
