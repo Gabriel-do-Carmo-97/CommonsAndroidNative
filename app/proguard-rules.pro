@@ -1,21 +1,66 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# ==============================================================================
+# Enterprise R8 & ProGuard Optimization Rules - CommonsAndroidNative
+# ==============================================================================
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# --- General Optimizations ---
+-allowaccessmodification
+-repackageclasses ''
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Preserve line numbers and source files for crash reports and stack traces
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Preserve annotations and signatures for Kotlin and reflection
+-keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
+
+# --- Jetpack Compose ---
+-dontwarn androidx.compose.**
+-keep class androidx.compose.** { *; }
+-keep class * extends androidx.compose.ui.node.ModifierNodeElement { *; }
+
+# --- Kotlin Coroutines & Flow ---
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory { *; }
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler { *; }
+-keepclassmembernames class kotlinx.coroutines.** {
+    volatile <fields>;
+}
+
+# --- Dagger / Hilt ---
+-dontwarn dagger.hilt.**
+-dontwarn javax.inject.**
+-keep class * extends dagger.hilt.internal.GeneratedComponent { *; }
+-keep class * extends dagger.hilt.android.internal.builders.** { *; }
+-keep class * implements dagger.hilt.internal.GeneratedComponent { *; }
+-keep @dagger.hilt.android.lifecycle.HiltViewModel class * extends androidx.lifecycle.ViewModel {
+    <init>(...);
+}
+
+# --- Kotlin Reflection & Metadata ---
+-keepattributes RuntimeVisible*Annotations*
+-keepclassmembers class kotlin.Metadata {
+    public <fields>;
+    public <methods>;
+}
+
+# --- OmniBackend & Serialization ---
+-keepattributes *Annotation*,EnclosingMethod,Signature
+-keepclassmembers enum * { *; }
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+    @kotlinx.serialization.SerialName <fields>;
+}
+-dontwarn br.wgc.omnibackend.**
+-keep class br.wgc.omnibackend.** { *; }
+
+# --- WGC Design System & Commons ---
+-dontwarn br.com.wgc.**
+-keep class br.com.wgc.commonsandroidnative.** { *; }
+-keep class br.com.wgc.telemetry.boundary.** { *; }
+
+# --- AndroidX ProfileInstaller ---
+-keep class androidx.profileinstaller.** { *; }
+-dontwarn androidx.profileinstaller.**
+
+# --- Optional transitive libraries (e.g. Firebase VertexAI / Ktor) ---
+-dontwarn io.ktor.**
+-dontwarn com.google.firebase.vertexai.**

@@ -42,6 +42,8 @@ dependencies {
     implementation(project(":feature:services:scheduling"))
     implementation(project(":feature:system:force-update"))
     implementation(project(":feature:system:media-picker"))
+    implementation(project(":feature:platform:telemetry"))
+    implementation(project(":feature:platform:analytics"))
 
     implementation(libs.design.system)
     implementation(libs.ds.templates)
@@ -58,6 +60,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.profileinstaller)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

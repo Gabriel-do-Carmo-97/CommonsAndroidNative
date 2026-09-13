@@ -1,0 +1,29 @@
+# Baseline Profile for CommonsAndroidNative Application
+Lbr/com/wgc/commonsandroidnative/CommonsApplication;
+Lbr/com/wgc/commonsandroidnative/MainActivity;
+
+# Error Boundary and Fallback
+Lbr/com/wgc/telemetry/boundary/WgcErrorBoundaryKt;
+Lbr/com/wgc/telemetry/boundary/WgcErrorHandler;
+Lbr/com/wgc/telemetry/boundary/WgcErrorFallbackScreenKt;
+Lbr/com/wgc/telemetry/boundary/WgcGlobalExceptionHandler;
+
+# Authentication & Core Startup
+Lbr/com/wgc/authentication/login/LoginWGCScreenKt;
+Lbr/com/wgc/authentication/login/LoginWGCViewModel;
+
+# Storefront Catalog
+Lbr/com/wgc/catalog/screen/CatalogScreenKt;
+Lbr/com/wgc/catalog/screen/CatalogViewModel;
+
+# Checkout & Cart
+Lbr/com/wgc/cart/screen/CartScreenKt;
+Lbr/com/wgc/cart/screen/CartViewModel;
+
+# Delivery Tracking
+Lbr/com/wgc/order_tracking/screen/OrderTrackingScreenKt;
+Lbr/com/wgc/order_tracking/screen/OrderTrackingViewModel;
+
+# Customer Profile
+Lbr/com/wgc/profile/screen/ProfileScreenKt;
+Lbr/com/wgc/profile/screen/ProfileViewModel;
