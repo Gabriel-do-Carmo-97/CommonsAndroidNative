@@ -1394,6 +1394,50 @@ jobs:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: ignore
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: ignore
+
+  unified-coverage:
+    name: "📊 Unified Code Coverage (JaCoCo)"
+    needs:
+      - bundle-foundation
+      - bundle-identity
+      - bundle-ecommerce
+      - bundle-delivery
+      - bundle-services
+      - bundle-communication
+      - bundle-subscriptions
+      - bundle-social
+      - bundle-education
+      - bundle-health
+      - bundle-finance
+      - bundle-events
+      - bundle-real-estate
+      - bundle-emergency
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: true }
+      - name: Setup Android & Java Environment
+        uses: ./.github/actions/setup-android-env
+      - name: Generate Unified JaCoCo Report
+        run: ./gradlew jacocoRootReport
+      - name: Upload JaCoCo Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unified-coverage-report
+          path: |
+            build/reports/jacoco/html/
+            build/reports/jacoco/jacoco.xml
+          if-no-files-found: ignore
 
   # =============================================================================
   # NIVEL 7: PUBLICACAO E RELEASE (Apenas em Push para Master)
@@ -1417,6 +1461,7 @@ jobs:
       - bundle-real-estate
       - bundle-emergency
       - sample-app
+      - unified-coverage
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
