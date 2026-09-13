@@ -92,6 +92,7 @@ import br.com.wgc.commonsandroidnative.debug.NetworkCondition
 import br.com.wgc.commonsandroidnative.debug.MockUserProfile
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.FloatingActionButton
+import br.com.wgc.telemetry.boundary.WgcErrorBoundary
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -107,12 +108,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CommonsAndroidNativeTheme {
-                MainAppShowcaseScreen(
-                    authManager = authManager,
-                    onAuthSuccess = { email ->
-                        Toast.makeText(this, "Autenticado com sucesso: $email", Toast.LENGTH_SHORT).show()
-                    }
-                )
+                WgcErrorBoundary {
+                    MainAppShowcaseScreen(
+                        authManager = authManager,
+                        onAuthSuccess = { email ->
+                            Toast.makeText(this, "Autenticado com sucesso: $email", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
             }
         }
     }
