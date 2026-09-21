@@ -16,7 +16,7 @@ material = "1.13.0"
 designSystemVersion = "0.1.0"
 dsTemplateVersion = "0.1.0"
 coreVersion = "0.0.69"
-omniBackendVersion = "0.0.22"
+omniBackendVersion = "1.1.0"
 
 hiltNavigationCompose = "1.3.0"
 hiltAndroid = "2.57.2"
