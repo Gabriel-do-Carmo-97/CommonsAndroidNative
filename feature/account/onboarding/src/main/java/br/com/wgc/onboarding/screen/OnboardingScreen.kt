@@ -41,12 +41,30 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 /**
  * Tela de Onboarding e apresentação inicial de propostas de valor do aplicativo.
  *
- * Apresenta carrossel interativo com transições animadas, indicadores de página
- * e botões de navegação e conclusão para o usuário.
+ * Apresenta carrossel interativo com transições animadas (`AnimatedContent`), indicadores
+ * de página em formato de pontos reativos e botões de navegação sequencial ou conclusão direta.
  *
- * @param modifier Modificador de layout Compose aplicado à tela.
- * @param onFinished Callback invocado quando o usuário conclui ou pula o onboarding.
- * @param viewModel ViewModel responsável pelo controle de estado e índice do carrossel.
+ * ### 📌 Quando Usar:
+ * Renderize esta tela durante o primeiro acesso do usuário (verificado via DataStore local)
+ * antes de conduzi-lo para a tela de autenticação ou tela principal do aplicativo.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun AppIntro(navController: NavController) {
+ *     OnboardingScreen(
+ *         onFinished = {
+ *             navController.navigate("login") {
+ *                 popUpTo("onboarding") { inclusive = true }
+ *             }
+ *         }
+ *     )
+ * }
+ * ```
+ *
+ * @param modifier Modificador de layout Compose aplicado à raiz da tela.
+ * @param onFinished Callback invocado quando o usuário conclui o fluxo ou toca no botão "Pular".
+ * @param viewModel ViewModel injetado responsável pelo controle de estado e índice do carrossel.
  */
 @Composable
 fun OnboardingScreen(
