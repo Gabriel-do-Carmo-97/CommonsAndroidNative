@@ -38,9 +38,19 @@ import br.com.wgc.design_system.templates.screens.marketplacescreen.FakeMarketpl
 import br.com.wgc.design_system.templates.screens.marketplacescreen.WgcMarketplaceHomeScreenTemplate
 
 /**
- * Modos de exibição e layouts comerciais suportados pelo catálogo de produtos.
+ * Modos de exibição e layouts comerciais suportados pela vitrine corporativa de produtos.
  *
- * @property title Rótulo descritivo do template comercial.
+ * ### 📌 Quando Usar:
+ * Utilize para alternar a experiência visual entre layout tradicional de e-commerce de varejo,
+ * delivery de alimentação (estilo iFood) ou marketplace de múltiplos vendedores (estilo Mercado Livre).
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * val mode = CommercialTemplateMode.IFOOD_DELIVERY
+ * println("Modo selecionado: ${mode.title}")
+ * ```
+ *
+ * @property title Rótulo descritivo exibido nos seletores de layout da interface.
  */
 enum class CommercialTemplateMode(val title: String) {
     /** Layout padrão de e-commerce com grid e carrosséis horizontais. */
@@ -54,14 +64,29 @@ enum class CommercialTemplateMode(val title: String) {
 }
 
 /**
- * Tela principal do Catálogo de Produtos e Vitrines Comerciais.
+ * Tela principal do Catálogo de Produtos e Vitrines Comerciais Multi-segmento.
  *
  * Permite alternância dinâmica em tempo de execução entre diferentes templates
- * visuais corporativos mantidos pelo Design System.
+ * visuais corporativos mantidos pelo Design System (`EcommerceHomeScreenTemplate`,
+ * `WgcFoodDeliveryHomeScreenTemplate`, `WgcMarketplaceHomeScreenTemplate`).
  *
- * @param modifier Modificador de layout Compose.
- * @param initialMode Modo de layout comercial inicial a ser renderizado.
- * @param viewModel ViewModel de controle do catálogo e produtos.
+ * ### 📌 Quando Usar:
+ * Ponto de entrada visual da aba "Início" / "Loja" em aplicações white-label que precisam
+ * suportar catálogos de restaurantes, supermercados ou lojas de departamentos.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun AppNavigation() {
+ *     CatalogScreen(
+ *         initialMode = CommercialTemplateMode.ECOMMERCE_STANDARD
+ *     )
+ * }
+ * ```
+ *
+ * @param modifier Modificador de layout Compose para estilização externa.
+ * @param initialMode Modo de layout comercial inicial a ser renderizado na abertura da tela.
+ * @param viewModel ViewModel injetado com o estado do catálogo e produtos do OmniBackend.
  */
 @Composable
 fun CatalogScreen(
