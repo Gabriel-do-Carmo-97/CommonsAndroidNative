@@ -31,11 +31,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.ds_templates.screens.home.ecommerce.EcommerceHomeScreenTemplate
-import br.com.wgc.ds_templates.screens.ifood.FakeIFoodHomeViewModel
-import br.com.wgc.ds_templates.screens.ifood.IFoodHomeScreenTemplate
-import br.com.wgc.ds_templates.screens.mercadolivre.FakeMercadoLivreHomeViewModel
-import br.com.wgc.ds_templates.screens.mercadolivre.MercadoLivreHomeScreenTemplate
+import br.com.wgc.design_system.templates.screens.home.ecommerce.EcommerceHomeScreenTemplate
+import br.com.wgc.design_system.templates.screens.fooddelivery.FakeFoodDeliveryHomeViewModel
+import br.com.wgc.design_system.templates.screens.fooddelivery.WgcFoodDeliveryHomeScreenTemplate
+import br.com.wgc.design_system.templates.screens.marketplacescreen.FakeMarketplaceHomeViewModel
+import br.com.wgc.design_system.templates.screens.marketplacescreen.WgcMarketplaceHomeScreenTemplate
 
 /**
  * Modos de exibição e layouts comerciais suportados pelo catálogo de produtos.
@@ -71,8 +71,8 @@ fun CatalogScreen(
 ) {
     var selectedMode by rememberSaveable { mutableStateOf(initialMode) }
 
-    val ifoodViewModel = remember { FakeIFoodHomeViewModel() }
-    val mlViewModel = remember { FakeMercadoLivreHomeViewModel() }
+    val ifoodViewModel = remember { FakeFoodDeliveryHomeViewModel() }
+    val mlViewModel = remember { FakeMarketplaceHomeViewModel() }
 
     Column(modifier = modifier.fillMaxSize()) {
         Surface(
@@ -122,10 +122,10 @@ fun CatalogScreen(
                     EcommerceHomeScreenTemplate(viewModel = viewModel)
                 }
                 CommercialTemplateMode.IFOOD_DELIVERY -> {
-                    IFoodHomeScreenTemplate(viewModel = ifoodViewModel)
+                    WgcFoodDeliveryHomeScreenTemplate(viewModel = ifoodViewModel)
                 }
                 CommercialTemplateMode.MERCADO_LIVRE -> {
-                    MercadoLivreHomeScreenTemplate(viewModel = mlViewModel)
+                    WgcMarketplaceHomeScreenTemplate(viewModel = mlViewModel)
                 }
             }
         }

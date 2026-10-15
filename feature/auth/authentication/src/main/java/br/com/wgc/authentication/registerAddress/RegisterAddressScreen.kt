@@ -3,7 +3,7 @@ package br.com.wgc.authentication.registerAddress
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import br.com.wgc.ds_templates.screens.register.address.screen.RegisterAddressScreenTemplate
+import br.com.wgc.design_system.templates.screens.register.address.screen.RegisterAddressScreenTemplate
 
 /**
  * Tela de cadastro de endereço residencial ou comercial do usuário.

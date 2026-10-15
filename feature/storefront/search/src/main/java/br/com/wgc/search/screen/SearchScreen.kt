@@ -3,7 +3,7 @@ package br.com.wgc.search.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.ds_templates.screens.search.SearchAndFilterScreenTemplate
+import br.com.wgc.design_system.templates.screens.search.SearchAndFilterScreenTemplate
 
 /**
  * Tela de Busca Reativa e Filtros Avançados de produtos e lojas.

@@ -3,7 +3,7 @@ package br.com.wgc.cart.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.ds_templates.screens.cart.StandardCartScreenTemplate
+import br.com.wgc.design_system.templates.screens.cart.StandardCartScreenTemplate
 
 /**
  * Tela principal do Carrinho de Compras (Cart).

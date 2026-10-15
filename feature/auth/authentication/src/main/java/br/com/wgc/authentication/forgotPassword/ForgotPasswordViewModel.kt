@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.wgc.authentication.navigation.AuthNavDestinations
 import br.com.wgc.authentication.utils.toUserFriendlyMessage
 import br.com.wgc.core.validators.isValidEmail
-import br.com.wgc.ds_templates.screens.resetpassword.viewmodel.BaseResetPasswordScreenTemplateViewModel
+import br.com.wgc.design_system.templates.screens.resetpassword.viewmodel.BaseResetPasswordScreenTemplateViewModel
 import br.wgc.omnibackend.core.repository.AuthRepository
 import br.wgc.omnibackend.core.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,9 +1,9 @@
-﻿package br.com.wgc.maps.tracking
+package br.com.wgc.maps.tracking
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.ds_templates.screens.map.RealtimeLocationMapScreenTemplate
+import br.com.wgc.design_system.templates.screens.map.RealtimeLocationMapScreenTemplate
 
 /**
  * Screen providing ready-to-use live tracking of vehicles/deliveries, integrating

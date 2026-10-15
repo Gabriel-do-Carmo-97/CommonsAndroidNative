@@ -1,7 +1,7 @@
 package br.com.wgc.promotions.screen
 
-import br.com.wgc.ds_templates.screens.social.BaseInstagramStoryViewerViewModel
-import br.com.wgc.ds_templates.screens.social.InstagramStoryViewerUiState
+import br.com.wgc.design_system.templates.screens.social.BaseInstagramStoryViewerViewModel
+import br.com.wgc.design_system.templates.screens.social.InstagramStoryViewerUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

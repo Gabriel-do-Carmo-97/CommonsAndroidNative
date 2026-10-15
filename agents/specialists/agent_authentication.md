@@ -21,7 +21,7 @@ You are the **Module Specialist Agent** dedicated exclusively to `:authenticatio
 
 ## 🛠️ Code Conventions & Integration
 - Consume `AuthRepository` from `br.wgc.omnibackend.core.repository.AuthRepository`.
-- Consume Screen Templates from `br.com.wgc.ds_templates.screens.*`.
+- Consume Screen Templates from `br.com.wgc.design_system.templates.screens.*`.
 - Handle responses using `DataResult.Success` and `DataResult.Failure`.
 - Navigation: Expose `AuthNavigation` composable and `AuthNavDestinations`.
 - Use Jetpack Compose + Material 3 tokens from `br.com.wgc:design-system`.

@@ -1,9 +1,9 @@
 package br.com.wgc.cart.screen
 
 import androidx.lifecycle.viewModelScope
-import br.com.wgc.ds_templates.screens.cart.BaseStandardCartViewModel
-import br.com.wgc.ds_templates.screens.cart.CartItem
-import br.com.wgc.ds_templates.screens.cart.StandardCartUiState
+import br.com.wgc.design_system.templates.screens.cart.BaseStandardCartViewModel
+import br.com.wgc.design_system.templates.screens.cart.CartItem
+import br.com.wgc.design_system.templates.screens.cart.StandardCartUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

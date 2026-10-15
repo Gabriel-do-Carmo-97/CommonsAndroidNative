@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.wgc.authentication.navigation.AuthNavDestinations
 import br.com.wgc.authentication.utils.toUserFriendlyMessage
 import br.com.wgc.core.validators.isValidEmail
-import br.com.wgc.ds_templates.screens.register.user.viewmodel.BaseRegisterUserTemplateViewModel
+import br.com.wgc.design_system.templates.screens.register.user.viewmodel.BaseRegisterUserTemplateViewModel
 import br.wgc.omnibackend.core.model.auth.NewUser
 import br.wgc.omnibackend.firebase.domain.usecase.UserRegisterUseCase
 import br.wgc.omnibackend.firebase.utils.UseCaseResult

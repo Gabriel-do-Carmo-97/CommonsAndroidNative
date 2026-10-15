@@ -3,7 +3,7 @@ package br.com.wgc.profile.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.ds_templates.screens.profile.SettingsHubScreenTemplate
+import br.com.wgc.design_system.templates.screens.profile.SettingsHubScreenTemplate
 
 /**
  * Tela de Perfil e Gestão de Conta do usuário autenticado.

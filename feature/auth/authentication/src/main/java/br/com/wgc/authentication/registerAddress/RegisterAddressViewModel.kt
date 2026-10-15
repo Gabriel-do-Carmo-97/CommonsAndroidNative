@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.wgc.authentication.navigation.AuthNavDestinations
 import br.com.wgc.core.formatters.formatCep
 import br.com.wgc.core.validators.isValidCep
-import br.com.wgc.ds_templates.screens.register.address.viewmodel.BaseRegisterAddressScreenTemplateViewModel
+import br.com.wgc.design_system.templates.screens.register.address.viewmodel.BaseRegisterAddressScreenTemplateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

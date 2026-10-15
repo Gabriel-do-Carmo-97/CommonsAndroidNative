@@ -1,7 +1,7 @@
-﻿package br.com.wgc.cart.screen
+package br.com.wgc.cart.screen
 
 import app.cash.turbine.test
-import br.com.wgc.ds_templates.screens.cart.CartItem
+import br.com.wgc.design_system.templates.screens.cart.CartItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher

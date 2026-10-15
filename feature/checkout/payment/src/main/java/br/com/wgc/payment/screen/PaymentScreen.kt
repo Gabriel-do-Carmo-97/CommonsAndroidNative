@@ -3,7 +3,7 @@ package br.com.wgc.payment.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.ds_templates.screens.home.fintech.FintechHomeScreenTemplate
+import br.com.wgc.design_system.templates.screens.home.fintech.FintechHomeScreenTemplate
 
 /**
  * Tela principal de Pagamento e Carteira Digital (Fintech).
