@@ -1,4 +1,4 @@
-﻿plugins {
+plugins {
     id("commons.android.library")
     id("commons.android.compose")
     id("commons.android.publishing")
@@ -12,6 +12,7 @@ android {
 dependencies {
     implementation(libs.design.system)
     implementation(libs.myAndroidCore)
+    implementation(libs.core.storage)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
@@ -24,6 +25,7 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.org.json)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
