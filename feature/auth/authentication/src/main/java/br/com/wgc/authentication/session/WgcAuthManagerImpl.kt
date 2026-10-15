@@ -1,6 +1,8 @@
 package br.com.wgc.authentication.session
 
+import br.com.wgc.core.coroutines.CoroutineDispatchers
 import br.com.wgc.core.dataStorePreferences.DataStorePreferencesCore
+import br.com.wgc.core.security.EncryptedSharedPreferencesCore
 import br.wgc.omnibackend.core.model.OmniUser
 import br.wgc.omnibackend.core.repository.AuthRepository
 import br.wgc.omnibackend.core.utils.DataResult
@@ -9,7 +11,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,11 +23,14 @@ import javax.inject.Singleton
  * Implementação corporativa Singleton do gerenciador de sessão [WgcAuthManager].
  *
  * Sincroniza em tempo real o fluxo de autenticação provido pelo [AuthRepository] do OmniBackend 1.2.0,
- * mantendo as preferências locais do DataStore alinhadas em caso de desconexão.
+ * mantendo as preferências locais do DataStore e credenciais criptografadas via [EncryptedSharedPreferencesCore]
+ * alinhadas em caso de desconexão.
+ *
+ * Utiliza [CoroutineDispatchers] do CoreAndroidNative para orquestração limpa de concorrência.
  *
  * ### 📌 Quando Usar:
  * Fornecido automaticamente via injeção de dependência Hilt em escopo de Singleton para
- * garantir uma única fonte da verdade sobre o estado de login em toda a aplicação.
+ * garantir uma única fonte da verdade sobre o estado de login e credenciais seguras em toda a aplicação.
  *
  * ### 🛠️ Modo de Usar:
  * Injetado automaticamente pelo Hilt onde for solicitado [WgcAuthManager]:
@@ -36,15 +40,19 @@ import javax.inject.Singleton
  * ```
  *
  * @param authRepository Repositório unificado de autenticação do OmniBackend.
- * @param dataStore Gerenciador de persistência segura do Core.
+ * @param dataStore Gerenciador de persistência de preferências de chave-valor.
+ * @param encryptedStorage Armazenamento criptografado no hardware do aparelho (AES-256 GCM).
+ * @param dispatchers Provedor centralizado de dispatchers de Coroutines do ecossistema Core.
  */
 @Singleton
 class WgcAuthManagerImpl @Inject constructor(
     private val authRepository: AuthRepository,
-    private val dataStore: DataStorePreferencesCore
+    private val dataStore: DataStorePreferencesCore,
+    private val encryptedStorage: EncryptedSharedPreferencesCore,
+    private val dispatchers: CoroutineDispatchers
 ) : WgcAuthManager {
 
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scope = CoroutineScope(SupervisorJob() + dispatchers.io)
 
     /**
      * Estado observável da sessão mapeado a partir do stream de autenticação do backend.
@@ -52,8 +60,10 @@ class WgcAuthManagerImpl @Inject constructor(
     override val sessionState: StateFlow<AuthSessionState> = authRepository.authState
         .map { user ->
             if (user != null) {
+                encryptedStorage.saveString("wgc_encrypted_session_token", user.uid)
                 AuthSessionState.Authenticated(user)
             } else {
+                encryptedStorage.remove("wgc_encrypted_session_token")
                 AuthSessionState.Unauthenticated
             }
         }
@@ -98,6 +108,7 @@ class WgcAuthManagerImpl @Inject constructor(
     override suspend fun logout(): Result<Unit> {
         return when (val result = authRepository.signOut()) {
             is DataResult.Success -> {
+                encryptedStorage.remove("wgc_encrypted_session_token")
                 dataStore.removeKey("wgc_auth_saved_email")
                 dataStore.saveBoolean("wgc_auth_remember_me", false)
                 Result.success(Unit)

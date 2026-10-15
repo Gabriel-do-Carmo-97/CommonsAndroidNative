@@ -16,9 +16,19 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
+import br.com.wgc.core.coroutines.CoroutineDispatchers
+import kotlinx.coroutines.CoroutineDispatcher
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class CartViewModelTest {
     private val testDispatcher = StandardTestDispatcher()
+
+    private val dispatchers = object : CoroutineDispatchers {
+        override val main: CoroutineDispatcher = testDispatcher
+        override val io: CoroutineDispatcher = testDispatcher
+        override val default: CoroutineDispatcher = testDispatcher
+        override val unconfined: CoroutineDispatcher = testDispatcher
+    }
 
     @Before
     fun setUp() {
@@ -32,7 +42,7 @@ class CartViewModelTest {
 
     @Test
     fun `initial state has default items and calculated total`() = runTest {
-        val viewModel = CartViewModel()
+        val viewModel = CartViewModel(dispatchers)
         viewModel.uiState.test {
             val state = awaitItem()
             assertEquals(3, state.items.size)
@@ -43,7 +53,7 @@ class CartViewModelTest {
 
     @Test
     fun `addItem adds new item and updates total`() = runTest {
-        val viewModel = CartViewModel()
+        val viewModel = CartViewModel(dispatchers)
         val newItem = CartItem(id = "99", title = "Sobremesa Pudim", price = "R$ 15,00")
 
         viewModel.addItem(newItem)
@@ -57,7 +67,7 @@ class CartViewModelTest {
 
     @Test
     fun `removeItem removes item from list`() = runTest {
-        val viewModel = CartViewModel()
+        val viewModel = CartViewModel(dispatchers)
 
         viewModel.removeItem("1")
 
@@ -70,7 +80,7 @@ class CartViewModelTest {
 
     @Test
     fun `applyDeliveryFee updates total with shipping fee`() = runTest {
-        val viewModel = CartViewModel()
+        val viewModel = CartViewModel(dispatchers)
         val initialTotal = viewModel.uiState.value.total
 
         viewModel.applyDeliveryFee("01310-100")
@@ -81,7 +91,7 @@ class CartViewModelTest {
 
     @Test
     fun `onCheckoutClick sets loading and restores after completion`() = runTest {
-        val viewModel = CartViewModel()
+        val viewModel = CartViewModel(dispatchers)
         viewModel.onCheckoutClick()
 
         testScheduler.runCurrent()

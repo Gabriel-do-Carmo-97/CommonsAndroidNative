@@ -13,6 +13,8 @@ dependencies {
     implementation(libs.design.system)
     implementation(libs.myAndroidCore)
     implementation(libs.core.location)
+    implementation(libs.core.analytics)
+    implementation(libs.core.network)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)

@@ -1,6 +1,7 @@
 package br.com.wgc.maps.tracking
 
 import androidx.lifecycle.viewModelScope
+import br.com.wgc.core.coroutines.CoroutineDispatchers
 import br.com.wgc.design_system.templates.screens.map.BaseRealtimeLocationViewModel
 import br.com.wgc.design_system.templates.screens.map.RealtimeLocationUiState
 import br.wgc.omnibackend.core.repository.realtime.GeolocationRepository
@@ -14,14 +15,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel corporativo para rastreamento de parceiros e entregas em tempo real.
+ * ViewModel corporativo para rastreamento de parceiros e entregas em tempo real com auditoria anti-fraude.
  *
  * Integra com o [GeolocationRepository] do OmniBackend consumindo coordenadas GPS
- * emitidas continuamente via Firestore Streams ou WebSocket, atualizando a camada do mapa.
+ * emitidas continuamente via Firestore Streams ou WebSocket, auditando anomalias via [MockLocationDetector]
+ * e suavizando oscilações estocásticas pelo [br.com.wgc.core.location.geofence.KalmanLocationFilter].
  *
  * ### 📌 Quando Usar:
  * Utilize para telas de rastreamento com mapa vivo onde a latitude e longitude do entregador
- * precisam ser atualizadas instantaneamente sem necessidade de polling manual.
+ * precisam ser atualizadas instantaneamente com proteção anti-spoofing e alta precisão.
  *
  * ### 🛠️ Modo de Usar:
  * ```kotlin
@@ -34,10 +36,14 @@ import javax.inject.Inject
  * ```
  *
  * @param geolocationRepository Repositório de telemetria e posições geográficas em tempo real do OmniBackend.
+ * @param dispatchers Provedor unificado de CoroutineDispatchers do CoreAndroidNative.
+ * @param mockLocationDetector Validador anti-fraude de coordenadas e filtro de Kalman.
  */
 @HiltViewModel
 class WgcLiveTrackingViewModel @Inject constructor(
-    private val geolocationRepository: GeolocationRepository
+    private val geolocationRepository: GeolocationRepository,
+    private val dispatchers: CoroutineDispatchers,
+    private val mockLocationDetector: MockLocationDetector = MockLocationDetector()
 ) : BaseRealtimeLocationViewModel() {
 
     private val _uiState = MutableStateFlow(RealtimeLocationUiState())
@@ -79,6 +85,7 @@ class WgcLiveTrackingViewModel @Inject constructor(
         onContact: () -> Unit = {}
     ) {
         this.onContactCallback = onContact
+        mockLocationDetector.reset()
         _uiState.update {
             it.copy(
                 driverName = driverName,
@@ -88,16 +95,26 @@ class WgcLiveTrackingViewModel @Inject constructor(
             )
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.main) {
             geolocationRepository.trackLocation(entityType, entityId).collect { result ->
                 when (result) {
                     is DataResult.Success -> {
                         val location = result.data
-                        _uiState.update {
-                            it.copy(
-                                statusText = "Posição atualizada (${location.latitude}, ${location.longitude})",
-                                isTrackingActive = true
-                            )
+                        val audit = mockLocationDetector.auditAndFilter(location)
+                        if (audit.isValid) {
+                            _uiState.update {
+                                it.copy(
+                                    statusText = "Posição atualizada (${audit.filteredLatitude}, ${audit.filteredLongitude})",
+                                    isTrackingActive = true
+                                )
+                            }
+                        } else if (audit.isMockDetected) {
+                            _uiState.update {
+                                it.copy(
+                                    statusText = "Alerta de Segurança: Localização simulada detectada",
+                                    isTrackingActive = false
+                                )
+                            }
                         }
                     }
                     is DataResult.Failure -> {

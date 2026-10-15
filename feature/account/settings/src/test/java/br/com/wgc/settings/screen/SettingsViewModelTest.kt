@@ -1,13 +1,15 @@
-﻿package br.com.wgc.settings.screen
+package br.com.wgc.settings.screen
 
 import app.cash.turbine.test
 import br.com.wgc.authentication.session.AuthSessionState
 import br.com.wgc.authentication.session.WgcAuthManager
 import br.wgc.omnibackend.core.model.OmniUser
+import br.com.wgc.core.security.EncryptedSharedPreferencesCore
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,16 +25,25 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * Suíte de testes unitários para [SettingsViewModel].
+ *
+ * Valida o carregamento reativo de dados da conta e persistência de preferências
+ * em armazenamento criptografado ([EncryptedSharedPreferencesCore]).
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTest {
     private val testDispatcher = StandardTestDispatcher()
     private val authManager = mockk<WgcAuthManager>(relaxed = true)
+    private val encryptedStorage = mockk<EncryptedSharedPreferencesCore>(relaxed = true)
     private val sessionFlow = MutableStateFlow<AuthSessionState>(AuthSessionState.Unauthenticated)
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         every { authManager.sessionState } returns sessionFlow
+        every { encryptedStorage.getBoolean(SettingsViewModel.PREF_NOTIFICATIONS_KEY, true) } returns true
+        every { encryptedStorage.getBoolean(SettingsViewModel.PREF_DARK_MODE_KEY, false) } returns false
     }
 
     @After
@@ -46,7 +57,7 @@ class SettingsViewModelTest {
         every { authManager.currentUser } returns testUser
         sessionFlow.value = AuthSessionState.Authenticated(testUser)
 
-        val viewModel = SettingsViewModel(authManager)
+        val viewModel = SettingsViewModel(authManager, encryptedStorage)
         advanceUntilIdle()
 
         viewModel.uiState.test {
@@ -59,8 +70,8 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun `toggle settings updates uiState flags`() = runTest {
-        val viewModel = SettingsViewModel(authManager)
+    fun `toggle settings updates uiState flags and saves in encrypted storage`() = runTest {
+        val viewModel = SettingsViewModel(authManager, encryptedStorage)
 
         viewModel.onToggleNotifications(false)
         viewModel.onToggleDarkMode(true)
@@ -70,12 +81,15 @@ class SettingsViewModelTest {
             assertFalse(state.notificationsEnabled)
             assertTrue(state.darkModeEnabled)
         }
+
+        verify { encryptedStorage.saveBoolean(SettingsViewModel.PREF_NOTIFICATIONS_KEY, false) }
+        verify { encryptedStorage.saveBoolean(SettingsViewModel.PREF_DARK_MODE_KEY, true) }
     }
 
     @Test
     fun `onLogoutClick calls authManager logout`() = runTest {
         coEvery { authManager.logout() } returns Result.success(Unit)
-        val viewModel = SettingsViewModel(authManager)
+        val viewModel = SettingsViewModel(authManager, encryptedStorage)
 
         viewModel.onLogoutClick()
         advanceUntilIdle()

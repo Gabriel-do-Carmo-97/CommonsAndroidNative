@@ -1,6 +1,8 @@
 package br.com.wgc.catalog.screen
 
 import androidx.lifecycle.viewModelScope
+import br.com.wgc.core.coroutines.CoroutineDispatchers
+import br.com.wgc.core.formatters.toCurrencyFormatted
 import br.com.wgc.design_system.templates.screens.home.ecommerce.BaseEcommerceHomeViewModel
 import br.com.wgc.design_system.templates.screens.home.ecommerce.EcommerceHomeUiState
 import br.wgc.omnibackend.core.repository.FirestoreRepository
@@ -16,7 +18,8 @@ import javax.inject.Inject
  * ViewModel corporativo responsável pelo gerenciamento de catálogo, vitrines dinâmicas e sincronização via OmniBackend.
  *
  * Conecta-se em tempo real à coleção do Firestore (`catalog_products`) para sincronização
- * contínua de produtos e categorias, mantendo fallback resiliente em memória caso a conexão esteja offline.
+ * contínua de produtos e categorias, formatando valores monetários via [toCurrencyFormatted]
+ * e mantendo fallback resiliente em memória caso a conexão esteja offline.
  *
  * ### 📌 Quando Usar:
  * Utilize este ViewModel na tela inicial de vitrine comercial (`CatalogScreen`) ou módulos
@@ -40,20 +43,22 @@ import javax.inject.Inject
  * ```
  *
  * @param firestoreRepository Repositório do OmniBackend Firestore para recuperação do catálogo remoto.
+ * @param dispatchers Provedor unificado de CoroutineDispatchers do CoreAndroidNative.
  */
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
-    private val firestoreRepository: FirestoreRepository
+    private val firestoreRepository: FirestoreRepository,
+    private val dispatchers: CoroutineDispatchers
 ) : BaseEcommerceHomeViewModel() {
 
     private val sampleCategories = listOf("Todos", "Destaques", "Promoções", "Bebidas", "Combos")
 
     private val sampleProducts = listOf(
-        "Pizza Pepperoni Especial - R$ 59,90",
-        "Burger Artesanal Costela - R$ 38,00",
-        "Combo Família 2 Pizzas + Refri - R$ 99,00",
-        "Refrigerante Lata 350ml - R$ 6,50",
-        "Sobremesa Petit Gateau - R$ 22,00"
+        "Pizza Pepperoni Especial - ${59.90.toCurrencyFormatted()}",
+        "Burger Artesanal Costela - ${38.00.toCurrencyFormatted()}",
+        "Combo Família 2 Pizzas + Refri - ${99.00.toCurrencyFormatted()}",
+        "Refrigerante Lata 350ml - ${6.50.toCurrencyFormatted()}",
+        "Sobremesa Petit Gateau - ${22.00.toCurrencyFormatted()}"
     )
 
     private val _uiState = MutableStateFlow(
@@ -77,7 +82,7 @@ class CatalogViewModel @Inject constructor(
      * Atualiza os produtos em destaque conforme alterações ocorrem na nuvem.
      */
     private fun loadCatalogFromFirestore() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.main) {
             try {
                 firestoreRepository.listenToCollection(
                     collection = "catalog_products",
@@ -88,8 +93,12 @@ class CatalogViewModel @Inject constructor(
                         is br.wgc.omnibackend.core.utils.DataResult.Success -> {
                             val remoteItems = result.data.mapNotNull { doc ->
                                 val name = doc["name"] as? String
-                                val price = doc["price"]?.toString()
-                                if (name != null && price != null) "$name - R$ $price" else null
+                                val priceNum = (doc["price"] as? Number)?.toDouble() ?: doc["price"]?.toString()?.toDoubleOrNull()
+                                if (name != null && priceNum != null) {
+                                    "$name - ${priceNum.toCurrencyFormatted()}"
+                                } else if (name != null) {
+                                    name
+                                } else null
                             }
                             if (remoteItems.isNotEmpty()) {
                                 _uiState.update { current ->

@@ -12,6 +12,7 @@ composeBom = "2025.09.01"
 appcompat = "1.8.0"
 lifecycleViewmodelKtx = "2.10.0"
 material = "1.13.0"
+camerax = "1.4.1"
 
 designSystemVersion = "0.24.1"
 dsTemplateVersion = "0.24.1"
@@ -54,6 +55,7 @@ androidx-compose-material-icons-extended = { group = "androidx.compose.material"
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "baselineprofile" }
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
 
 design-system = { group = "br.com.wgc", name = "components", version.ref = "designSystemVersion" }
 ds-templates = { group = "br.com.wgc", name = "templates", version.ref = "dsTemplateVersion" }

@@ -1,5 +1,7 @@
 package br.com.wgc.payment.screen
 
+import br.com.wgc.core.coroutines.CoroutineDispatchers
+import br.com.wgc.core.formatters.toCurrencyFormatted
 import br.com.wgc.design_system.templates.screens.home.fintech.BaseFintechHomeViewModel
 import br.com.wgc.design_system.templates.screens.home.fintech.FintechHomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,12 +20,12 @@ import kotlinx.coroutines.launch
 /**
  * ViewModel corporativo responsável pelo painel de pagamentos, carteira digital e checkout financeiro.
  *
- * Gerencia a visibilidade do saldo disponível, extrato de transações recentes,
- * além de disparar fluxos transacionais como transferências, Pix e finalização de compras.
+ * Gerencia a visibilidade do saldo disponível formatado via utilitários corporativos [toCurrencyFormatted],
+ * extrato de transações recentes, e despacha fluxos transacionais como transferências, Pix e checkout.
  *
  * ### 📌 Quando Usar:
  * Utilize na tela financeira principal (`PaymentScreen`) ou no fechamento de checkout
- * para controlar métodos de pagamento e saldo do cliente.
+ * para controlar métodos de pagamento e saldo do cliente com formatação monetária padrão BRL.
  *
  * ### 🛠️ Modo de Usar:
  * ```kotlin
@@ -39,9 +41,13 @@ import kotlinx.coroutines.launch
  *     }
  * }
  * ```
+ *
+ * @param dispatchers Provedor centralizado de CoroutineDispatchers do CoreAndroidNative.
  */
 @HiltViewModel
-class PaymentViewModel @Inject constructor() : BaseFintechHomeViewModel() {
+class PaymentViewModel @Inject constructor(
+    private val dispatchers: CoroutineDispatchers
+) : BaseFintechHomeViewModel() {
 
     private val _navigationEvent = Channel<PaymentNavDestinations>(Channel.BUFFERED)
 
@@ -51,16 +57,16 @@ class PaymentViewModel @Inject constructor() : BaseFintechHomeViewModel() {
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
     private val sampleTransactions = listOf(
-        "Pagamento via Pix - WGC Store (-R$ 54,90)",
-        "Transferência Recebida (+R$ 150,00)",
-        "Compra Cartão de Crédito - Padaria (-R$ 22,50)",
-        "Cashback Programa Fidelidade (+R$ 10,00)"
+        "Pagamento via Pix - WGC Store (-${54.90.toCurrencyFormatted()})",
+        "Transferência Recebida (+${150.00.toCurrencyFormatted()})",
+        "Compra Cartão de Crédito - Padaria (-${22.50.toCurrencyFormatted()})",
+        "Cashback Programa Fidelidade (+${10.00.toCurrencyFormatted()})"
     )
 
     private val _uiState = MutableStateFlow(
         FintechHomeUiState(
             userName = "Gabriel do Carmo",
-            balance = "R$ 1.842,50",
+            balance = 1842.50.toCurrencyFormatted(),
             isBalanceVisible = true,
             transactions = sampleTransactions
         )
@@ -88,7 +94,7 @@ class PaymentViewModel @Inject constructor() : BaseFintechHomeViewModel() {
      * Acionado ao clicar no atalho de pagamento Pix na interface da carteira.
      */
     override fun onPixClick() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.main) {
             _navigationEvent.send(PaymentNavDestinations.Checkout)
         }
     }
@@ -100,7 +106,7 @@ class PaymentViewModel @Inject constructor() : BaseFintechHomeViewModel() {
      * Acionado ao selecionar transferência entre usuários ou contas bancárias.
      */
     override fun onTransferClick() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.main) {
             _navigationEvent.send(PaymentNavDestinations.Checkout)
         }
     }
@@ -119,7 +125,7 @@ class PaymentViewModel @Inject constructor() : BaseFintechHomeViewModel() {
      * @param userId Identificador único do usuário associado à conta.
      */
     fun onViewHistoryClick(userId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.main) {
             _navigationEvent.send(PaymentNavDestinations.PaymentHistory(userId))
         }
     }

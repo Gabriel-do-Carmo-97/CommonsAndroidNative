@@ -93,15 +93,30 @@ import br.com.wgc.commonsandroidnative.debug.MockUserProfile
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.FloatingActionButton
 import br.com.wgc.telemetry.boundary.WgcErrorBoundary
+import br.com.wgc.commonsandroidnative.ui.OfflineBanner
+import br.com.wgc.core.network.NetworkMonitor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Activity principal do monorepo CommonsAndroidNative.
+ *
+ * Atua como Showcase Executável e Hub Central de Engenharia, apresentando os 42 Bundles Comerciais,
+ * as 33 Features modulares, e integrando telemetria resiliente, monitoramento de conectividade
+ * e autenticação desacoplada.
+ *
+ * ### 📌 Quando Usar:
+ * Ponto de entrada padrão (Launcher Activity) do aplicativo showcase de homologação e produção.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var authManager: WgcAuthManager
+
+    @Inject
+    lateinit var networkMonitor: NetworkMonitor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +126,7 @@ class MainActivity : ComponentActivity() {
                 WgcErrorBoundary {
                     MainAppShowcaseScreen(
                         authManager = authManager,
+                        networkMonitor = networkMonitor,
                         onAuthSuccess = { email ->
                             Toast.makeText(this, "Autenticado com sucesso: $email", Toast.LENGTH_SHORT).show()
                         }
@@ -121,14 +137,26 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Tela principal do Hub Showcase com suporte a navegação por features, monitoramento offline e Sandbox.
+ *
+ * ### 📌 Quando Usar:
+ * Renderizado no corpo principal da [MainActivity].
+ *
+ * @param authManager Gerenciador de sessão corporativo do OmniBackend.
+ * @param networkMonitor Monitor de conectividade de rede do CoreAndroidNative.
+ * @param onAuthSuccess Callback executado após login bem-sucedido.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAppShowcaseScreen(
     authManager: WgcAuthManager,
+    networkMonitor: NetworkMonitor,
     onAuthSuccess: (String) -> Unit
 ) {
     var selectedDestinationRoute by rememberSaveable { mutableStateOf<String?>(null) }
     val sessionState by authManager.sessionState.collectAsState()
+    val isConnected by networkMonitor.isConnected.collectAsState(initial = networkMonitor.isCurrentlyConnected())
     val scope = rememberCoroutineScope()
 
     val currentDestination = ShowcaseDestination.allDestinations.firstOrNull { it.route == selectedDestinationRoute }
@@ -162,75 +190,83 @@ fun MainAppShowcaseScreen(
                 )
             }
         ) { innerPadding ->
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                when (currentDestination) {
-                    is ShowcaseDestination.CommercialBundles -> CommercialBundlesScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.FoodDeliveryFlow -> FoodDeliveryFlowCoordinator(
-                        onFinishFlow = { selectedDestinationRoute = null },
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    is ShowcaseDestination.RetailEcommerceFlow -> RetailEcommerceFlowCoordinator(
-                        onFinishFlow = { selectedDestinationRoute = null },
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    is ShowcaseDestination.ServiceBookingFlow -> ServiceBookingFlowCoordinator(
-                        onFinishFlow = { selectedDestinationRoute = null },
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    is ShowcaseDestination.Catalog -> CatalogScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Cart -> CartScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Search -> SearchScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Promotions -> PromotionsScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Payment -> PaymentScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Stores -> StoresScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Scheduling -> SchedulingScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Quotation -> QuotationScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.OrderTracking -> OrderTrackingScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Maps -> WgcLiveTrackingScreen(
-                        entityId = "driver_demo_01",
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    is ShowcaseDestination.Loyalty -> LoyaltyScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Feedback -> FeedbackScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.ReviewsStore -> ReviewsStoreScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.WhatsappDirect -> WhatsappDirectScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Chat -> {
-                        val currentUserId = authManager.currentUser?.uid ?: "demo_user"
-                        WgcChatScreen(
-                            conversationId = "suporte_geral_001",
-                            currentUserId = currentUserId,
-                            recipientName = "Atendimento Omni WGC",
+                OfflineBanner(isOffline = !isConnected)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f)
+                ) {
+                    when (currentDestination) {
+                        is ShowcaseDestination.CommercialBundles -> CommercialBundlesScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.FoodDeliveryFlow -> FoodDeliveryFlowCoordinator(
+                            onFinishFlow = { selectedDestinationRoute = null },
                             modifier = Modifier.fillMaxSize()
                         )
-                    }
-                    is ShowcaseDestination.Auth -> {
-                        AuthNavigation(
-                            modifier = Modifier.fillMaxSize(),
-                            config = AuthConfig(
-                                enableBiometrics = true,
-                                enableAddressRegistration = true,
-                                enableCarRegistration = true,
-                                isClient = true
-                            ),
-                            authSuccess = onAuthSuccess
+                        is ShowcaseDestination.RetailEcommerceFlow -> RetailEcommerceFlowCoordinator(
+                            onFinishFlow = { selectedDestinationRoute = null },
+                            modifier = Modifier.fillMaxSize()
                         )
+                        is ShowcaseDestination.ServiceBookingFlow -> ServiceBookingFlowCoordinator(
+                            onFinishFlow = { selectedDestinationRoute = null },
+                            modifier = Modifier.fillMaxSize()
+                        )
+                        is ShowcaseDestination.Catalog -> CatalogScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Cart -> CartScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Search -> SearchScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Promotions -> PromotionsScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Payment -> PaymentScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Stores -> StoresScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Scheduling -> SchedulingScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Quotation -> QuotationScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.OrderTracking -> OrderTrackingScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Maps -> WgcLiveTrackingScreen(
+                            entityId = "driver_demo_01",
+                            modifier = Modifier.fillMaxSize()
+                        )
+                        is ShowcaseDestination.Loyalty -> LoyaltyScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Feedback -> FeedbackScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.ReviewsStore -> ReviewsStoreScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.WhatsappDirect -> WhatsappDirectScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Chat -> {
+                            val currentUserId = authManager.currentUser?.uid ?: "demo_user"
+                            WgcChatScreen(
+                                conversationId = "suporte_geral_001",
+                                currentUserId = currentUserId,
+                                recipientName = "Atendimento Omni WGC",
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                        is ShowcaseDestination.Auth -> {
+                            AuthNavigation(
+                                modifier = Modifier.fillMaxSize(),
+                                config = AuthConfig(
+                                    enableBiometrics = true,
+                                    enableAddressRegistration = true,
+                                    enableCarRegistration = true,
+                                    isClient = true
+                                ),
+                                authSuccess = onAuthSuccess
+                            )
+                        }
+                        is ShowcaseDestination.Profile -> ProfileScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Settings -> SettingsScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Biometric -> BiometricScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.MediaPicker -> MediaPickerScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.ForceUpdate -> ForceUpdateScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.Onboarding -> OnboardingScreen(modifier = Modifier.fillMaxSize())
                     }
-                    is ShowcaseDestination.Profile -> ProfileScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Settings -> SettingsScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Biometric -> BiometricScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.MediaPicker -> MediaPickerScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.ForceUpdate -> ForceUpdateScreen(modifier = Modifier.fillMaxSize())
-                    is ShowcaseDestination.Onboarding -> OnboardingScreen(modifier = Modifier.fillMaxSize())
                 }
             }
         }
     } else {
         // Showcase Hub Principal
         ShowcaseHubHome(
+            isOffline = !isConnected,
             sessionState = sessionState,
             onLogout = {
                 scope.launch { authManager.logout() }
@@ -245,6 +281,7 @@ fun MainAppShowcaseScreen(
 
 @Composable
 private fun ShowcaseHubHome(
+    isOffline: Boolean,
     sessionState: AuthSessionState,
     onLogout: () -> Unit,
     onSelectDestination: (ShowcaseDestination) -> Unit
@@ -285,6 +322,7 @@ private fun ShowcaseHubHome(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item {
+                OfflineBanner(isOffline = isOffline)
                 Spacer(modifier = Modifier.height(16.dp))
                 // Header
                 Text(

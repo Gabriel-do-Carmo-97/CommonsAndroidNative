@@ -1,6 +1,8 @@
 package br.com.wgc.cart.screen
 
 import androidx.lifecycle.viewModelScope
+import br.com.wgc.core.coroutines.CoroutineDispatchers
+import br.com.wgc.core.formatters.toCurrencyFormatted
 import br.com.wgc.design_system.templates.screens.cart.BaseStandardCartViewModel
 import br.com.wgc.design_system.templates.screens.cart.CartItem
 import br.com.wgc.design_system.templates.screens.cart.StandardCartUiState
@@ -10,14 +12,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 /**
  * ViewModel corporativo responsável pelo ciclo de vida, estado reativo e regras de negócio do Carrinho de Compras.
  *
- * Provê métodos para adição e remoção de mercadorias, recálculo dinâmico de taxa de entrega baseado em CEP
- * e disparo da intenção de finalização da compra.
+ * Provê métodos para adição e remoção de mercadorias, recálculo dinâmico de taxa de entrega baseado em CEP,
+ * formatação monetária corporativa através de [toCurrencyFormatted] e disparo da intenção de finalização da compra.
  *
  * ### 📌 Quando Usar:
  * Utilize este ViewModel ao montar ou exibir qualquer variante de carrinho (`CartScreen`),
@@ -33,7 +34,7 @@ import javax.inject.Inject
  *
  *     // Adicionar item dinamicamente
  *     Button(onClick = {
- *         viewModel.addItem(CartItem(id = "10", title = "Hambúrguer Artesanal", price = "R$ 38,00"))
+ *         viewModel.addItem(CartItem(id = "10", title = "Hambúrguer Artesanal", price = 38.00.toCurrencyFormatted()))
  *     }) {
  *         Text("Adicionar Item")
  *     }
@@ -41,14 +42,18 @@ import javax.inject.Inject
  *     StandardCartScreenTemplate(viewModel = viewModel)
  * }
  * ```
+ *
+ * @param dispatchers Provedor unificado de CoroutineDispatchers do CoreAndroidNative.
  */
 @HiltViewModel
-class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
+class CartViewModel @Inject constructor(
+    private val dispatchers: CoroutineDispatchers
+) : BaseStandardCartViewModel() {
 
     private val defaultItems = listOf(
-        CartItem(id = "1", title = "Pizza Calabresa Especial (Grande)", price = "R$ 54,90"),
-        CartItem(id = "2", title = "Refrigerante Guaraná Antarctica 2L", price = "R$ 12,00"),
-        CartItem(id = "3", title = "Borda Recheada Catupiry Original", price = "R$ 8,50")
+        CartItem(id = "1", title = "Pizza Calabresa Especial (Grande)", price = 54.90.toCurrencyFormatted()),
+        CartItem(id = "2", title = "Refrigerante Guaraná Antarctica 2L", price = 12.00.toCurrencyFormatted()),
+        CartItem(id = "3", title = "Borda Recheada Catupiry Original", price = 8.50.toCurrencyFormatted())
     )
 
     private val _uiState = MutableStateFlow(
@@ -73,7 +78,7 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
      * Acionado pelo usuário ao clicar no botão de finalizar pedido do carrinho.
      */
     override fun onCheckoutClick() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatchers.main) {
             _uiState.update { it.copy(isLoading = true) }
             kotlinx.coroutines.delay(1000)
             _uiState.update { it.copy(isLoading = false) }
@@ -143,12 +148,13 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
         for (item in items) {
             val numericPrice = item.price
                 .replace("R$", "")
+                .replace(" ", "")
                 .replace(".", "")
                 .replace(",", ".")
                 .trim()
                 .toDoubleOrNull() ?: 0.0
             sum += numericPrice
         }
-        return String.format(Locale.GERMANY, "R$ %.2f", sum)
+        return sum.toCurrencyFormatted()
     }
 }

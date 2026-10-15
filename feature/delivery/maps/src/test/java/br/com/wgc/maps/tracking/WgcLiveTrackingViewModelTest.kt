@@ -1,11 +1,13 @@
 package br.com.wgc.maps.tracking
 
 import app.cash.turbine.test
+import br.com.wgc.core.coroutines.CoroutineDispatchers
 import br.wgc.omnibackend.core.model.database.geo.LocationRequest
 import br.wgc.omnibackend.core.repository.realtime.GeolocationRepository
 import br.wgc.omnibackend.core.utils.DataResult
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -15,6 +17,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -22,14 +25,21 @@ import org.junit.Test
 /**
  * Suíte de testes unitários para [WgcLiveTrackingViewModel].
  *
- * Valida a conexão reativa com [GeolocationRepository], atualização de coordenadas GPS
- * e execução de callbacks de contato com o motorista parceiro.
+ * Valida a conexão reativa com [GeolocationRepository], atualização de coordenadas GPS,
+ * filtragem estocástica com [MockLocationDetector] e execução de callbacks.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class WgcLiveTrackingViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
     private val geolocationRepository = mockk<GeolocationRepository>()
+
+    private val dispatchers = object : CoroutineDispatchers {
+        override val main: CoroutineDispatcher = testDispatcher
+        override val io: CoroutineDispatcher = testDispatcher
+        override val default: CoroutineDispatcher = testDispatcher
+        override val unconfined: CoroutineDispatcher = testDispatcher
+    }
 
     @Before
     fun setUp() {
@@ -50,7 +60,7 @@ class WgcLiveTrackingViewModelTest {
 
     @Test
     fun `initializeTracking connects to geolocation flow and updates state with driver position`() = runTest {
-        val viewModel = WgcLiveTrackingViewModel(geolocationRepository)
+        val viewModel = WgcLiveTrackingViewModel(geolocationRepository, dispatchers)
 
         viewModel.initializeTracking(
             entityType = "drivers",
@@ -69,8 +79,36 @@ class WgcLiveTrackingViewModelTest {
     }
 
     @Test
+    fun `initializeTracking flags alert when mock location is detected`() = runTest {
+        // Simulação de teletransporte (São Paulo para Nova York em 1 segundo)
+        every {
+            geolocationRepository.trackLocation(any(), any())
+        } returns flowOf(
+            DataResult.Success(
+                LocationRequest(latitude = -23.55052, longitude = -46.633308, timestamp = 1000L)
+            ),
+            DataResult.Success(
+                LocationRequest(latitude = 40.7128, longitude = -74.0060, timestamp = 2000L)
+            )
+        )
+
+        val viewModel = WgcLiveTrackingViewModel(geolocationRepository, dispatchers)
+
+        viewModel.initializeTracking(
+            entityId = "driver_teleport",
+            driverName = "Suspeito"
+        )
+
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertFalse(state.isTrackingActive)
+            assertTrue(state.statusText.contains("Localização simulada"))
+        }
+    }
+
+    @Test
     fun `onContactDriverClick triggers registered contact callback`() = runTest {
-        val viewModel = WgcLiveTrackingViewModel(geolocationRepository)
+        val viewModel = WgcLiveTrackingViewModel(geolocationRepository, dispatchers)
         var contactTriggered = false
 
         viewModel.initializeTracking(
