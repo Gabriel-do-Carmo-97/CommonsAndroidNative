@@ -55,7 +55,7 @@ class MultiLanguageViewModelTest {
 
             viewModel.selectLanguage(AppLanguage.ENGLISH)
 
-            val updated = awaitItem()
+            val updated = expectMostRecentItem()
             assertEquals(AppLanguage.ENGLISH, updated.currentLanguage)
             assertEquals(AppLanguage.ENGLISH, localeManager.currentLanguage.value)
         }

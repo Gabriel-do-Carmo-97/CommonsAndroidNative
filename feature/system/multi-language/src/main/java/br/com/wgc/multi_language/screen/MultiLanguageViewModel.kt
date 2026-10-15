@@ -70,8 +70,7 @@ class MultiLanguageViewModel @Inject constructor(
      * @param language [AppLanguage] selecionado pelo usuário.
      */
     fun selectLanguage(language: AppLanguage) {
-        _uiState.update { it.copy(isLoading = true) }
         localeManager.setLanguage(language)
-        _uiState.update { it.copy(isLoading = false, currentLanguage = language) }
+        _uiState.update { it.copy(currentLanguage = language, isLoading = false) }
     }
 }
