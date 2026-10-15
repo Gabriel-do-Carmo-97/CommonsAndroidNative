@@ -9,11 +9,24 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
- * Fases sequenciais do ciclo de vida de uma entrega.
+ * Fases sequenciais do ciclo de vida de uma entrega no ecossistema de logística.
  *
- * @property stepIndex Índice numérico ordinal do estágio.
- * @property label Rótulo amigável exibido na timeline.
- * @property description Descrição detalhada sobre o estágio atual.
+ * Utilizado para guiar a linha do tempo (timeline stepper) de acompanhamento do pedido,
+ * desde a recepção pelo estabelecimento até a entrega em mãos.
+ *
+ * ### 📌 Quando Usar:
+ * Utilize para mapear estados de backend (webhooks/Firestore) para a máquina de estados
+ * da interface de rastreamento.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * val currentStep = OrderStatus.OUT_FOR_DELIVERY
+ * println("Estágio ${currentStep.stepIndex}: ${currentStep.label}")
+ * ```
+ *
+ * @property stepIndex Índice numérico ordinal do estágio (1 a 4).
+ * @property label Rótulo amigável exibido nos marcadores da timeline.
+ * @property description Descrição detalhada sobre o estágio atual para o consumidor.
  */
 enum class OrderStatus(val stepIndex: Int, val label: String, val description: String) {
     /** Pedido aceito e registrado pela loja parceira. */
@@ -28,6 +41,22 @@ enum class OrderStatus(val stepIndex: Int, val label: String, val description: S
 
 /**
  * Estado imutável da tela de acompanhamento e rastreio do pedido.
+ *
+ * Consolida todas as métricas em tempo real de uma remessa de delivery, incluindo
+ * estimativa de tempo restante (ETA), dados do condutor e endereço de entrega.
+ *
+ * ### 📌 Quando Usar:
+ * Consumido pela [OrderTrackingScreen] para renderizar o stepper progressivo,
+ * cards de entrega e mapa de visualização.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * val state = OrderTrackingUiState(
+ *     orderId = "#WGC-1029",
+ *     status = OrderStatus.OUT_FOR_DELIVERY,
+ *     estimatedMinutesRemaining = 12
+ * )
+ * ```
  *
  * @property title Título do cabeçalho de rastreamento.
  * @property orderId Código identificador do pedido (ex: `#WGC-89421`).
@@ -54,7 +83,24 @@ data class OrderTrackingUiState(
 )
 
 /**
- * ViewModel responsável pela evolução temporal do status do pedido e cálculos de previsão de entrega.
+ * ViewModel corporativo responsável pela evolução temporal do status do pedido e cálculos de previsão de entrega.
+ *
+ * Coordena a progressão entre os estágios da máquina de estados do pedido e provê métodos para
+ * sincronização com fontes de dados em tempo real.
+ *
+ * ### 📌 Quando Usar:
+ * Utilize na tela de rastreamento de entregas de food delivery ou e-commerce para atualizar o status do pedido.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun DetalheDoPedido(
+ *     viewModel: OrderTrackingViewModel = hiltViewModel()
+ * ) {
+ *     val state by viewModel.uiState.collectAsStateWithLifecycle()
+ *     Text("Previsão: ${state.estimatedMinutesRemaining} min")
+ * }
+ * ```
  */
 @HiltViewModel
 class OrderTrackingViewModel @Inject constructor() : ViewModel() {
@@ -68,6 +114,9 @@ class OrderTrackingViewModel @Inject constructor() : ViewModel() {
 
     /**
      * Avança linearmente o status do pedido para o próximo estágio na máquina de estados.
+     *
+     * ### 📌 Quando Usar:
+     * Disparado por simuladores de entrega, webhooks ou atualizações de backend.
      */
     fun advanceStatus() {
         _uiState.update { current ->
@@ -88,11 +137,26 @@ class OrderTrackingViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Define pontualmente um novo estágio para o pedido.
+     * Define pontualmente um novo estágio e tempo estimado para o pedido.
+     *
+     * ### 📌 Quando Usar:
+     * Utilizado quando um payload do Firestore ou push notification atualiza o status diretamente.
+     *
+     * ### 🛠️ Modo de Usar:
+     * ```kotlin
+     * viewModel.setStatus(OrderStatus.DELIVERED, estimatedMinutes = 0)
+     * ```
      *
      * @param newStatus Novo estágio [OrderStatus] a ser atribuído.
+     * @param estimatedMinutes Minutos restantes estimados (opcional, padrão calcula automaticamente).
      */
-    fun setStatus(newStatus: OrderStatus) {
-        _uiState.update { it.copy(status = newStatus) }
+    fun setStatus(newStatus: OrderStatus, estimatedMinutes: Int? = null) {
+        val calculatedEta = estimatedMinutes ?: when (newStatus) {
+            OrderStatus.CONFIRMED -> 35
+            OrderStatus.PREPARING -> 20
+            OrderStatus.OUT_FOR_DELIVERY -> 10
+            OrderStatus.DELIVERED -> 0
+        }
+        _uiState.update { it.copy(status = newStatus, estimatedMinutesRemaining = calculatedEta) }
     }
 }

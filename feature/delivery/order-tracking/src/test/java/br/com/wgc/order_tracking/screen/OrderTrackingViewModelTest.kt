@@ -1,4 +1,4 @@
-﻿package br.com.wgc.order_tracking.screen
+package br.com.wgc.order_tracking.screen
 
 import app.cash.turbine.test
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +12,18 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+
+/**
+ * Suíte de testes unitários para [OrderTrackingViewModel].
+ *
+ * Valida a progressão da máquina de estados do pedido (Confirmed -> Preparing -> Out for Delivery -> Delivered),
+ * cálculo dinâmico de tempo estimado (ETA) e mutação direta via eventos remotos.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
 class OrderTrackingViewModelTest {
 
-    private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setUp() {
@@ -55,6 +63,18 @@ class OrderTrackingViewModelTest {
             val state = awaitItem()
             assertEquals(OrderStatus.DELIVERED, state.status)
             assertEquals(0, state.estimatedMinutesRemaining)
+        }
+    }
+
+    @Test
+    fun `setStatus directly updates state and custom estimated minutes`() = runTest {
+        val viewModel = OrderTrackingViewModel()
+
+        viewModel.setStatus(OrderStatus.CONFIRMED, estimatedMinutes = 40)
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertEquals(OrderStatus.CONFIRMED, state.status)
+            assertEquals(40, state.estimatedMinutesRemaining)
         }
     }
 }

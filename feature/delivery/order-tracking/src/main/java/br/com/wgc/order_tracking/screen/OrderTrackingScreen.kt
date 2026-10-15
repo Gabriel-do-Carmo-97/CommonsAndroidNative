@@ -45,9 +45,24 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
  * Tela de Acompanhamento e Linha do Tempo de Pedidos (Order Tracking).
  *
  * Apresenta o status atual do pedido através de um stepper vertical progressivo,
- * estimativa de tempo restante (ETA), dados do entregador parceiro e botão para abrir o rastreamento em mapa.
+ * estimativa de tempo restante (ETA), dados do condutor parceiro e acionadores
+ * para abertura do mapa de rastreamento com geolocalização ao vivo.
  *
- * @param modifier Modificador de layout Jetpack Compose aplicado à tela.
+ * ### 📌 Quando Usar:
+ * Exiba esta tela após a conclusão bem-sucedida do pagamento no checkout,
+ * ou quando o cliente clica em "Acompanhar Pedido" na listagem de compras recentes.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun TelaDeRastreamento(navController: NavController) {
+ *     OrderTrackingScreen(
+ *         onOpenMapTracking = { navController.navigate("live_map_tracking") }
+ *     )
+ * }
+ * ```
+ *
+ * @param modifier Modificador de layout Jetpack Compose aplicado à raiz da tela.
  * @param onOpenMapTracking Callback invocado para transição à tela com o mapa ao vivo.
  * @param viewModel ViewModel injetado gerenciador do ciclo de vida e estado do pedido.
  */
