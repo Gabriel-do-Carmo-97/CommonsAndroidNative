@@ -42,6 +42,23 @@ data class WgcChatUiState(
 /**
  * ViewModel corporativo responsável pela sincronização de mensagens em tempo real via [MessageRepository].
  *
+ * Gerencia o ciclo de vida da sala de conversa, consumo reativo do histórico via streams,
+ * empacotamento de requisições [MessageRequest] e controle de estados de envio e erro.
+ *
+ * ### 📌 Quando Usar:
+ * Utilize para orquestrar telas de chat em tempo real onde mensagens precisam ser transmitidas
+ * e recebidas instantaneamente pelo OmniBackend.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun ChatScreen(viewModel: WgcChatViewModel = hiltViewModel()) {
+ *     LaunchedEffect(chatId) {
+ *         viewModel.initChat(conversationId = chatId, currentUserId = myUserId)
+ *     }
+ * }
+ * ```
+ *
  * @param messageRepository Repositório do OmniBackend encarregado de canais de WebSocket ou streams de chat.
  */
 @HiltViewModel
@@ -58,6 +75,14 @@ class WgcChatViewModel @Inject constructor(
 
     /**
      * Inicializa a escuta reativa da conversa especificada e carrega o histórico de mensagens.
+     *
+     * ### 📌 Quando Usar:
+     * Disparado no início da sessão de chat ou ao selecionar uma conversa na lista.
+     *
+     * ### 🛠️ Modo de Usar:
+     * ```kotlin
+     * viewModel.initChat(conversationId = "conv_1", currentUserId = "usr_A", recipientName = "SAC")
+     * ```
      *
      * @param conversationId Identificador do canal de conversa.
      * @param currentUserId Identificador do usuário conectado.

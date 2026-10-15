@@ -56,6 +56,23 @@ import java.util.Locale
  * Apresenta o fluxo bidirecional de mensagens entre o usuário autenticado e um destinatário,
  * suporte a rolagem automática em novas mensagens, tratamento de erros via Snackbar e barra de envio.
  *
+ * ### 📌 Quando Usar:
+ * Utilize para qualquer canal de comunicação síncrona dentro da aplicação, como SAC corporativo,
+ * chat de suporte ao cliente ou contato direto com o motorista de entrega.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun TelaDeAtendimento() {
+ *     WgcChatScreen(
+ *         conversationId = "conv_order_123",
+ *         currentUserId = "user_456",
+ *         recipientName = "Suporte WGC",
+ *         onBackClick = { navController.popBackStack() }
+ *     )
+ * }
+ * ```
+ *
  * @param conversationId Identificador único do canal ou conversa ativa.
  * @param currentUserId Identificador único do usuário que está enviando as mensagens.
  * @param modifier Modificador de layout Compose aplicado ao Scaffold principal.
