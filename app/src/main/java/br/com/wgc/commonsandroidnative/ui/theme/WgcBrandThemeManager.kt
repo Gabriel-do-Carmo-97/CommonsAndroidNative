@@ -1,7 +1,7 @@
 package br.com.wgc.commonsandroidnative.ui.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
-import br.com.wgc.design_system.templates.brand.WgcBrand
+import br.com.wgc.design_system.core.WgcBrandTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 /**
  * Provedor do tema de marca ativa no contexto da árvore de composição Jetpack Compose.
  */
-val LocalWgcBrand = staticCompositionLocalOf { WgcBrand.FoodDelivery }
+val LocalWgcBrandTheme = staticCompositionLocalOf { WgcBrandTheme.foodDelivery() }
 
 /**
  * Gerenciador corporativo de White-Labeling para troca dinâmica de marcas em tempo de execução.
@@ -24,26 +24,26 @@ val LocalWgcBrand = staticCompositionLocalOf { WgcBrand.FoodDelivery }
  * ### 🛠️ Modo de Usar:
  * ```kotlin
  * // 1. Alterar a marca em tempo de execução (1 linha de código):
- * WgcBrandThemeManager.setBrand(WgcBrand.FintechNeobank)
+ * WgcBrandThemeManager.setBrand(WgcBrandTheme.finance())
  *
  * // 2. Observar a marca ativa no Compose:
  * val activeBrand by WgcBrandThemeManager.currentBrand.collectAsState()
  * ```
  */
 object WgcBrandThemeManager {
-    private val _currentBrand = MutableStateFlow(WgcBrand.FoodDelivery)
+    private val _currentBrand = MutableStateFlow(WgcBrandTheme.foodDelivery())
 
     /**
-     * Fluxo reativo que emite a marca [WgcBrand] corporativa ativa sempre que houver alteração.
+     * Fluxo reativo que emite a marca [WgcBrandTheme] corporativa ativa sempre que houver alteração.
      */
-    val currentBrand: StateFlow<WgcBrand> = _currentBrand.asStateFlow()
+    val currentBrand: StateFlow<WgcBrandTheme> = _currentBrand.asStateFlow()
 
     /**
      * Define a marca corporativa ativa no aplicativo.
      *
-     * @param brand Instância de [WgcBrand] contendo as diretrizes visuais e cores primárias.
+     * @param brand Instância de [WgcBrandTheme] contendo as diretrizes visuais e cores primárias.
      */
-    fun setBrand(brand: WgcBrand) {
+    fun setBrand(brand: WgcBrandTheme) {
         _currentBrand.value = brand
     }
 
@@ -52,5 +52,5 @@ object WgcBrandThemeManager {
      *
      * @return Marca corporativa ativa.
      */
-    fun getBrand(): WgcBrand = _currentBrand.value
+    fun getBrand(): WgcBrandTheme = _currentBrand.value
 }

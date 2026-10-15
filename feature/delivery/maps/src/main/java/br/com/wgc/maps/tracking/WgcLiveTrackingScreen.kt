@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.design_system.templates.screens.map.RealtimeLocationMapScreenTemplate
+import br.com.wgc.design_system.factories.map.templates.RealtimeLocationMapScreenTemplate
 
 /**
  * Tela corporativa para acompanhamento de motoristas e entregas com rastreamento GPS ao vivo.

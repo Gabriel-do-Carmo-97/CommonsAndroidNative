@@ -2,8 +2,8 @@ package br.com.wgc.payment.screen
 
 import br.com.wgc.core.coroutines.CoroutineDispatchers
 import br.com.wgc.core.formatters.toCurrencyFormatted
-import br.com.wgc.design_system.templates.screens.home.fintech.BaseFintechHomeViewModel
-import br.com.wgc.design_system.templates.screens.home.fintech.FintechHomeUiState
+import br.com.wgc.design_system.factories.home.templates.fintech.BaseFintechHomeViewModel
+import br.com.wgc.design_system.factories.home.templates.fintech.FintechHomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

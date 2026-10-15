@@ -32,11 +32,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.design_system.templates.screens.home.ecommerce.EcommerceHomeScreenTemplate
-import br.com.wgc.design_system.templates.screens.fooddelivery.FakeFoodDeliveryHomeViewModel
-import br.com.wgc.design_system.templates.screens.fooddelivery.WgcFoodDeliveryHomeScreenTemplate
-import br.com.wgc.design_system.templates.screens.marketplacescreen.FakeMarketplaceHomeViewModel
-import br.com.wgc.design_system.templates.screens.marketplacescreen.WgcMarketplaceHomeScreenTemplate
+import br.com.wgc.design_system.factories.home.templates.ecommerce.EcommerceHomeScreenTemplate
+import br.com.wgc.design_system.factories.verticals.fooddelivery.templates.FakeFoodDeliveryHomeViewModel
+import br.com.wgc.design_system.factories.verticals.fooddelivery.templates.WgcFoodDeliveryHomeScreenTemplate
+import br.com.wgc.design_system.factories.verticals.marketplacescreen.templates.FakeMarketplaceHomeViewModel
+import br.com.wgc.design_system.factories.verticals.marketplacescreen.templates.WgcMarketplaceHomeScreenTemplate
 
 /**
  * Modos de exibição e layouts comerciais suportados pela vitrine corporativa de produtos.

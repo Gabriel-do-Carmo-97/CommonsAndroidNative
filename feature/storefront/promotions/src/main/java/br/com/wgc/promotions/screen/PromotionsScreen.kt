@@ -3,7 +3,7 @@ package br.com.wgc.promotions.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.design_system.templates.screens.social.InstagramStoryViewerScreenTemplate
+import br.com.wgc.design_system.factories.social.templates.InstagramStoryViewerScreenTemplate
 
 /**
  * Tela de visualização de promoções e ofertas em formato dinâmico de Stories.

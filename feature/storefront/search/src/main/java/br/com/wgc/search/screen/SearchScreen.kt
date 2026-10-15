@@ -3,14 +3,14 @@ package br.com.wgc.search.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.design_system.templates.factories.WgcSearchFactory
-import br.com.wgc.design_system.templates.factories.WgcSearchType
-import br.com.wgc.design_system.templates.screens.search.SearchAndFilterScreenTemplate
+import br.com.wgc.design_system.factories.search.WgcSearchScreenFactory
+import br.com.wgc.design_system.factories.search.WgcSearchVariant
+import br.com.wgc.design_system.factories.search.templates.SearchAndFilterScreenTemplate
 
 /**
  * Tela corporativa de Busca Reativa e Filtros Avançados de produtos, lojas e serviços.
  *
- * Utiliza o motor da [WgcSearchFactory] do `DesignSystemAndroid 0.24.1`, permitindo alternar entre
+ * Utiliza o motor da [WgcSearchScreenFactory] do `DesignSystemAndroid 0.25.0`, permitindo alternar entre
  * busca padrão com filtros de categoria, busca visual assistida por câmera/IA e layouts específicos
  * de delivery de comida ou e-commerce geral.
  *
@@ -24,20 +24,20 @@ import br.com.wgc.design_system.templates.screens.search.SearchAndFilterScreenTe
  * @Composable
  * fun FluxoDeBusca(onItemClick: (String) -> Unit) {
  *     SearchScreen(
- *         searchType = WgcSearchType.STANDARD,
+ *         searchType = WgcSearchVariant.STANDARD,
  *         onResultClick = onItemClick
  *     )
  * }
  *
  * // 2. Uso com variante de busca visual:
  * SearchScreen(
- *     searchType = WgcSearchType.VISUAL_SEARCH,
+ *     searchType = WgcSearchVariant.VISUAL_SEARCH,
  *     onBackClick = { navegarParaHome() }
  * )
  * ```
  *
  * @param modifier Modificador de layout Compose aplicado ao contêiner da tela.
- * @param searchType Variante visual e comportamental de busca através de [WgcSearchType]. O padrão é [WgcSearchType.STANDARD].
+ * @param searchType Variante visual e comportamental de busca através de [WgcSearchVariant]. O padrão é [WgcSearchVariant.STANDARD].
  * @param viewModel ViewModel injetado via Hilt responsável pelo estado da consulta, debounce e filtragem de resultados.
  * @param onResultClick Callback acionado quando o usuário seleciona um item da listagem de resultados.
  * @param onBackClick Callback acionado ao tocar no botão de retorno da navegação.
@@ -45,19 +45,19 @@ import br.com.wgc.design_system.templates.screens.search.SearchAndFilterScreenTe
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    searchType: WgcSearchType = WgcSearchType.STANDARD,
+    searchType: WgcSearchVariant = WgcSearchVariant.STANDARD,
     viewModel: SearchViewModel = hiltViewModel(),
     onResultClick: (String) -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
-    if (searchType == WgcSearchType.STANDARD) {
+    if (searchType == WgcSearchVariant.STANDARD) {
         SearchAndFilterScreenTemplate(
             viewModel = viewModel
         )
     } else {
-        WgcSearchFactory(
+        WgcSearchScreenFactory(
             modifier = modifier,
-            type = searchType,
+            variant = searchType,
             onResultClick = onResultClick,
             onBackClick = onBackClick
         )

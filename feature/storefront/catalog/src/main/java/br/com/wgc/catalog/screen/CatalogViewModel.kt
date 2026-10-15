@@ -3,8 +3,8 @@ package br.com.wgc.catalog.screen
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.core.coroutines.CoroutineDispatchers
 import br.com.wgc.core.formatters.toCurrencyFormatted
-import br.com.wgc.design_system.templates.screens.home.ecommerce.BaseEcommerceHomeViewModel
-import br.com.wgc.design_system.templates.screens.home.ecommerce.EcommerceHomeUiState
+import br.com.wgc.design_system.factories.home.templates.ecommerce.BaseEcommerceHomeViewModel
+import br.com.wgc.design_system.factories.home.templates.ecommerce.EcommerceHomeUiState
 import br.wgc.omnibackend.core.repository.FirestoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

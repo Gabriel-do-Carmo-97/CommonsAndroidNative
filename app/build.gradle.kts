@@ -47,6 +47,7 @@ dependencies {
 
     implementation(libs.design.system)
     implementation(libs.ds.templates)
+    implementation(libs.core.ds)
     implementation(libs.myAndroidCore)
     implementation(libs.omni.backend.core)
     implementation(libs.omni.backend.firebase)

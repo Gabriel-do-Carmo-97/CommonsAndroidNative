@@ -9,7 +9,7 @@ import br.com.wgc.core.security.biometric.BiometricAuthHelper
 import br.com.wgc.core.security.biometric.BiometricAuthResult
 import br.com.wgc.core.security.biometric.BiometricAuthStatus
 import br.com.wgc.core.security.biometric.BiometricPromptConfig
-import br.com.wgc.design_system.templates.screens.login.viewmodel.BaseLoginScreenTemplateViewModel
+import br.com.wgc.design_system.factories.auth.templates.viewmodel.BaseLoginScreenTemplateViewModel
 import br.wgc.omnibackend.core.repository.AuthRepository
 import br.wgc.omnibackend.core.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel

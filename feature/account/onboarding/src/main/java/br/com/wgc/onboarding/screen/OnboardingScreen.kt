@@ -37,13 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.wgc.design_system.templates.factories.WgcOnboardingFactory
-import br.com.wgc.design_system.templates.factories.WgcOnboardingType
+import br.com.wgc.design_system.factories.onboarding.WgcOnboardingScreenFactory
+import br.com.wgc.design_system.factories.onboarding.WgcOnboardingVariant
 
 /**
  * Tela de Onboarding e apresentação inicial de propostas de valor do aplicativo.
  *
- * Suporta o catálogo corporativo de templates através da [WgcOnboardingFactory] do `DesignSystemAndroid 0.24.1`,
+ * Suporta o catálogo corporativo de templates através da [WgcOnboardingScreenFactory] do `DesignSystemAndroid 0.25.0`,
  * permitindo alternar dinamicamente entre estilos visuais segmentados (Gadget Shop, Finanças Pessoais,
  * Compra Rápida, Moda ou Padrão Corporativo).
  *
@@ -67,20 +67,20 @@ import br.com.wgc.design_system.templates.factories.WgcOnboardingType
  *
  * // 2. Uso com variante temática da fábrica oficial (ex: Personal Finance):
  * OnboardingScreen(
- *     onboardingType = WgcOnboardingType.PERSONAL_FINANCE,
+ *     onboardingType = WgcOnboardingVariant.PERSONAL_FINANCE,
  *     onFinished = { navegarParaHome() }
  * )
  * ```
  *
  * @param modifier Modificador de layout Compose aplicado à raiz da tela.
- * @param onboardingType Estilo visual e temático de onboarding gerenciado por [WgcOnboardingType]. Padrão é [WgcOnboardingType.STANDARD].
+ * @param onboardingType Estilo visual e temático de onboarding gerenciado por [WgcOnboardingVariant]. Padrão é [WgcOnboardingVariant.STANDARD].
  * @param onFinished Callback invocado quando o usuário conclui o fluxo ou toca no botão "Pular".
  * @param viewModel ViewModel injetado responsável pelo controle de estado e índice do carrossel.
  */
 @Composable
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
-    onboardingType: WgcOnboardingType = WgcOnboardingType.STANDARD,
+    onboardingType: WgcOnboardingVariant = WgcOnboardingVariant.STANDARD,
     onFinished: () -> Unit = {},
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
@@ -90,11 +90,11 @@ fun OnboardingScreen(
         onFinished()
     }
 
-    if (onboardingType != WgcOnboardingType.STANDARD) {
+    if (onboardingType != WgcOnboardingVariant.STANDARD) {
         val currentPage = uiState.pages.getOrNull(uiState.currentPageIndex)
-        WgcOnboardingFactory(
+        WgcOnboardingScreenFactory(
             modifier = modifier,
-            type = onboardingType,
+            variant = onboardingType,
             step = uiState.currentPageIndex + 1,
             totalSteps = uiState.pages.size,
             title = currentPage?.title ?: uiState.title,

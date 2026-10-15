@@ -2,8 +2,8 @@ package br.com.wgc.maps.tracking
 
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.core.coroutines.CoroutineDispatchers
-import br.com.wgc.design_system.templates.screens.map.BaseRealtimeLocationViewModel
-import br.com.wgc.design_system.templates.screens.map.RealtimeLocationUiState
+import br.com.wgc.design_system.factories.map.templates.BaseRealtimeLocationViewModel
+import br.com.wgc.design_system.factories.map.templates.RealtimeLocationUiState
 import br.wgc.omnibackend.core.repository.realtime.GeolocationRepository
 import br.wgc.omnibackend.core.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel

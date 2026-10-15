@@ -3,9 +3,9 @@ package br.com.wgc.cart.screen
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.core.coroutines.CoroutineDispatchers
 import br.com.wgc.core.formatters.toCurrencyFormatted
-import br.com.wgc.design_system.templates.screens.cart.BaseStandardCartViewModel
-import br.com.wgc.design_system.templates.screens.cart.CartItem
-import br.com.wgc.design_system.templates.screens.cart.StandardCartUiState
+import br.com.wgc.design_system.factories.cart.templates.BaseStandardCartViewModel
+import br.com.wgc.design_system.factories.cart.templates.CartItem
+import br.com.wgc.design_system.factories.cart.templates.StandardCartUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

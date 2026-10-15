@@ -481,7 +481,7 @@ private fun ShowcaseHubHome(
             currentTheme = currentTheme,
             onSelectTheme = {
                 currentTheme = it
-                WgcBrandThemeManager.setBrand(it.wgcBrand)
+                WgcBrandThemeManager.setBrand(it.wgcBrandTheme)
             },
             currentNetwork = currentNetwork,
             onSelectNetwork = { currentNetwork = it },

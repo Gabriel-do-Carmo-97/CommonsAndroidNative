@@ -3,7 +3,7 @@ package br.com.wgc.authentication.login
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import br.com.wgc.design_system.templates.screens.login.screen.LoginScreenTemplate
+import br.com.wgc.design_system.factories.auth.templates.screen.LoginScreenTemplate
 
 /**
  * Ponto de entrada Composable da tela principal de login e identificação de usuário.

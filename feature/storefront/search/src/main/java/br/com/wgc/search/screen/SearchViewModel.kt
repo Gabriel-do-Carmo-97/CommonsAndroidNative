@@ -1,8 +1,8 @@
 package br.com.wgc.search.screen
 
 import androidx.lifecycle.viewModelScope
-import br.com.wgc.design_system.templates.screens.search.BaseSearchAndFilterViewModel
-import br.com.wgc.design_system.templates.screens.search.SearchAndFilterUiState
+import br.com.wgc.design_system.factories.search.templates.BaseSearchAndFilterViewModel
+import br.com.wgc.design_system.factories.search.templates.SearchAndFilterUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

@@ -3,14 +3,14 @@ package br.com.wgc.cart.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import br.com.wgc.design_system.templates.factories.WgcCartFactory
-import br.com.wgc.design_system.templates.factories.WgcCartType
-import br.com.wgc.design_system.templates.screens.cart.StandardCartScreenTemplate
+import br.com.wgc.design_system.factories.cart.WgcCartScreenFactory
+import br.com.wgc.design_system.factories.cart.WgcCartType
+import br.com.wgc.design_system.factories.cart.templates.StandardCartScreenTemplate
 
 /**
  * Tela principal e ponto de entrada corporativo do Carrinho de Compras (Cart).
  *
- * Construída sobre a [WgcCartFactory] do `DesignSystemAndroid 0.24.1`, suporta múltiplas variantes visuais
+ * Construída sobre a [WgcCartScreenFactory] do `DesignSystemAndroid 0.25.0`, suporta múltiplas variantes visuais
  * e comerciais do ecossistema WGC (Padrão, Supermercado, Farmácia, Varejo, Moda e Megastore).
  *
  * ### 📌 Quando Usar:
@@ -58,11 +58,10 @@ fun CartScreen(
             viewModel = viewModel
         )
     } else {
-        WgcCartFactory(
+        WgcCartScreenFactory(
             modifier = modifier,
-            type = cartType,
-            onBackClick = onBackClick,
-            onCheckoutClick = onCheckoutClick
+            variant = cartType,
+            onNavigateToCheckout = onCheckoutClick
         )
     }
 }

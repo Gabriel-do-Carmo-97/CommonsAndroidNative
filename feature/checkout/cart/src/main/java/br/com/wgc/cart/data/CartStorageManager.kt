@@ -1,7 +1,7 @@
 package br.com.wgc.cart.data
 
 import br.com.wgc.core.sharedPreferences.KeyValueStorage
-import br.com.wgc.design_system.templates.screens.cart.CartItem
+import br.com.wgc.design_system.factories.cart.templates.CartItem
 import javax.inject.Inject
 import javax.inject.Singleton
 

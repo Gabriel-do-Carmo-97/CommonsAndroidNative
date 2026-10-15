@@ -3,8 +3,8 @@ package br.com.wgc.profile.screen
 import androidx.lifecycle.viewModelScope
 import br.com.wgc.authentication.session.AuthSessionState
 import br.com.wgc.authentication.session.WgcAuthManager
-import br.com.wgc.design_system.templates.screens.profile.BaseSettingsHubViewModel
-import br.com.wgc.design_system.templates.screens.profile.SettingsHubUiState
+import br.com.wgc.design_system.factories.profile.templates.BaseSettingsHubViewModel
+import br.com.wgc.design_system.factories.profile.templates.SettingsHubUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
