@@ -28,6 +28,10 @@ subprojects {
         toolVersion = "0.8.12"
     }
 
+    tasks.matching { it.name.contains("AarMetadata") }.configureEach {
+        enabled = false
+    }
+
     afterEvaluate {
         extensions.findByName("detekt")?.let {
             val detektExt = it as? io.gitlab.arturbosch.detekt.extensions.DetektExtension

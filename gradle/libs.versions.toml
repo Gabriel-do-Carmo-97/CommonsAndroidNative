@@ -13,13 +13,14 @@ appcompat = "1.8.0"
 lifecycleViewmodelKtx = "2.10.0"
 material = "1.13.0"
 
-designSystemVersion = "0.1.0"
-dsTemplateVersion = "0.1.0"
-coreVersion = "0.0.69"
-omniBackendVersion = "0.0.22"
+designSystemVersion = "0.24.1"
+dsTemplateVersion = "0.24.1"
+coreVersion = "1.5.1"
+omniBackendVersion = "1.2.0"
 
-hiltNavigationCompose = "1.3.0"
-hiltAndroid = "2.57.2"
+hiltNavigationCompose = "1.4.0"
+hiltAndroid = "2.60.1"
+hiltPlugin = "2.57.2"
 activity = "1.12.2"
 constraintlayout = "2.2.2"
 ksp = "2.2.20-2.0.4"
@@ -54,9 +55,10 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "baselineprofile" }
 
-design-system = { group = "br.com.wgc", name = "design-system", version.ref = "designSystemVersion" }
-ds-templates = { group = "br.com.wgc", name = "ds-templates", version.ref = "dsTemplateVersion" }
-core-ds = { group = "br.com.wgc", name = "core-ds", version.ref = "designSystemVersion" }
+design-system = { group = "br.com.wgc", name = "components", version.ref = "designSystemVersion" }
+ds-templates = { group = "br.com.wgc", name = "templates", version.ref = "dsTemplateVersion" }
+core-ds = { group = "br.com.wgc", name = "core", version.ref = "designSystemVersion" }
+ds-navigation-flows = { group = "br.com.wgc", name = "navigation-flows", version.ref = "designSystemVersion" }
 myAndroidCore = { group = "br.com.wgc", name = "core-android-native", version.ref = "coreVersion" }
 core-common = { group = "br.com.wgc", name = "core-common", version.ref = "coreVersion" }
 core-location = { group = "br.com.wgc", name = "core-location", version.ref = "coreVersion" }
@@ -92,7 +94,7 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hiltAndroid" }
+hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hiltPlugin" }
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 dokka-gradlePlugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
 
@@ -102,7 +104,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltPlugin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
