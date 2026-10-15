@@ -1,0 +1,13 @@
+{
+  "min_required_app_version": 1,
+  "force_update_enabled": false,
+  "store_url": "https://play.google.com/store/apps/details?id=br.com.wgc.commonsandroidnative",
+  "offline_sync_interval_minutes": 15,
+  "maintenance_mode": false,
+  "features_enabled": {
+    "ai_assistant": true,
+    "whatsapp_direct": true,
+    "biometric_auth": true,
+    "qr_pix_payment": true
+  }
+}

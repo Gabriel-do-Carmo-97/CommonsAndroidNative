@@ -1,0 +1,42 @@
+# Fastfile de automação e deploy contínuo do CommonsAndroidNative
+default_platform(:android)
+
+platform :android do
+  desc "Executa toda a suíte de testes unitários do app e features"
+  lane :test do
+    gradle(task: "testDebugUnitTest")
+  end
+
+  desc "Compila o Android App Bundle (AAB) otimizado de Release"
+  lane :build_bundle do
+    gradle(
+      task: "bundleRelease",
+      properties: {
+        "android.injected.signing.store.file" => ENV["KEYSTORE_FILE"],
+        "android.injected.signing.store.password" => ENV["KEYSTORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["KEY_ALIAS"],
+        "android.injected.signing.key.password" => ENV["KEY_PASSWORD"]
+      }
+    )
+  end
+
+  desc "Publica automaticamente o AAB na trilha de Testes Internos da Google Play Store"
+  lane :deploy_internal do
+    build_bundle
+    supply(
+      track: "internal",
+      aab: "app/build/outputs/bundle/release/app-release.aab",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Promove a build para a trilha Alfa fechada"
+  lane :deploy_alpha do
+    supply(
+      track: "alpha",
+      aab: "app/build/outputs/bundle/release/app-release.aab"
+    )
+  end
+end

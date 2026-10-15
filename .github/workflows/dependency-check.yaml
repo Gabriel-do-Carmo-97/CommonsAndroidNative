@@ -1,0 +1,45 @@
+name: Dependency Vulnerability Scanning
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'gradle/libs.versions.toml'
+      - '**/build.gradle.kts'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - 'gradle/libs.versions.toml'
+      - '**/build.gradle.kts'
+  schedule:
+    - cron: '0 6 * * 1' # Executa semanalmente toda segunda-feira às 06:00 UTC
+
+concurrency:
+  group: dependency-scan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dependency-review:
+    name: "Audit: Dependency Vulnerabilities & Licenses"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Dependency Review Action
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: always
+
+      - name: Setup Java Environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Gradle Dependency Insight Verification
+        run: |
+          chmod +x ./gradlew
+          ./gradlew app:dependencies --configuration releaseRuntimeClasspath || true
