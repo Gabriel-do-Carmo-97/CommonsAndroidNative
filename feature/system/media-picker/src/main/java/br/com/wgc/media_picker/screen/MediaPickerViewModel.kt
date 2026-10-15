@@ -15,7 +15,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Estado da interface de seleção e transferência de arquivos multimídia.
+ * Estado imutável da interface de seleção, captura e upload de arquivos multimídia.
+ *
+ * ### 📌 Quando Usar:
+ * Consumido pela [MediaPickerScreen] para monitorar o arquivo selecionado na galeria,
+ * estado de progresso de upload e URLs públicas geradas.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * val state = MediaPickerUiState(
+ *     selectedMediaUri = uri,
+ *     isUploading = true
+ * )
+ * ```
  *
  * @property title Título identificador do componente de captura.
  * @property selectedMediaUri URI local do arquivo selecionado na galeria do dispositivo.
@@ -32,7 +44,24 @@ data class MediaPickerUiState(
 )
 
 /**
- * ViewModel que orquestra a seleção e upload de mídias através do [StorageRepository].
+ * ViewModel corporativo que orquestra a seleção, compressão e upload de mídias através do [StorageRepository].
+ *
+ * Conecta a galeria local do dispositivo com o bucket seguro de armazenamento do OmniBackend,
+ * expondo o status do upload e URL final do recurso armazenado.
+ *
+ * ### 📌 Quando Usar:
+ * Utilize para envio de fotos de perfil, comprovantes de entrega, anexos de chamados ou documentos.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun UploadDeDocumento(viewModel: MediaPickerViewModel = hiltViewModel()) {
+ *     val state by viewModel.uiState.collectAsState()
+ *     Button(onClick = { viewModel.uploadMedia("documentos_usuarios") }) {
+ *         Text("Enviar Arquivo")
+ *     }
+ * }
+ * ```
  *
  * @param storageRepository Repositório de arquivos do OmniBackend.
  */
@@ -49,6 +78,14 @@ class MediaPickerViewModel @Inject constructor(
     /**
      * Registra a URI de mídia selecionada pelo usuário na galeria.
      *
+     * ### 📌 Quando Usar:
+     * Acionado pelo callback do `ActivityResultLauncher` quando o usuário escolhe uma foto.
+     *
+     * ### 🛠️ Modo de Usar:
+     * ```kotlin
+     * viewModel.onMediaSelected(selectedUri)
+     * ```
+     *
      * @param uri URI local do arquivo escolhido.
      */
     fun onMediaSelected(uri: Uri) {
@@ -56,9 +93,17 @@ class MediaPickerViewModel @Inject constructor(
     }
 
     /**
-     * Envia o arquivo selecionado para o destino remoto especificado.
+     * Envia o arquivo selecionado para o destino remoto especificado no bucket do OmniBackend.
      *
-     * @param targetPath Subdiretório no bucket de armazenamento remoto.
+     * ### 📌 Quando Usar:
+     * Acionado após a confirmação da foto pelo usuário.
+     *
+     * ### 🛠️ Modo de Usar:
+     * ```kotlin
+     * viewModel.uploadMedia("perfil_fotos")
+     * ```
+     *
+     * @param targetPath Subdiretório no bucket de armazenamento remoto (padrão: "commons_uploads").
      */
     fun uploadMedia(targetPath: String = "commons_uploads") {
         val uri = _uiState.value.selectedMediaUri ?: return

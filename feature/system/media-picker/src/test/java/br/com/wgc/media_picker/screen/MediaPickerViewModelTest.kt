@@ -1,4 +1,4 @@
-﻿package br.com.wgc.media_picker.screen
+package br.com.wgc.media_picker.screen
 
 import android.net.Uri
 import app.cash.turbine.test
@@ -33,6 +33,12 @@ private class FakeStorageRepository(private val resultUri: Uri) : StorageReposit
     override suspend fun delete(path: String): DataResult<Unit> = DataResult.Success(Unit)
 }
 
+/**
+ * Suíte de testes unitários para o [MediaPickerViewModel].
+ *
+ * Valida o registro de URIs de mídia selecionadas e a transmissão reativa de arquivos
+ * para o [StorageRepository] do OmniBackend.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
 class MediaPickerViewModelTest {
     private val testDispatcher = StandardTestDispatcher()

@@ -24,13 +24,27 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 /**
- * Tela de seleção, captura e upload de arquivos de imagem e mídia.
+ * Tela corporativa de seleção, captura e upload de arquivos de imagem e mídia.
  *
- * Utiliza o ActivityResultContracts moderno do Jetpack Compose e envia
- * o arquivo diretamente para o bucket do OmniBackend Storage.
+ * Utiliza o `ActivityResultContracts.GetContent()` do Jetpack Compose para navegação segura
+ * na galeria de arquivos do usuário e envia o binário diretamente ao bucket do OmniBackend Storage.
  *
- * @param modifier Modificador de layout Compose.
- * @param viewModel ViewModel responsável pelo controle de seleção e progresso do upload.
+ * ### 📌 Quando Usar:
+ * Renderize para permitir que o usuário faça upload de foto de perfil, anexe documentos comprobatórios
+ * ou envie imagens para suporte técnico.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun TelaDeEnvioDeFoto() {
+ *     MediaPickerScreen(
+ *         modifier = Modifier.fillMaxSize()
+ *     )
+ * }
+ * ```
+ *
+ * @param modifier Modificador de layout Compose aplicado à raiz da tela.
+ * @param viewModel ViewModel injetado responsável pelo controle de seleção e progresso do upload.
  */
 @Composable
 fun MediaPickerScreen(
