@@ -59,6 +59,16 @@ android {
     }
 }
 
+tasks.configureEach {
+    if ((name.startsWith("sync") && name.endsWith("LibJars")) || (name.startsWith("compile") && name.contains("Kotlin"))) {
+        doLast {
+            val buildDir = layout.buildDirectory.asFile.get()
+            File(buildDir, "intermediates/aar_metadata_check/debug/checkDebugAarMetadata").mkdirs()
+            File(buildDir, "intermediates/aar_metadata_check/release/checkReleaseAarMetadata").mkdirs()
+        }
+    }
+}
+
 configurations.all {
     resolutionStrategy {
         force("org.jetbrains.kotlin:kotlin-stdlib:2.2.20")
