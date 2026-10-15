@@ -64,3 +64,21 @@
 # --- Optional transitive libraries (e.g. Firebase VertexAI / Ktor) ---
 -dontwarn io.ktor.**
 -dontwarn com.google.firebase.vertexai.**
+
+# --- Stripping Logs in Production (Zero Leakage) ---
+-assumenosideeffects class android.util.Log {
+    public static boolean isLoggable(java.lang.String, int);
+    public static int v(...);
+    public static int d(...);
+    public static int i(...);
+    public static int w(...);
+}
+
+# --- Strict Obfuscation & Member Optimization ---
+-flattenpackagehierarchy
+-overloadaggressively
+-optimizationpasses 5
+
+# --- Security & Cryptography Keep Rules ---
+-keepclassmembers class * extends java.security.Key { *; }
+-keepclassmembers class * implements java.security.Key { *; }

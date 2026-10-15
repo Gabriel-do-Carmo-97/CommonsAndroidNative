@@ -1,4 +1,4 @@
-﻿plugins {
+plugins {
     id("commons.android.library")
     id("commons.android.compose")
     id("commons.android.publishing")
@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.design.system)
     implementation(libs.ds.templates)
     implementation(libs.myAndroidCore)
+    implementation(libs.core.storage)
     implementation(libs.omni.backend.core)
     implementation(project(":feature:auth:authentication"))
     implementation(libs.hilt.android)
@@ -27,6 +28,7 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.org.json)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
