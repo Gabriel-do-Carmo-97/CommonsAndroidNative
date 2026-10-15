@@ -9,9 +9,23 @@ import br.com.wgc.design_system.templates.screens.home.fintech.FintechHomeScreen
  * Tela principal de Pagamento e Carteira Digital (Fintech).
  *
  * Exibe saldo disponível, ações rápidas (Pix, Transferência) e extrato recente de transações,
- * utilizando o template estruturado [FintechHomeScreenTemplate].
+ * utilizando o template estruturado [FintechHomeScreenTemplate] do Design System.
  *
- * @param modifier Modificador de layout Compose a ser aplicado na raiz.
+ * ### 📌 Quando Usar:
+ * Renderize esta tela dentro de abas financeiras, carteiras in-app ou no fluxo de checkout
+ * onde o usuário precise visualizar seu saldo e movimentações monetárias.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun AbaFinanceira() {
+ *     PaymentScreen(
+ *         modifier = Modifier.fillMaxSize()
+ *     )
+ * }
+ * ```
+ *
+ * @param modifier Modificador de layout Compose a ser aplicado na raiz da tela.
  * @param viewModel ViewModel injetado com gerenciamento do saldo e extrato financeiro.
  */
 @Composable
