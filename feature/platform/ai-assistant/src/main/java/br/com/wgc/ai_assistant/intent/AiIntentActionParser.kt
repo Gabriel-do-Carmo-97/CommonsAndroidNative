@@ -67,55 +67,81 @@ class AiIntentActionParser @Inject constructor() {
     fun parseUserInput(rawText: String): AiParsedAction {
         val normalized = rawText.lowercase().trim()
 
-        // 1. Intenção: Recompra / Pedir novamente
-        if (containsAny(normalized, "repetir", "recompra", "pedir novamente", "pedir de novo", "o mesmo pedido")) {
-            return AiParsedAction(
-                intentType = AiIntentType.REORDER_LAST_PURCHASE,
-                confidence = 0.95,
-                targetNavigationRoute = "wgc://checkout/cart/reorder",
-                userFriendlyResponse = "Preparando a recompra do seu último pedido agora mesmo!"
-            )
+        return when {
+            containsAny(
+                normalized,
+                "repetir",
+                "recompra",
+                "pedir novamente",
+                "pedir de novo",
+                "o mesmo pedido"
+            ) -> {
+                AiParsedAction(
+                    intentType = AiIntentType.REORDER_LAST_PURCHASE,
+                    confidence = 0.95,
+                    targetNavigationRoute = "wgc://checkout/cart/reorder",
+                    userFriendlyResponse = "Preparando a recompra do seu último pedido agora mesmo!"
+                )
+            }
+            containsAny(
+                normalized,
+                "onde está",
+                "rastrear",
+                "rastreio",
+                "status da entrega",
+                "cadê meu pedido",
+                "a caminho"
+            ) -> {
+                AiParsedAction(
+                    intentType = AiIntentType.TRACK_ACTIVE_ORDER,
+                    confidence = 0.92,
+                    targetNavigationRoute = "wgc://delivery/tracking/active",
+                    userFriendlyResponse = "Abrindo o mapa de rastreamento ao vivo para você."
+                )
+            }
+            containsAny(
+                normalized,
+                "buscar",
+                "procurar",
+                "pesquisar",
+                "encontrar",
+                "quero comprar",
+                "tem"
+            ) -> {
+                val query = extractSearchQuery(normalized)
+                AiParsedAction(
+                    intentType = AiIntentType.SEARCH_CATALOG,
+                    confidence = 0.88,
+                    parameters = mapOf("query" to query),
+                    targetNavigationRoute = "wgc://catalog/search?query=$query",
+                    userFriendlyResponse = "Buscando \"$query\" no catálogo para você."
+                )
+            }
+            containsAny(
+                normalized,
+                "suporte",
+                "ajuda",
+                "atendente",
+                "falar com humano",
+                "problema",
+                "reclamação"
+            ) -> {
+                AiParsedAction(
+                    intentType = AiIntentType.OPEN_SUPPORT,
+                    confidence = 0.90,
+                    targetNavigationRoute = "wgc://support/chat",
+                    userFriendlyResponse = "Encaminhando seu atendimento para nossa central de suporte."
+                )
+            }
+            else -> {
+                AiParsedAction(
+                    intentType = AiIntentType.CONVERSATIONAL_ONLY,
+                    confidence = 0.70,
+                    targetNavigationRoute = "",
+                    userFriendlyResponse = "Estou consultando seus dados para responder da melhor forma."
+                )
+            }
         }
-
-        // 2. Intenção: Rastreamento de Entrega
-        if (containsAny(normalized, "onde está", "rastrear", "rastreio", "status da entrega", "cadê meu pedido", "a caminho")) {
-            return AiParsedAction(
-                intentType = AiIntentType.TRACK_ACTIVE_ORDER,
-                confidence = 0.92,
-                targetNavigationRoute = "wgc://delivery/tracking/active",
-                userFriendlyResponse = "Abrindo o mapa de rastreamento ao vivo para você."
-            )
-        }
-
-        // 3. Intenção: Busca no Catálogo
-        if (containsAny(normalized, "buscar", "procurar", "pesquisar", "encontrar", "quero comprar", "tem")) {
-            val query = extractSearchQuery(normalized)
-            return AiParsedAction(
-                intentType = AiIntentType.SEARCH_CATALOG,
-                confidence = 0.88,
-                parameters = mapOf("query" to query),
-                targetNavigationRoute = "wgc://catalog/search?query=$query",
-                userFriendlyResponse = "Buscando \"$query\" no catálogo para você."
-            )
-        }
-
-        // 4. Intenção: Suporte / Ajuda
-        if (containsAny(normalized, "suporte", "ajuda", "atendente", "falar com humano", "problema", "reclamação")) {
-            return AiParsedAction(
-                intentType = AiIntentType.OPEN_SUPPORT,
-                confidence = 0.90,
-                targetNavigationRoute = "wgc://support/chat",
-                userFriendlyResponse = "Encaminhando seu atendimento para nossa central de suporte."
-            )
-        }
-
-        // 5. Diálogo Conversacional Livre
-        return AiParsedAction(
-            intentType = AiIntentType.CONVERSATIONAL_ONLY,
-            confidence = 0.70,
-            targetNavigationRoute = "",
-            userFriendlyResponse = "Estou consultando seus dados para responder da melhor forma."
-        )
     }
 
     private fun containsAny(text: String, vararg keywords: String): Boolean {

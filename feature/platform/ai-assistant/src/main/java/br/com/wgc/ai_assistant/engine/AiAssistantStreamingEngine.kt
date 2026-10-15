@@ -48,6 +48,32 @@ data class StreamChunk(
 )
 
 /**
+ * Eventos estruturados emitidos durante a transmissão reativa via Server-Sent Events (SSE) da IA generativa.
+ */
+sealed interface AiStreamEvent {
+    /**
+     * Fragmento incremental textual emitido em tempo real.
+     *
+     * @property token Texto do token individual emitido pelo modelo.
+     */
+    data class Token(val token: String) : AiStreamEvent
+
+    /**
+     * Notificação de conclusão de transmissão com o texto final consolidado.
+     *
+     * @property fullText Resposta completa final gerada pelo assistente de IA.
+     */
+    data class Completed(val fullText: String) : AiStreamEvent
+
+    /**
+     * Erro ocorrido durante a transmissão SSE ou processamento do prompt.
+     *
+     * @property throwable Exceção capturada durante a transmissão.
+     */
+    data class Error(val throwable: Throwable) : AiStreamEvent
+}
+
+/**
  * Motor corporativo de Streaming e Integração com Modelos de IA Generativa via Server-Sent Events (SSE).
  *
  * Transmite tokens parciais progressivamente com baixíssima latência (First Token Latency < 400ms),
@@ -94,6 +120,28 @@ class AiAssistantStreamingEngine @Inject constructor() {
     }
 
     /**
+     * Transmite a resposta completa via [AiStreamEvent], emitindo tokens incrementais e consolidando o evento de conclusão.
+     *
+     * @param prompt Pergunta ou instrução fornecida pelo usuário.
+     * @return [Flow] emitindo eventos de streaming estruturados ([AiStreamEvent]).
+     */
+    @Suppress("TooGenericExceptionCaught")
+    fun streamCompletion(prompt: String): Flow<AiStreamEvent> = flow {
+        val buffer = StringBuilder()
+        try {
+            streamTokens(prompt).collect { chunk ->
+                buffer.append(chunk.token)
+                emit(AiStreamEvent.Token(chunk.token))
+                if (chunk.isFinalChunk) {
+                    emit(AiStreamEvent.Completed(buffer.toString()))
+                }
+            }
+        } catch (t: Throwable) {
+            emit(AiStreamEvent.Error(t))
+        }
+    }
+
+    /**
      * Interpreta e sanitiza uma linha bruta recebida no formato de protocolo Server-Sent Events (SSE).
      *
      * Suporta payloads no padrão `data: token` ou `data: {"token": "..."}`.
@@ -118,7 +166,9 @@ class AiAssistantStreamingEngine @Inject constructor() {
     }
 
     private fun generateDefaultTokensForPrompt(prompt: String): List<String> {
-        val words = "Olá! Compreendi perfeitamente sua solicitação sobre \"$prompt\". Estou processando os detalhes na nossa base corporativa.".split(" ")
+        val text = "Olá! Compreendi perfeitamente sua solicitação sobre \"$prompt\". " +
+            "Estou processando os detalhes na nossa base corporativa."
+        val words = text.split(" ")
         return words.mapIndexed { index, word -> if (index == words.lastIndex) word else "$word " }
     }
 }
