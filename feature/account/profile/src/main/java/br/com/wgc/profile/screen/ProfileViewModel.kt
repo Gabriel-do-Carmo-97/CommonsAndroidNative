@@ -14,9 +14,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel responsável pelo gerenciamento de dados de perfil e preferências do usuário.
+ * ViewModel corporativo para controle de perfil, dados cadastrais e preferências do usuário autenticado.
  *
- * @param authManager Gerenciador de sessão corporativo injetado via Hilt.
+ * Observa em tempo real o [WgcAuthManager] do OmniBackend 1.2.0, refletindo atualizações
+ * de nome, e-mail e permitindo o encerramento seguro da sessão.
+ *
+ * ### 📌 Quando Usar:
+ * Utilize este ViewModel ao exibir a tela de perfil do usuário (`ProfileScreen`), gerenciando
+ * a sincronização entre a identidade corporativa em nuvem e a interface Jetpack Compose.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun AbaMeuPerfil(
+ *     viewModel: ProfileViewModel = hiltViewModel()
+ * ) {
+ *     val state by viewModel.uiState.collectAsState()
+ *
+ *     Text("Bem-vindo, ${state.userName}")
+ *     SettingsHubScreenTemplate(viewModel = viewModel)
+ * }
+ * ```
+ *
+ * @param authManager Fachada pública do gerenciador de sessão corporativo provido via Hilt.
  */
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -31,6 +51,10 @@ class ProfileViewModel @Inject constructor(
             darkModeEnabled = false
         )
     )
+
+    /**
+     * Fluxo reativo com as informações de perfil e preferências visuais do usuário.
+     */
     override val uiState: StateFlow<SettingsHubUiState> = _uiState.asStateFlow()
 
     init {
@@ -62,6 +86,9 @@ class ProfileViewModel @Inject constructor(
     /**
      * Alterna o recebimento de notificações push no dispositivo.
      *
+     * ### 📌 Quando Usar:
+     * Acionado pelo usuário ao clicar no switch de notificações nas configurações de perfil.
+     *
      * @param enabled Indica se as notificações estão ativadas.
      */
     override fun onToggleNotifications(enabled: Boolean) {
@@ -71,6 +98,9 @@ class ProfileViewModel @Inject constructor(
     /**
      * Alterna entre o tema escuro e claro no aplicativo.
      *
+     * ### 📌 Quando Usar:
+     * Acionado pelo usuário ao alternar a chave de tema (Dark Mode).
+     *
      * @param enabled Indica se o tema escuro está ativado.
      */
     override fun onToggleDarkMode(enabled: Boolean) {
@@ -78,7 +108,10 @@ class ProfileViewModel @Inject constructor(
     }
 
     /**
-     * Realiza o encerramento da sessão ativa do usuário.
+     * Realiza o encerramento da sessão ativa do usuário no OmniBackend e limpa dados locais.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado quando o usuário confirma a ação "Sair da conta".
      */
     override fun onLogoutClick() {
         viewModelScope.launch {

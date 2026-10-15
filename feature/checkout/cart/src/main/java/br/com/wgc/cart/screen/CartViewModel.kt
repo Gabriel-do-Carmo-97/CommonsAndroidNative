@@ -14,10 +14,33 @@ import java.util.Locale
 import javax.inject.Inject
 
 /**
- * ViewModel responsável pela lógica de negócios e estado reativo do Carrinho de Compras.
+ * ViewModel corporativo responsável pelo ciclo de vida, estado reativo e regras de negócio do Carrinho de Compras.
  *
- * Fornece métodos para adição e remoção de itens, cálculo de taxa de entrega baseado em CEP
+ * Provê métodos para adição e remoção de mercadorias, recálculo dinâmico de taxa de entrega baseado em CEP
  * e disparo da intenção de finalização da compra.
+ *
+ * ### 📌 Quando Usar:
+ * Utilize este ViewModel ao montar ou exibir qualquer variante de carrinho (`CartScreen`),
+ * gerenciando o estado local dos itens selecionados antes de avançar para a etapa de pagamento.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun TelaDoCarrinho(
+ *     viewModel: CartViewModel = hiltViewModel()
+ * ) {
+ *     val state by viewModel.uiState.collectAsState()
+ *
+ *     // Adicionar item dinamicamente
+ *     Button(onClick = {
+ *         viewModel.addItem(CartItem(id = "10", title = "Hambúrguer Artesanal", price = "R$ 38,00"))
+ *     }) {
+ *         Text("Adicionar Item")
+ *     }
+ *
+ *     StandardCartScreenTemplate(viewModel = viewModel)
+ * }
+ * ```
  */
 @HiltViewModel
 class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
@@ -45,6 +68,9 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
 
     /**
      * Dispara a intenção de checkout/fechamento do pedido simulando processamento assíncrono.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado pelo usuário ao clicar no botão de finalizar pedido do carrinho.
      */
     override fun onCheckoutClick() {
         viewModelScope.launch {
@@ -56,6 +82,9 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
 
     /**
      * Adiciona um novo item ao carrinho recalculando o valor total.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado quando o usuário adiciona produtos da vitrine ou de sugestões ao carrinho.
      *
      * @param item Objeto [CartItem] representando a mercadoria ou serviço a ser adicionado.
      */
@@ -72,6 +101,9 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
     /**
      * Remove um item específico do carrinho através do seu identificador.
      *
+     * ### 📌 Quando Usar:
+     * Acionado quando o usuário clica no ícone de lixeira ou reduz a quantidade de um item para zero.
+     *
      * @param itemId Identificador único do item a ser removido.
      */
     fun removeItem(itemId: String) {
@@ -86,6 +118,9 @@ class CartViewModel @Inject constructor() : BaseStandardCartViewModel() {
 
     /**
      * Aplica uma taxa de entrega calculada dinamicamente conforme a faixa de CEP fornecida.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado após a consulta de frete pelo CEP digitado pelo usuário.
      *
      * @param zipCode Código postal do endereço de entrega.
      */

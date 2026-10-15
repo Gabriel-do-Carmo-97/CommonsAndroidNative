@@ -14,12 +14,34 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel responsável pelas regras de negócio e fluxo de recuperação de senha.
+ * ViewModel corporativo para controle do fluxo de recuperação e redefinição de senha.
  *
- * Valida o formato do e-mail do usuário e executa o envio de instruções via [AuthRepository],
- * emitindo eventos de navegação para retorno à tela de login após o sucesso.
+ * Valida o formato do e-mail informado e despacha a requisição de reset para o [AuthRepository]
+ * do OmniBackend 1.2.0, emitindo eventos de navegação para a interface de usuário.
  *
- * @param authRepository Repositório de autenticação provido via Hilt para comunicação com o backend.
+ * ### 📌 Quando Usar:
+ * Utilize este ViewModel ao exibir a tela de recuperação de senha (`ForgotPasswordScreen`),
+ * tratando erros amigáveis de usuário inexistente ou e-mail malformado.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun TelaRecuperacaoSenha(
+ *     viewModel: ForgotPasswordViewModel = hiltViewModel()
+ * ) {
+ *     LaunchedEffect(viewModel.navigationEvent) {
+ *         viewModel.navigationEvent.collect { event ->
+ *             when (event) {
+ *                 is AuthNavDestinations.ForgotPasswordScreen.Login -> voltarParaLogin()
+ *             }
+ *         }
+ *     }
+ *
+ *     ResetPasswordScreenTemplate(viewModel = viewModel)
+ * }
+ * ```
+ *
+ * @param authRepository Repositório unificado de autenticação provido pelo OmniBackend Core.
  */
 @HiltViewModel
 class ForgotPasswordViewModel @Inject constructor(
@@ -34,7 +56,10 @@ class ForgotPasswordViewModel @Inject constructor(
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
     /**
-     * Processa a solicitação de redefinição de senha com validação de formato e chamada de repositório.
+     * Valida o e-mail informado e dispara o envio de instruções de recuperação de senha.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado quando o usuário confirma a solicitação de redefinição de senha.
      */
     override fun onResetPasswordClick() {
         val email = uiState.value.email.trim()
@@ -64,6 +89,9 @@ class ForgotPasswordViewModel @Inject constructor(
 
     /**
      * Redireciona o usuário de volta à tela de login.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado pelo usuário ao clicar no botão de cancelamento ou link de retorno ao login.
      */
     override fun onBackToLoginClick() {
         viewModelScope.launch {

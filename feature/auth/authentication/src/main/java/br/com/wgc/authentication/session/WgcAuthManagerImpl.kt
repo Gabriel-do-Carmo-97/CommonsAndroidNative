@@ -19,12 +19,24 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Implementação Singleton do gerenciador de sessão corporativa [WgcAuthManager].
+ * Implementação corporativa Singleton do gerenciador de sessão [WgcAuthManager].
  *
- * Mantém o estado da sessão do usuário sincronizado entre o backend e a persistência local.
+ * Sincroniza em tempo real o fluxo de autenticação provido pelo [AuthRepository] do OmniBackend 1.2.0,
+ * mantendo as preferências locais do DataStore alinhadas em caso de desconexão.
  *
- * @param authRepository Repositório de autenticação do OmniBackend.
- * @param dataStore Gerenciador de persistência de credenciais locais.
+ * ### 📌 Quando Usar:
+ * Fornecido automaticamente via injeção de dependência Hilt em escopo de Singleton para
+ * garantir uma única fonte da verdade sobre o estado de login em toda a aplicação.
+ *
+ * ### 🛠️ Modo de Usar:
+ * Injetado automaticamente pelo Hilt onde for solicitado [WgcAuthManager]:
+ * ```kotlin
+ * @Inject
+ * lateinit var authManager: WgcAuthManager
+ * ```
+ *
+ * @param authRepository Repositório unificado de autenticação do OmniBackend.
+ * @param dataStore Gerenciador de persistência segura do Core.
  */
 @Singleton
 class WgcAuthManagerImpl @Inject constructor(
@@ -34,6 +46,9 @@ class WgcAuthManagerImpl @Inject constructor(
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+    /**
+     * Estado observável da sessão mapeado a partir do stream de autenticação do backend.
+     */
     override val sessionState: StateFlow<AuthSessionState> = authRepository.authState
         .map { user ->
             if (user != null) {
@@ -48,15 +63,26 @@ class WgcAuthManagerImpl @Inject constructor(
             initialValue = AuthSessionState.Loading
         )
 
+    /**
+     * Retorna o usuário logado atual, ou `null` caso deslogado.
+     */
     override val currentUser: OmniUser?
         get() = when (val state = sessionState.value) {
             is AuthSessionState.Authenticated -> state.user
             else -> null
         }
 
+    /**
+     * Indica se a sessão atual possui um usuário válido autenticado.
+     */
     override val isAuthenticated: Boolean
         get() = sessionState.value is AuthSessionState.Authenticated
 
+    /**
+     * Verifica de forma assíncrona se há um usuário ativo no backend.
+     *
+     * @return `true` caso autenticado com sucesso no backend, `false` em caso de erro ou deslogado.
+     */
     override suspend fun isUserLogged(): Boolean {
         return when (val result = authRepository.isUserLogged()) {
             is DataResult.Success -> result.data
@@ -64,6 +90,11 @@ class WgcAuthManagerImpl @Inject constructor(
         }
     }
 
+    /**
+     * Executa o logout no servidor e limpa credenciais salvas no armazenamento local.
+     *
+     * @return [Result] indicando o término da operação de logout.
+     */
     override suspend fun logout(): Result<Unit> {
         return when (val result = authRepository.signOut()) {
             is DataResult.Success -> {
@@ -79,13 +110,13 @@ class WgcAuthManagerImpl @Inject constructor(
 }
 
 /**
- * Módulo Hilt que vincula a implementação [WgcAuthManagerImpl] ao contrato [WgcAuthManager].
+ * Módulo Hilt que vincula a implementação [WgcAuthManagerImpl] ao contrato público [WgcAuthManager].
  */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AuthSessionModule {
     /**
-     * Associa o singleton de gerenciamento de sessão à sua interface.
+     * Associa o singleton de gerenciamento de sessão à sua interface pública.
      *
      * @param impl Instância concreta de [WgcAuthManagerImpl].
      * @return Contrato público de gerenciamento de sessão [WgcAuthManager].

@@ -14,9 +14,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel responsável pelo controle de preferências de configuração da conta e aplicativo.
+ * ViewModel corporativo para controle de preferências de configuração da conta, notificações e tema.
  *
- * @param authManager Gerenciador de sessão corporativo injetado via Hilt.
+ * Conecta-se de forma reativa ao [WgcAuthManager] para refletir o estado do usuário e coordenar
+ * o encerramento seguro da sessão corporativa.
+ *
+ * ### 📌 Quando Usar:
+ * Utilize este ViewModel ao exibir a tela de configurações do aplicativo (`SettingsScreen`),
+ * permitindo ao usuário customizar parâmetros visuais e notificações.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun TelaDeConfiguracoes(
+ *     viewModel: SettingsViewModel = hiltViewModel()
+ * ) {
+ *     val state by viewModel.uiState.collectAsState()
+ *
+ *     SettingsHubScreenTemplate(viewModel = viewModel)
+ * }
+ * ```
+ *
+ * @param authManager Fachada pública do gerenciador de sessão corporativo provido via Hilt.
  */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -31,6 +50,10 @@ class SettingsViewModel @Inject constructor(
             darkModeEnabled = false
         )
     )
+
+    /**
+     * Fluxo reativo contendo o estado atual das opções de configuração do aplicativo.
+     */
     override val uiState: StateFlow<SettingsHubUiState> = _uiState.asStateFlow()
 
     init {
@@ -60,7 +83,10 @@ class SettingsViewModel @Inject constructor(
     }
 
     /**
-     * Alterna a preferência de notificações push.
+     * Alterna a preferência de notificações push no dispositivo.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado ao alternar o switch de notificações nas configurações.
      *
      * @param enabled Indica se notificações estão habilitadas.
      */
@@ -71,14 +97,20 @@ class SettingsViewModel @Inject constructor(
     /**
      * Alterna a preferência de tema escuro.
      *
-     * @param enabled Indica se tema escuro está ativado.
+     * ### 📌 Quando Usar:
+     * Acionado ao alternar a chave de Dark Mode.
+     *
+     * @param enabled Indica se o tema escuro está ativado.
      */
     override fun onToggleDarkMode(enabled: Boolean) {
         _uiState.update { it.copy(darkModeEnabled = enabled) }
     }
 
     /**
-     * Encerra a sessão do usuário.
+     * Encerra a sessão ativa do usuário no OmniBackend e limpa credenciais locais.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado ao clicar no botão "Sair" da central de configurações.
      */
     override fun onLogoutClick() {
         viewModelScope.launch {

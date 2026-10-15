@@ -14,7 +14,32 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel que implementa busca textual instantânea com mecanismo de debounce reativo.
+ * ViewModel corporativo responsável pela busca textual reativa e filtros por categorias de catálogo.
+ *
+ * Implementa debounce automático de 300ms para evitar recomposições excessivas e requisições concorrentes,
+ * mantendo a resposta visual suave para o usuário.
+ *
+ * ### 📌 Quando Usar:
+ * Utilize este ViewModel ao montar a tela de pesquisa (`SearchScreen`) em qualquer vertical de negócio
+ * (varejo, gastronomia, serviços ou farmácia), provendo uma experiência de filtragem em tempo real.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun MinhaTelaDeBusca(
+ *     viewModel: SearchViewModel = hiltViewModel()
+ * ) {
+ *     val state by viewModel.uiState.collectAsState()
+ *
+ *     // Alteração da consulta com debounce de 300ms
+ *     OutlinedTextField(
+ *         value = state.searchQuery,
+ *         onValueChange = { viewModel.onSearchQueryChange(it) }
+ *     )
+ *
+ *     SearchAndFilterScreenTemplate(viewModel = viewModel)
+ * }
+ * ```
  */
 @HiltViewModel
 class SearchViewModel @Inject constructor() : BaseSearchAndFilterViewModel() {
@@ -43,12 +68,19 @@ class SearchViewModel @Inject constructor() : BaseSearchAndFilterViewModel() {
             results = databaseItems
         )
     )
+
+    /**
+     * Fluxo observável com o estado da pesquisa e a lista filtrada de resultados.
+     */
     override val uiState: StateFlow<SearchAndFilterUiState> = _uiState.asStateFlow()
 
     private var searchJob: Job? = null
 
     /**
-     * Trata a alteração do texto de busca, aplicando debounce de 300ms antes do filtro.
+     * Trata a alteração do texto de busca, cancelando buscas anteriores e aplicando debounce de 300ms.
+     *
+     * ### 📌 Quando Usar:
+     * Acionado no callback `onValueChange` da barra de pesquisa sempre que o usuário digita ou apaga caracteres.
      *
      * @param query Termo de busca digitado pelo usuário.
      */
@@ -56,7 +88,7 @@ class SearchViewModel @Inject constructor() : BaseSearchAndFilterViewModel() {
         _uiState.update { it.copy(searchQuery = query) }
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(300)
+            delay(DEBOUNCE_DELAY_MS)
             filterResults()
         }
     }
@@ -64,13 +96,19 @@ class SearchViewModel @Inject constructor() : BaseSearchAndFilterViewModel() {
     /**
      * Aplica o filtro pela categoria selecionada.
      *
-     * @param category Nome da categoria alvo.
+     * ### 📌 Quando Usar:
+     * Acionado quando o usuário clica em uma das pílulas/chips de categoria.
+     *
+     * @param category Nome da categoria alvo selecionada.
      */
     override fun onCategorySelect(category: String) {
         _uiState.update { it.copy(selectedCategory = category) }
         filterResults()
     }
 
+    /**
+     * Aplica os critérios de texto e categoria sobre o conjunto de itens disponíveis.
+     */
     private fun filterResults() {
         val query = _uiState.value.searchQuery.trim().lowercase()
         val category = _uiState.value.selectedCategory
@@ -88,5 +126,9 @@ class SearchViewModel @Inject constructor() : BaseSearchAndFilterViewModel() {
         }
 
         _uiState.update { it.copy(results = filtered) }
+    }
+
+    companion object {
+        private const val DEBOUNCE_DELAY_MS = 300L
     }
 }
