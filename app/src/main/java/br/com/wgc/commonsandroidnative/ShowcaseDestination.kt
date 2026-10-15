@@ -247,11 +247,19 @@ sealed class ShowcaseDestination(
         icon = Icons.Default.Build
     )
 
+    data object SharedTransitions : ShowcaseDestination(
+        route = "shared_transitions",
+        title = "Transições Compartilhadas (Shared Element)",
+        description = "SharedTransitionLayout entre vitrine de produto e detalhe",
+        category = ShowcaseCategory.ECOMMERCE,
+        icon = Icons.Default.ShoppingCart
+    )
+
     companion object {
         val allDestinations: List<ShowcaseDestination> = listOf(
             CommercialBundles,
             FoodDeliveryFlow, RetailEcommerceFlow, ServiceBookingFlow,
-            Catalog, Cart, Search, Promotions, Payment, Stores,
+            Catalog, Cart, Search, Promotions, Payment, Stores, SharedTransitions,
             Scheduling, Quotation, OrderTracking, Maps,
             Loyalty, Feedback, ReviewsStore, WhatsappDirect, Chat,
             Auth, Profile, Settings, Biometric, MediaPicker, ForceUpdate, Onboarding

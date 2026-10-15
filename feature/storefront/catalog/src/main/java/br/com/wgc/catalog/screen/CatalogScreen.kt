@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -142,15 +143,20 @@ fun CatalogScreen(
         }
 
         Box(modifier = Modifier.weight(1f)) {
-            when (selectedMode) {
-                CommercialTemplateMode.ECOMMERCE_STANDARD -> {
-                    EcommerceHomeScreenTemplate(viewModel = viewModel)
-                }
-                CommercialTemplateMode.IFOOD_DELIVERY -> {
-                    WgcFoodDeliveryHomeScreenTemplate(viewModel = ifoodViewModel)
-                }
-                CommercialTemplateMode.MERCADO_LIVRE -> {
-                    WgcMarketplaceHomeScreenTemplate(viewModel = mlViewModel)
+            val uiState by viewModel.uiState.collectAsState()
+            if (uiState.featuredProducts.isEmpty()) {
+                CatalogSkeletonLoading()
+            } else {
+                when (selectedMode) {
+                    CommercialTemplateMode.ECOMMERCE_STANDARD -> {
+                        EcommerceHomeScreenTemplate(viewModel = viewModel)
+                    }
+                    CommercialTemplateMode.IFOOD_DELIVERY -> {
+                        WgcFoodDeliveryHomeScreenTemplate(viewModel = ifoodViewModel)
+                    }
+                    CommercialTemplateMode.MERCADO_LIVRE -> {
+                        WgcMarketplaceHomeScreenTemplate(viewModel = mlViewModel)
+                    }
                 }
             }
         }

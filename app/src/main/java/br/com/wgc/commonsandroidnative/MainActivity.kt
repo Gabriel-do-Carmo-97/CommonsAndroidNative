@@ -93,6 +93,9 @@ import br.com.wgc.commonsandroidnative.debug.MockUserProfile
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.FloatingActionButton
 import br.com.wgc.telemetry.boundary.WgcErrorBoundary
+import br.com.wgc.commonsandroidnative.ui.navigation.SharedProductItem
+import br.com.wgc.commonsandroidnative.ui.navigation.WgcSharedProductTransitionShowcase
+import br.com.wgc.commonsandroidnative.ui.theme.WgcBrandThemeManager
 import br.com.wgc.commonsandroidnative.ui.OfflineBanner
 import br.com.wgc.core.network.NetworkMonitor
 import dagger.hilt.android.AndroidEntryPoint
@@ -122,7 +125,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CommonsAndroidNativeTheme {
+            val activeBrand by WgcBrandThemeManager.currentBrand.collectAsState()
+            CommonsAndroidNativeTheme(brand = activeBrand) {
                 WgcErrorBoundary {
                     MainAppShowcaseScreen(
                         authManager = authManager,
@@ -221,6 +225,19 @@ fun MainAppShowcaseScreen(
                         is ShowcaseDestination.Promotions -> PromotionsScreen(modifier = Modifier.fillMaxSize())
                         is ShowcaseDestination.Payment -> PaymentScreen(modifier = Modifier.fillMaxSize())
                         is ShowcaseDestination.Stores -> StoresScreen(modifier = Modifier.fillMaxSize())
+                        is ShowcaseDestination.SharedTransitions -> {
+                            val sampleProduct = SharedProductItem(
+                                id = "prod_001",
+                                title = "Combo Especial WGC Burger",
+                                price = "R$ 49,90",
+                                description = "Burger artesanal duplo 180g, queijo cheddar inglês, bacon crocante, batatas rústicas e refrigerante.",
+                                category = "Combos & Lanches"
+                            )
+                            WgcSharedProductTransitionShowcase(
+                                product = sampleProduct,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
                         is ShowcaseDestination.Scheduling -> SchedulingScreen(modifier = Modifier.fillMaxSize())
                         is ShowcaseDestination.Quotation -> QuotationScreen(modifier = Modifier.fillMaxSize())
                         is ShowcaseDestination.OrderTracking -> OrderTrackingScreen(modifier = Modifier.fillMaxSize())
@@ -462,7 +479,10 @@ private fun ShowcaseHubHome(
             currentProvider = currentProvider,
             onSelectProvider = { currentProvider = it },
             currentTheme = currentTheme,
-            onSelectTheme = { currentTheme = it },
+            onSelectTheme = {
+                currentTheme = it
+                WgcBrandThemeManager.setBrand(it.wgcBrand)
+            },
             currentNetwork = currentNetwork,
             onSelectNetwork = { currentNetwork = it },
             currentUser = currentUser,

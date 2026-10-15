@@ -17,6 +17,9 @@ android {
 
     testOptions {
         animationsDisabled = true
+        unitTests {
+            isReturnDefaultValues = true
+        }
         managedDevices {
             allDevices {
                 create<com.android.build.api.dsl.ManagedVirtualDevice>("pixel2Api30") {

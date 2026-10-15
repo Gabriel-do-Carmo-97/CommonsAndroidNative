@@ -1,4 +1,4 @@
-﻿plugins {
+plugins {
     id("commons.android.library")
     id("commons.android.compose")
     id("commons.android.publishing")
@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(libs.design.system)
+    implementation(libs.ds.templates)
     implementation(libs.myAndroidCore)
     implementation(libs.core.storage)
     implementation(libs.hilt.android)

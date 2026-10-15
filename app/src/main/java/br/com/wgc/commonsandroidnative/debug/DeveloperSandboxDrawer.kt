@@ -1,4 +1,4 @@
-﻿package br.com.wgc.commonsandroidnative.debug
+package br.com.wgc.commonsandroidnative.debug
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import br.com.wgc.design_system.templates.brand.WgcBrand
 
 enum class BackendProvider(val label: String) {
     FIREBASE("Firebase Firestore & Realtime"),
@@ -48,11 +49,12 @@ enum class BackendProvider(val label: String) {
     MOCK_IN_MEMORY("Mock / In-Memory Sandbox")
 }
 
-enum class BrandTheme(val label: String, val primaryColor: Color) {
-    WGC_DEFAULT("WGC Default", Color(0xFF6200EE)),
-    IFOOD("iFood (Vermelho)", Color(0xFFEA1D2C)),
-    MERCADO_LIVRE("Mercado Livre (Amarelo)", Color(0xFFFFE600)),
-    FINTECH_PURPLE("Fintech (Roxo Neon)", Color(0xFF8A05BE))
+enum class BrandTheme(val label: String, val primaryColor: Color, val wgcBrand: WgcBrand) {
+    WGC_DEFAULT("Food Delivery (WGC)", Color(0xFFEA1D2C), WgcBrand.FoodDelivery),
+    ECOMMERCE("E-Commerce & Varejo", Color(0xFF6200EE), WgcBrand.Retail),
+    MERCADO_LIVRE("Mercado Livre (Amarelo)", Color(0xFFFFE600), WgcBrand.Marketplace),
+    FINTECH_PURPLE("Fintech (Roxo Neon)", Color(0xFF8A05BE), WgcBrand.FintechNeobank),
+    HEALTH("Saúde & Telemedicina", Color(0xFF009688), WgcBrand.Telemedicine)
 }
 
 enum class NetworkCondition(val label: String) {
