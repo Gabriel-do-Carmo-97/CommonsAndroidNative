@@ -16,10 +16,24 @@ import javax.inject.Inject
 /**
  * ViewModel corporativo para rastreamento de parceiros e entregas em tempo real.
  *
- * Integra com [GeolocationRepository] do OmniBackend consumindo coordenadas GPS
- * via WebSocket/Firestore Streams e atualizando o template de mapa em tempo real.
+ * Integra com o [GeolocationRepository] do OmniBackend consumindo coordenadas GPS
+ * emitidas continuamente via Firestore Streams ou WebSocket, atualizando a camada do mapa.
  *
- * @param geolocationRepository Repositório de telemetria e posições geográficas em tempo real.
+ * ### 📌 Quando Usar:
+ * Utilize para telas de rastreamento com mapa vivo onde a latitude e longitude do entregador
+ * precisam ser atualizadas instantaneamente sem necessidade de polling manual.
+ *
+ * ### 🛠️ Modo de Usar:
+ * ```kotlin
+ * @Composable
+ * fun TelaDeRastreamento(viewModel: WgcLiveTrackingViewModel = hiltViewModel()) {
+ *     LaunchedEffect(Unit) {
+ *         viewModel.initializeTracking(entityId = "driver_99", driverName = "João")
+ *     }
+ * }
+ * ```
+ *
+ * @param geolocationRepository Repositório de telemetria e posições geográficas em tempo real do OmniBackend.
  */
 @HiltViewModel
 class WgcLiveTrackingViewModel @Inject constructor(
@@ -37,6 +51,19 @@ class WgcLiveTrackingViewModel @Inject constructor(
 
     /**
      * Inicializa a escuta ativa de coordenadas geográficas de uma entidade conectada.
+     *
+     * ### 📌 Quando Usar:
+     * Invocado no início do ciclo de vida da tela de rastreamento ao vivo para conectar ao stream do condutor.
+     *
+     * ### 🛠️ Modo de Usar:
+     * ```kotlin
+     * viewModel.initializeTracking(
+     *     entityType = "drivers",
+     *     entityId = "driver_123",
+     *     driverName = "Marcos Souza",
+     *     destinationAddress = "Rua das Flores, 120"
+     * )
+     * ```
      *
      * @param entityType Tipo de entidade rastreada (ex: `drivers`).
      * @param entityId Identificador único do entregador ou veículo parceiro.
